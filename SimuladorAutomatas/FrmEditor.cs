@@ -21,6 +21,8 @@ namespace SimuladorAutomatas
         private bool moviendoEstado;
 
         private bool estadoFueMovido;
+        private bool modoEstadoInicial;
+        private bool modoEstadoFinal;
 
         public Form1()
         {
@@ -52,11 +54,28 @@ namespace SimuladorAutomatas
                 diametro
             );
 
+            // Dibujar círculo del estado
             using (Pen lapiz = new Pen(Color.Black, 2))
             {
                 g.DrawEllipse(lapiz, circulo);
+
+                // Si es estado final, dibujar segundo círculo
+                if (estado.EsFinal)
+                {
+                    int margen = 5;
+
+                    Rectangle segundoCirculo = new Rectangle(
+                        x + margen,
+                        y + margen,
+                        diametro - margen * 2,
+                        diametro - margen * 2
+                    );
+
+                    g.DrawEllipse(lapiz, segundoCirculo);
+                }
             }
 
+            // Dibujar nombre del estado
             using (Brush pincel = new SolidBrush(Color.Black))
             {
                 StringFormat formato = new StringFormat();
@@ -72,6 +91,24 @@ namespace SimuladorAutomatas
                     formato
                 );
             }
+
+            // Dibujar flecha si es el estado inicial
+            if (estado.EsInicial)
+            {
+                using (Pen lapizFlecha = new Pen(Color.Black, 2))
+                {
+                    lapizFlecha.CustomEndCap =
+                        new System.Drawing.Drawing2D.AdjustableArrowCap(5, 5);
+
+                    g.DrawLine(
+                        lapizFlecha,
+                        estado.X - RADIO_ESTADO - 35,
+                        estado.Y,
+                        estado.X - RADIO_ESTADO,
+                        estado.Y
+                    );
+                }
+            }
         }
 
         private void panelEditor_MouseClick(object sender, MouseEventArgs e)
@@ -83,7 +120,17 @@ namespace SimuladorAutomatas
                 {
                     if (EstaDentroDelEstado(estado, e.X, e.Y))
                     {
+                        // Si el estado eliminado era el inicial
+                        if (automata.EstadoInicial == estado)
+                        {
+                            automata.EstadoInicial = null;
+                        }
+
+                        // Si era un estado final, quitarlo de la lista
+                        automata.EstadosFinales.Remove(estado);
+
                         automata.Estados.Remove(estado);
+
                         panelEditor.Invalidate();
                         return;
                     }
@@ -95,6 +142,61 @@ namespace SimuladorAutomatas
             // Si no es clic izquierdo, no hacemos nada
             if (e.Button != MouseButtons.Left)
                 return;
+
+            // Seleccionar estado inicial
+            if (modoEstadoInicial)
+            {
+                foreach (Estado estado in automata.Estados)
+                {
+                    if (EstaDentroDelEstado(estado, e.X, e.Y))
+                    {
+                        // Quitar estado inicial anterior
+                        if (automata.EstadoInicial != null)
+                        {
+                            automata.EstadoInicial.EsInicial = false;
+                        }
+
+                        // Establecer nuevo estado inicial
+                        automata.EstadoInicial = estado;
+                        estado.EsInicial = true;
+
+                        modoEstadoInicial = false;
+
+                        panelEditor.Invalidate();
+                        return;
+                    }
+                }
+
+                return;
+            }
+
+            // Seleccionar estado final
+            if (modoEstadoFinal)
+            {
+                foreach (Estado estado in automata.Estados)
+                {
+                    if (EstaDentroDelEstado(estado, e.X, e.Y))
+                    {
+                        // Si no es final, agregarlo
+                        if (!estado.EsFinal)
+                        {
+                            estado.EsFinal = true;
+                            automata.EstadosFinales.Add(estado);
+                        }
+                        else
+                        {
+                            // Si ya era final, quitarlo
+                            estado.EsFinal = false;
+                            automata.EstadosFinales.Remove(estado);
+                        }
+
+                        panelEditor.Invalidate();
+                        return;
+                    }
+                }
+
+                return;
+            }
 
             // Si acabamos de mover un estado, no crear uno nuevo
             if (estadoFueMovido)
@@ -202,6 +304,16 @@ namespace SimuladorAutomatas
 
             moviendoEstado = false;
             estadoSeleccionado = null;
+        }
+
+        private void btnEstadoInicial_Click(object sender, EventArgs e)
+        {
+            modoEstadoInicial = true;
+        }
+
+        private void btnEstadoFinal_Click(object sender, EventArgs e)
+        {
+            modoEstadoFinal = true;
         }
     }
 }

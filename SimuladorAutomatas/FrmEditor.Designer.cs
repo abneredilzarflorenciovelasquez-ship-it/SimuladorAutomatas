@@ -29,15 +29,22 @@
         private void InitializeComponent()
         {
             this.panelEditor = new System.Windows.Forms.Panel();
+            this.btnEstadoInicial = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnEstadoFinal = new System.Windows.Forms.Button();
+            this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnEstadoFinal);
+            this.panelEditor.Controls.Add(this.button1);
+            this.panelEditor.Controls.Add(this.btnEstadoInicial);
             this.panelEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditor.Location = new System.Drawing.Point(0, 0);
             this.panelEditor.Name = "panelEditor";
-            this.panelEditor.Size = new System.Drawing.Size(800, 450);
+            this.panelEditor.Size = new System.Drawing.Size(804, 450);
             this.panelEditor.TabIndex = 0;
             this.panelEditor.Paint += new System.Windows.Forms.PaintEventHandler(this.panelEditor_Paint);
             this.panelEditor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseClick);
@@ -45,14 +52,44 @@
             this.panelEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseMove);
             this.panelEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseUp);
             // 
+            // btnEstadoInicial
+            // 
+            this.btnEstadoInicial.Location = new System.Drawing.Point(696, 22);
+            this.btnEstadoInicial.Name = "btnEstadoInicial";
+            this.btnEstadoInicial.Size = new System.Drawing.Size(96, 42);
+            this.btnEstadoInicial.TabIndex = 0;
+            this.btnEstadoInicial.Text = "Estado Inicial";
+            this.btnEstadoInicial.UseVisualStyleBackColor = true;
+            this.btnEstadoInicial.Click += new System.EventHandler(this.btnEstadoInicial_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(742, 22);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(8, 8);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // btnEstadoFinal
+            // 
+            this.btnEstadoFinal.Location = new System.Drawing.Point(696, 70);
+            this.btnEstadoFinal.Name = "btnEstadoFinal";
+            this.btnEstadoFinal.Size = new System.Drawing.Size(96, 42);
+            this.btnEstadoFinal.TabIndex = 2;
+            this.btnEstadoFinal.Text = "Estado Final";
+            this.btnEstadoFinal.UseVisualStyleBackColor = true;
+            this.btnEstadoFinal.Click += new System.EventHandler(this.btnEstadoFinal_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(804, 450);
             this.Controls.Add(this.panelEditor);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.panelEditor.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -60,6 +97,9 @@
         #endregion
 
         private System.Windows.Forms.Panel panelEditor;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEstadoInicial;
+        private System.Windows.Forms.Button btnEstadoFinal;
     }
 }
 
