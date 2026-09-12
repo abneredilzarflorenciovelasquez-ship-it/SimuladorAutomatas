@@ -1,11 +1,13 @@
-﻿using System;
+﻿using SimuladorAutomatas.Logica;
+using SimuladorAutomatas.Modelos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using SimuladorAutomatas.Modelos;
 using System.Linq;
 using System.Text;
+using SimuladorAutomatas.Logica;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -845,17 +847,41 @@ namespace SimuladorAutomatas
         private void btnEstadoInicial_Click(object sender, EventArgs e)
         {
             modoEstadoInicial = true;
+            modoEstadoFinal = false;
+            modoTransicion = false;
+            estadoOrigenTransicion = null;
         }
 
         private void btnEstadoFinal_Click(object sender, EventArgs e)
         {
             modoEstadoFinal = true;
+            modoEstadoInicial = false;
+            modoTransicion = false;
+            estadoOrigenTransicion = null;
         }
 
         private void btnTransicion_Click(object sender, EventArgs e)
         {
             modoTransicion = true;
+            modoEstadoInicial = false;
+            modoEstadoFinal = false;
             estadoOrigenTransicion = null;
+        }
+
+        private void btnSimular_Click(object sender, EventArgs e)
+        {
+            SimuladorAFD simulador = new SimuladorAFD(automata);
+
+            bool aceptada = simulador.Simular(txtCadena.Text);
+
+            if (aceptada)
+            {
+                lblResultado.Text = "Resultado: Cadena aceptada";
+            }
+            else
+            {
+                lblResultado.Text = "Resultado: Cadena rechazada";
+            }
         }
     }
 }

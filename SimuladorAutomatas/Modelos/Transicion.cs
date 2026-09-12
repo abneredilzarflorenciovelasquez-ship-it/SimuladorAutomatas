@@ -14,6 +14,14 @@ namespace SimuladorAutomatas.Modelos
 
         public Estado Destino { get; set; }
 
+        public bool EsEpsilon
+        {
+            get
+            {
+                return Simbolo == "ε";
+            }
+        }
+
         public Transicion(Estado origen, string simbolo, Estado destino)
         {
             Origen = origen;

@@ -33,12 +33,18 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnEstadoFinal = new System.Windows.Forms.Button();
             this.btnTransicion = new System.Windows.Forms.Button();
+            this.txtCadena = new System.Windows.Forms.TextBox();
+            this.btnSimular = new System.Windows.Forms.Button();
+            this.lblResultado = new System.Windows.Forms.Label();
             this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.lblResultado);
+            this.panelEditor.Controls.Add(this.btnSimular);
+            this.panelEditor.Controls.Add(this.txtCadena);
             this.panelEditor.Controls.Add(this.btnTransicion);
             this.panelEditor.Controls.Add(this.btnEstadoFinal);
             this.panelEditor.Controls.Add(this.button1);
@@ -93,6 +99,32 @@
             this.btnTransicion.UseVisualStyleBackColor = true;
             this.btnTransicion.Click += new System.EventHandler(this.btnTransicion_Click);
             // 
+            // txtCadena
+            // 
+            this.txtCadena.Location = new System.Drawing.Point(696, 189);
+            this.txtCadena.Name = "txtCadena";
+            this.txtCadena.Size = new System.Drawing.Size(96, 22);
+            this.txtCadena.TabIndex = 4;
+            // 
+            // btnSimular
+            // 
+            this.btnSimular.Location = new System.Drawing.Point(696, 241);
+            this.btnSimular.Name = "btnSimular";
+            this.btnSimular.Size = new System.Drawing.Size(96, 32);
+            this.btnSimular.TabIndex = 5;
+            this.btnSimular.Text = "Simular AFD";
+            this.btnSimular.UseVisualStyleBackColor = true;
+            this.btnSimular.Click += new System.EventHandler(this.btnSimular_Click);
+            // 
+            // lblResultado
+            // 
+            this.lblResultado.AutoSize = true;
+            this.lblResultado.Location = new System.Drawing.Point(597, 319);
+            this.lblResultado.Name = "lblResultado";
+            this.lblResultado.Size = new System.Drawing.Size(72, 16);
+            this.lblResultado.TabIndex = 6;
+            this.lblResultado.Text = "Resultado:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -102,6 +134,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.panelEditor.ResumeLayout(false);
+            this.panelEditor.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -113,6 +146,9 @@
         private System.Windows.Forms.Button btnEstadoInicial;
         private System.Windows.Forms.Button btnEstadoFinal;
         private System.Windows.Forms.Button btnTransicion;
+        private System.Windows.Forms.TextBox txtCadena;
+        private System.Windows.Forms.Label lblResultado;
+        private System.Windows.Forms.Button btnSimular;
     }
 }
 

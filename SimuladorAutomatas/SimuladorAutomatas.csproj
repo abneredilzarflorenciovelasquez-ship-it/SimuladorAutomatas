@@ -53,6 +53,7 @@
     <Compile Include="FrmEditor.Designer.cs">
       <DependentUpon>FrmEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logica\SimuladorAFD.cs" />
     <Compile Include="Modelos\Automata.cs" />
     <Compile Include="Modelos\AutomataEditor.cs" />
     <Compile Include="Modelos\Estado.cs" />
@@ -86,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Formularios\" />
-    <Folder Include="Logica\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
