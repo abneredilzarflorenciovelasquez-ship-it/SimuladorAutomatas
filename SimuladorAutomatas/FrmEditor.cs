@@ -24,6 +24,10 @@ namespace SimuladorAutomatas
         private bool modoEstadoInicial;
         private bool modoEstadoFinal;
 
+        //Transiciones
+        private bool modoTransicion;
+        private Estado estadoOrigenTransicion;
+
         public Form1()
         {
             InitializeComponent();
@@ -34,6 +38,13 @@ namespace SimuladorAutomatas
         {
             Graphics g = e.Graphics;
 
+            // Primero dibujar las transiciones
+            foreach (Transicion transicion in automata.Transiciones)
+            {
+                DibujarTransicion(g, transicion);
+            }
+
+            // Después dibujar los estados
             foreach (Estado estado in automata.Estados)
             {
                 DibujarEstado(g, estado);
@@ -111,6 +122,75 @@ namespace SimuladorAutomatas
             }
         }
 
+        private void DibujarTransicion(Graphics g, Transicion transicion)
+        {
+            Estado origen = transicion.Origen;
+            Estado destino = transicion.Destino;
+
+            // Diferencia entre las posiciones
+            float dx = destino.X - origen.X;
+            float dy = destino.Y - origen.Y;
+
+            double distancia = Math.Sqrt(dx * dx + dy * dy);
+
+            // Evitar división entre cero
+            if (distancia == 0)
+                return;
+
+            // Vector normalizado
+            float nx = dx / (float)distancia;
+            float ny = dy / (float)distancia;
+
+            // Punto donde empieza la línea
+            float inicioX = origen.X + nx * RADIO_ESTADO;
+            float inicioY = origen.Y + ny * RADIO_ESTADO;
+
+            // Punto donde termina la línea
+            float finalX = destino.X - nx * RADIO_ESTADO;
+            float finalY = destino.Y - ny * RADIO_ESTADO;
+
+            using (Pen lapiz = new Pen(Color.Black, 2))
+            {
+                lapiz.CustomEndCap =
+                    new System.Drawing.Drawing2D.AdjustableArrowCap(5, 5);
+
+                g.DrawLine(
+                    lapiz,
+                    inicioX,
+                    inicioY,
+                    finalX,
+                    finalY
+                );
+            }
+
+            // Dibujar símbolo
+            float medioX = (inicioX + finalX) / 2;
+            float medioY = (inicioY + finalY) / 2;
+
+            using (Brush pincel = new SolidBrush(Color.Black))
+            {
+                StringFormat formato = new StringFormat();
+
+                formato.Alignment = StringAlignment.Center;
+                formato.LineAlignment = StringAlignment.Center;
+
+                RectangleF areaTexto = new RectangleF(
+                    medioX - 20,
+                    medioY - 15,
+                    40,
+                    30
+                );
+
+                g.DrawString(
+                    transicion.Simbolo,
+                    this.Font,
+                    pincel,
+                    areaTexto,
+                    formato
+                );
+            }
+        }
+
         private void panelEditor_MouseClick(object sender, MouseEventArgs e)
         {
             // Clic derecho = eliminar estado
@@ -129,6 +209,7 @@ namespace SimuladorAutomatas
                         // Si era un estado final, quitarlo de la lista
                         automata.EstadosFinales.Remove(estado);
 
+                        // Eliminar el estado
                         automata.Estados.Remove(estado);
 
                         panelEditor.Invalidate();
@@ -143,7 +224,10 @@ namespace SimuladorAutomatas
             if (e.Button != MouseButtons.Left)
                 return;
 
-            // Seleccionar estado inicial
+            // -----------------------------------------
+            // MODO ESTADO INICIAL
+            // -----------------------------------------
+
             if (modoEstadoInicial)
             {
                 foreach (Estado estado in automata.Estados)
@@ -170,7 +254,10 @@ namespace SimuladorAutomatas
                 return;
             }
 
-            // Seleccionar estado final
+            // -----------------------------------------
+            // MODO ESTADO FINAL
+            // -----------------------------------------
+
             if (modoEstadoFinal)
             {
                 foreach (Estado estado in automata.Estados)
@@ -198,21 +285,89 @@ namespace SimuladorAutomatas
                 return;
             }
 
-            // Si acabamos de mover un estado, no crear uno nuevo
+            // -----------------------------------------
+            // MODO TRANSICIÓN
+            // -----------------------------------------
+
+            if (modoTransicion)
+            {
+                foreach (Estado estado in automata.Estados)
+                {
+                    if (EstaDentroDelEstado(estado, e.X, e.Y))
+                    {
+                        // Primer clic: seleccionar origen
+                        if (estadoOrigenTransicion == null)
+                        {
+                            estadoOrigenTransicion = estado;
+                            return;
+                        }
+
+                        // Segundo clic: seleccionar destino
+                        Estado destino = estado;
+
+                        // Pedir símbolo
+                        string simbolo = Microsoft.VisualBasic.Interaction.InputBox(
+                            "Ingrese el símbolo de la transición:",
+                            "Nueva transición",
+                            ""
+                        );
+
+                        // Si el usuario cancela o deja vacío
+                        if (string.IsNullOrWhiteSpace(simbolo))
+                        {
+                            estadoOrigenTransicion = null;
+                            modoTransicion = false;
+                            return;
+                        }
+
+                        // Crear transición
+                        Transicion nuevaTransicion = new Transicion(
+                            estadoOrigenTransicion,
+                            simbolo,
+                            destino
+                        );
+
+                        automata.AgregarTransicion(nuevaTransicion);
+
+                        // Agregar símbolo al alfabeto
+                        automata.AgregarSimbolo(simbolo);
+
+                        // Reiniciar modo
+                        estadoOrigenTransicion = null;
+                        modoTransicion = false;
+
+                        panelEditor.Invalidate();
+                        return;
+                    }
+                }
+
+                return;
+            }
+
+            // -----------------------------------------
+            // SI ACABAMOS DE MOVER UN ESTADO
+            // -----------------------------------------
+
             if (estadoFueMovido)
             {
                 estadoFueMovido = false;
                 return;
             }
 
-            // Si hicimos clic sobre un estado existente, no crear otro
+            // -----------------------------------------
+            // CLIC SOBRE UN ESTADO EXISTENTE
+            // -----------------------------------------
+
             foreach (Estado estado in automata.Estados)
             {
                 if (EstaDentroDelEstado(estado, e.X, e.Y))
                     return;
             }
 
-            // Crear nuevo estado
+            // -----------------------------------------
+            // CREAR NUEVO ESTADO
+            // -----------------------------------------
+
             string nombreEstado = ObtenerNombreNuevoEstado();
 
             Estado nuevoEstado = new Estado(
@@ -314,6 +469,12 @@ namespace SimuladorAutomatas
         private void btnEstadoFinal_Click(object sender, EventArgs e)
         {
             modoEstadoFinal = true;
+        }
+
+        private void btnTransicion_Click(object sender, EventArgs e)
+        {
+            modoTransicion = true;
+            estadoOrigenTransicion = null;
         }
     }
 }

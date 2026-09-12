@@ -32,12 +32,14 @@
             this.btnEstadoInicial = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnEstadoFinal = new System.Windows.Forms.Button();
+            this.btnTransicion = new System.Windows.Forms.Button();
             this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnTransicion);
             this.panelEditor.Controls.Add(this.btnEstadoFinal);
             this.panelEditor.Controls.Add(this.button1);
             this.panelEditor.Controls.Add(this.btnEstadoInicial);
@@ -81,6 +83,16 @@
             this.btnEstadoFinal.UseVisualStyleBackColor = true;
             this.btnEstadoFinal.Click += new System.EventHandler(this.btnEstadoFinal_Click);
             // 
+            // btnTransicion
+            // 
+            this.btnTransicion.Location = new System.Drawing.Point(696, 118);
+            this.btnTransicion.Name = "btnTransicion";
+            this.btnTransicion.Size = new System.Drawing.Size(96, 42);
+            this.btnTransicion.TabIndex = 3;
+            this.btnTransicion.Text = "Transición";
+            this.btnTransicion.UseVisualStyleBackColor = true;
+            this.btnTransicion.Click += new System.EventHandler(this.btnTransicion_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -100,6 +112,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnEstadoInicial;
         private System.Windows.Forms.Button btnEstadoFinal;
+        private System.Windows.Forms.Button btnTransicion;
     }
 }
 
