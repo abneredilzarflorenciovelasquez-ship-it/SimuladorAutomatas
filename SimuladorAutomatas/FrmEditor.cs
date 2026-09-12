@@ -76,6 +76,23 @@ namespace SimuladorAutomatas
 
         private void panelEditor_MouseClick(object sender, MouseEventArgs e)
         {
+            // Clic derecho = eliminar estado
+            if (e.Button == MouseButtons.Right)
+            {
+                foreach (Estado estado in automata.Estados)
+                {
+                    if (EstaDentroDelEstado(estado, e.X, e.Y))
+                    {
+                        automata.Estados.Remove(estado);
+                        panelEditor.Invalidate();
+                        return;
+                    }
+                }
+
+                return;
+            }
+
+            // Si no es clic izquierdo, no hacemos nada
             if (e.Button != MouseButtons.Left)
                 return;
 
@@ -93,9 +110,8 @@ namespace SimuladorAutomatas
                     return;
             }
 
-            int numeroEstado = automata.Estados.Count;
-
-            string nombreEstado = "q" + numeroEstado;
+            // Crear nuevo estado
+            string nombreEstado = ObtenerNombreNuevoEstado();
 
             Estado nuevoEstado = new Estado(
                 nombreEstado,
@@ -138,6 +154,33 @@ namespace SimuladorAutomatas
 
             return distancia <= RADIO_ESTADO;
         }
+
+        private string ObtenerNombreNuevoEstado()
+        {
+            int numero = 0;
+
+            while (true)
+            {
+                string nombre = "q" + numero;
+
+                bool existe = false;
+
+                foreach (Estado estado in automata.Estados)
+                {
+                    if (estado.Nombre == nombre)
+                    {
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if (!existe)
+                    return nombre;
+
+                numero++;
+            }
+        }
+
 
         private void panelEditor_MouseMove(object sender, MouseEventArgs e)
         {
