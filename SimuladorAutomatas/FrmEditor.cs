@@ -1,4 +1,6 @@
-﻿using SimuladorAutomatas.Logica;
+﻿using SimuladorAutomatas.Formularios;
+using SimuladorAutomatas.Logica;
+using SimuladorAutomatas.Logica;
 using SimuladorAutomatas.Modelos;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using SimuladorAutomatas.Logica;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -34,6 +35,13 @@ namespace SimuladorAutomatas
         {
             InitializeComponent();
             automata = new AutomataEditor();
+        }
+
+        public Form1(AutomataEditor automataConvertido)
+        {
+            InitializeComponent();
+
+            automata = automataConvertido;
         }
 
         private void panelEditor_Paint(object sender, PaintEventArgs e)
@@ -872,6 +880,14 @@ namespace SimuladorAutomatas
         {
             SimuladorAFD simulador = new SimuladorAFD(automata);
 
+            // Validar AFD
+            if (!simulador.Validar())
+            {
+                lblResultado.Text = "Resultado: El autómata no es un AFD válido";
+                return;
+            }
+
+            // Simular cadena
             bool aceptada = simulador.Simular(txtCadena.Text);
 
             if (aceptada)
@@ -882,6 +898,101 @@ namespace SimuladorAutomatas
             {
                 lblResultado.Text = "Resultado: Cadena rechazada";
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnValidarAFD_Click(object sender, EventArgs e)
+        {
+            SimuladorAFD simulador = new SimuladorAFD(automata);
+
+            if (simulador.Validar())
+            {
+                MessageBox.Show(
+                    "El autómata es un AFD válido.",
+                    "Validación"
+                );
+            }
+            else
+            {
+                MessageBox.Show(
+                    "El autómata no es un AFD válido.",
+                    "Validación"
+                );
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SimuladorAFN simulador = new SimuladorAFN(automata);
+
+            bool aceptada = simulador.Simular(txtCadena.Text);
+
+            if (aceptada)
+            {
+                lblResultado.Text = "Resultado: Cadena aceptada";
+            }
+            else
+            {
+                lblResultado.Text = "Resultado: Cadena rechazada";
+            }
+        }
+
+        private void btnValidarAFN_Click(object sender, EventArgs e)
+        {
+            SimuladorAFN simulador = new SimuladorAFN(automata);
+
+            if (simulador.Validar())
+            {
+                MessageBox.Show(
+                    "El autómata es un AFN válido.",
+                    "Validación"
+                );
+            }
+            else
+            {
+                MessageBox.Show(
+                    "El autómata no es un AFN válido.",
+                    "Validación"
+                );
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnConvertirAFD_Click(object sender, EventArgs e)
+        {
+            SimuladorAFN simulador = new SimuladorAFN(automata);
+
+            if (!simulador.Validar())
+            {
+                MessageBox.Show(
+                    "El autómata no es un AFN válido.",
+                    "Conversión"
+                );
+
+                return;
+            }
+
+            ConvertidorAFNaAFD convertidor =
+                new ConvertidorAFNaAFD(automata);
+
+            ResultadoConversion resultado =
+                convertidor.Convertir();
+
+            FrmConversionAFD ventana =
+                new FrmConversionAFD(
+                    resultado.Procedimiento,
+                    resultado.AFD
+                );
+
+            ventana.ShowDialog();
         }
     }
 }

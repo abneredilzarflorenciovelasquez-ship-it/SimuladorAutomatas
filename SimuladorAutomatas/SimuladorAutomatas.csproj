@@ -47,19 +47,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formularios\FrmConversionAFD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmConversionAFD.Designer.cs">
+      <DependentUpon>FrmConversionAFD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\FrmMinimizacionAFD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmMinimizacionAFD.Designer.cs">
+      <DependentUpon>FrmMinimizacionAFD.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmEditor.Designer.cs">
       <DependentUpon>FrmEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logica\ConvertidorAFNaAFD.cs" />
+    <Compile Include="Logica\DibujadorAutomata.cs" />
+    <Compile Include="Logica\MinimizadorAFD.cs" />
+    <Compile Include="Logica\ResultadoConversion.cs" />
     <Compile Include="Logica\SimuladorAFD.cs" />
+    <Compile Include="Logica\SimuladorAFN.cs" />
     <Compile Include="Modelos\Automata.cs" />
     <Compile Include="Modelos\AutomataEditor.cs" />
     <Compile Include="Modelos\Estado.cs" />
     <Compile Include="Modelos\Transicion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Formularios\FrmConversionAFD.resx">
+      <DependentUpon>FrmConversionAFD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\FrmMinimizacionAFD.resx">
+      <DependentUpon>FrmMinimizacionAFD.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmEditor.resx">
       <DependentUpon>FrmEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,8 +108,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Formularios\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
