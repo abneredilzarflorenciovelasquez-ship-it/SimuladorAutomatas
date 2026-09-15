@@ -26,6 +26,7 @@ namespace SimuladorAutomatas.Formularios
             txtProcedimiento.Text = procedimiento;
 
             panelAFD.Paint += panelAFD_Paint;
+            AplicarEstilo();
         }
 
         private void panelAFD_Paint(
@@ -38,6 +39,43 @@ namespace SimuladorAutomatas.Formularios
                 this.Font
             );
         }
+
+
+        private void AplicarEstilo()
+        {
+            EstiloInterfaz.AplicarEstiloFormulario(
+                this
+            );
+
+            EstiloInterfaz.AplicarEstiloPanel(
+                panelProcedimiento
+            );
+
+            EstiloInterfaz.AplicarEstiloPanel(
+                panelAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnValidarAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnSimularAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloTextBox(
+                txtCadenaAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloLabel(
+                lblResultadoAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloRichTextBox(
+                txtProcedimiento
+            );
+        }
+
 
         private void FrmConversionAFD_Load(object sender, EventArgs e)
         {

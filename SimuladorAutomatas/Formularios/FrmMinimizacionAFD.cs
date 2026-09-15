@@ -40,6 +40,44 @@ namespace SimuladorAutomatas.Formularios
 
             panelAFDMinimizado.Paint +=
                 panelAFDMinimizado_Paint;
+
+            AplicarEstilo();
+        }
+
+
+        private void AplicarEstilo()
+        {
+            EstiloInterfaz.AplicarEstiloFormulario(
+                this
+            );
+
+            EstiloInterfaz.AplicarEstiloPanel(
+                panelTabla
+            );
+
+            EstiloInterfaz.AplicarEstiloPanel(
+                panelAFDMinimizado
+            );
+
+            EstiloInterfaz.AplicarEstiloRichTextBox(
+                txtProcedimientoMin
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnValidarAFDMin
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnSimularAFDMin
+            );
+
+            EstiloInterfaz.AplicarEstiloTextBox(
+                txtCadenaAFDMin
+            );
+
+            EstiloInterfaz.AplicarEstiloLabel(
+                lblResultadoAFDMin
+            );
         }
 
         private void CrearTabla()
@@ -146,19 +184,23 @@ namespace SimuladorAutomatas.Formularios
         }
 
         private Label CrearEtiqueta(
-            string texto,
-            int x,
-            int y,
-            int ancho,
-            int alto)
+    string texto,
+    int x,
+    int y,
+    int ancho,
+    int alto)
         {
             Label etiqueta =
                 new Label();
 
-            etiqueta.Text = texto;
+            etiqueta.Text =
+                texto;
 
             etiqueta.Location =
-                new Point(x, y);
+                new Point(
+                    x,
+                    y
+                );
 
             etiqueta.Size =
                 new Size(
@@ -178,6 +220,12 @@ namespace SimuladorAutomatas.Formularios
                     11,
                     FontStyle.Bold
                 );
+
+            etiqueta.BackColor =
+                EstiloInterfaz.ColorEstado;
+
+            etiqueta.ForeColor =
+                EstiloInterfaz.TextoPrincipal;
 
             return etiqueta;
         }

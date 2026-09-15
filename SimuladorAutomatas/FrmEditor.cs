@@ -35,6 +35,66 @@ namespace SimuladorAutomatas
         {
             InitializeComponent();
             automata = new AutomataEditor();
+            AplicarEstilo();
+        }
+
+        private void AplicarEstilo()
+        {
+            EstiloInterfaz.AplicarEstiloFormulario(
+                this
+            );
+
+            EstiloInterfaz.AplicarEstiloPanel(
+                panelEditor
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnEstadoInicial
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnEstadoFinal
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnTransicion
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnValidarAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnValidarAFN
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnSimular
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                button2
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnConvertirAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnMinimizarAFD
+            );
+
+            EstiloInterfaz.AplicarEstiloLabel(
+                label1
+            );
+
+            EstiloInterfaz.AplicarEstiloTextBox(
+                txtCadena
+            );
+
+            EstiloInterfaz.AplicarEstiloLabel(
+                lblResultado
+            );
         }
 
         public Form1(AutomataEditor automataConvertido)
@@ -75,34 +135,57 @@ namespace SimuladorAutomatas
                 diametro
             );
 
-            // Dibujar círculo del estado
-            using (Pen lapiz = new Pen(Color.Black, 2))
+            // Dibujar estado
+            using (Pen lapiz =
+                new Pen(EstiloInterfaz.CianActivo, 2))
             {
-                g.DrawEllipse(lapiz, circulo);
+                using (Brush pincel =
+                    new SolidBrush(EstiloInterfaz.ColorEstado))
+                {
+                    g.FillEllipse(
+                        pincel,
+                        circulo
+                    );
 
-                // Si es estado final, dibujar segundo círculo
+                    g.DrawEllipse(
+                        lapiz,
+                        circulo
+                    );
+                }
+
+                // Si es estado final
                 if (estado.EsFinal)
                 {
                     int margen = 5;
 
-                    Rectangle segundoCirculo = new Rectangle(
-                        x + margen,
-                        y + margen,
-                        diametro - margen * 2,
-                        diametro - margen * 2
-                    );
+                    Rectangle segundoCirculo =
+                        new Rectangle(
+                            x + margen,
+                            y + margen,
+                            diametro - margen * 2,
+                            diametro - margen * 2
+                        );
 
-                    g.DrawEllipse(lapiz, segundoCirculo);
+                    g.DrawEllipse(
+                        lapiz,
+                        segundoCirculo
+                    );
                 }
             }
 
-            // Dibujar nombre del estado
-            using (Brush pincel = new SolidBrush(Color.Black))
+            // Nombre del estado
+            using (Brush pincel =
+                new SolidBrush(
+                    EstiloInterfaz.TextoPrincipal))
             {
-                StringFormat formato = new StringFormat();
+                StringFormat formato =
+                    new StringFormat();
 
-                formato.Alignment = StringAlignment.Center;
-                formato.LineAlignment = StringAlignment.Center;
+                formato.Alignment =
+                    StringAlignment.Center;
+
+                formato.LineAlignment =
+                    StringAlignment.Center;
 
                 g.DrawString(
                     estado.Nombre,
@@ -113,13 +196,19 @@ namespace SimuladorAutomatas
                 );
             }
 
-            // Dibujar flecha si es el estado inicial
+            // Flecha del estado inicial
             if (estado.EsInicial)
             {
-                using (Pen lapizFlecha = new Pen(Color.Black, 2))
+                using (Pen lapizFlecha =
+                    new Pen(
+                        EstiloInterfaz.ColorLinea,
+                        2))
                 {
                     lapizFlecha.CustomEndCap =
-                        new System.Drawing.Drawing2D.AdjustableArrowCap(5, 5);
+                        new System.Drawing.Drawing2D.AdjustableArrowCap(
+                            5,
+                            5
+                        );
 
                     g.DrawLine(
                         lapizFlecha,
@@ -263,7 +352,7 @@ namespace SimuladorAutomatas
                 py * desplazamiento;
 
             using (Pen lapiz =
-                new Pen(Color.Black, 2))
+                new Pen(EstiloInterfaz.ColorLinea,2))
             {
                 lapiz.CustomEndCap =
                     new System.Drawing.Drawing2D.AdjustableArrowCap(
@@ -323,7 +412,7 @@ namespace SimuladorAutomatas
             }
 
             using (Brush pincel =
-                new SolidBrush(Color.Black))
+                new SolidBrush(EstiloInterfaz.ColorSimbolo))
             {
                 StringFormat formato =
                     new StringFormat();
@@ -369,7 +458,7 @@ namespace SimuladorAutomatas
                 alto
             );
 
-            using (Pen lapiz = new Pen(Color.Black, 2))
+            using (Pen lapiz = new Pen(EstiloInterfaz.ColorLinea,2))
             {
                 lapiz.CustomEndCap =
                     new System.Drawing.Drawing2D.AdjustableArrowCap(5, 5);
@@ -417,7 +506,7 @@ namespace SimuladorAutomatas
             float textoY = y - 8;
 
             using (Brush pincel =
-                new SolidBrush(Color.Black))
+                new SolidBrush(EstiloInterfaz.ColorSimbolo))
             {
                 StringFormat formato =
                     new StringFormat();

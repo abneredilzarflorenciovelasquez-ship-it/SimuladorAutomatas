@@ -45,7 +45,7 @@
             this.panelProcedimiento.Controls.Add(this.txtProcedimiento);
             this.panelProcedimiento.Location = new System.Drawing.Point(1, -1);
             this.panelProcedimiento.Name = "panelProcedimiento";
-            this.panelProcedimiento.Size = new System.Drawing.Size(488, 472);
+            this.panelProcedimiento.Size = new System.Drawing.Size(541, 601);
             this.panelProcedimiento.TabIndex = 0;
             // 
             // txtProcedimiento
@@ -53,7 +53,7 @@
             this.txtProcedimiento.Location = new System.Drawing.Point(3, 3);
             this.txtProcedimiento.Name = "txtProcedimiento";
             this.txtProcedimiento.ReadOnly = true;
-            this.txtProcedimiento.Size = new System.Drawing.Size(482, 469);
+            this.txtProcedimiento.Size = new System.Drawing.Size(535, 598);
             this.txtProcedimiento.TabIndex = 0;
             this.txtProcedimiento.Text = "";
             // 
@@ -64,15 +64,15 @@
             this.panelAFD.Controls.Add(this.btnSimularAFD);
             this.panelAFD.Controls.Add(this.txtCadenaAFD);
             this.panelAFD.Controls.Add(this.btnValidarAFD);
-            this.panelAFD.Location = new System.Drawing.Point(495, -1);
+            this.panelAFD.Location = new System.Drawing.Point(548, 2);
             this.panelAFD.Name = "panelAFD";
-            this.panelAFD.Size = new System.Drawing.Size(584, 472);
+            this.panelAFD.Size = new System.Drawing.Size(706, 598);
             this.panelAFD.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 350);
+            this.label1.Location = new System.Drawing.Point(43, 427);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 16);
             this.label1.TabIndex = 4;
@@ -81,7 +81,7 @@
             // lblResultadoAFD
             // 
             this.lblResultadoAFD.AutoSize = true;
-            this.lblResultadoAFD.Location = new System.Drawing.Point(15, 452);
+            this.lblResultadoAFD.Location = new System.Drawing.Point(26, 529);
             this.lblResultadoAFD.Name = "lblResultadoAFD";
             this.lblResultadoAFD.Size = new System.Drawing.Size(72, 16);
             this.lblResultadoAFD.TabIndex = 3;
@@ -89,7 +89,7 @@
             // 
             // btnSimularAFD
             // 
-            this.btnSimularAFD.Location = new System.Drawing.Point(4, 410);
+            this.btnSimularAFD.Location = new System.Drawing.Point(15, 487);
             this.btnSimularAFD.Name = "btnSimularAFD";
             this.btnSimularAFD.Size = new System.Drawing.Size(101, 23);
             this.btnSimularAFD.TabIndex = 2;
@@ -99,14 +99,14 @@
             // 
             // txtCadenaAFD
             // 
-            this.txtCadenaAFD.Location = new System.Drawing.Point(5, 369);
+            this.txtCadenaAFD.Location = new System.Drawing.Point(16, 446);
             this.txtCadenaAFD.Name = "txtCadenaAFD";
             this.txtCadenaAFD.Size = new System.Drawing.Size(100, 22);
             this.txtCadenaAFD.TabIndex = 1;
             // 
             // btnValidarAFD
             // 
-            this.btnValidarAFD.Location = new System.Drawing.Point(3, 303);
+            this.btnValidarAFD.Location = new System.Drawing.Point(14, 380);
             this.btnValidarAFD.Name = "btnValidarAFD";
             this.btnValidarAFD.Size = new System.Drawing.Size(101, 23);
             this.btnValidarAFD.TabIndex = 0;
@@ -118,7 +118,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1080, 476);
+            this.ClientSize = new System.Drawing.Size(1255, 604);
             this.Controls.Add(this.panelAFD);
             this.Controls.Add(this.panelProcedimiento);
             this.Name = "FrmConversionAFD";

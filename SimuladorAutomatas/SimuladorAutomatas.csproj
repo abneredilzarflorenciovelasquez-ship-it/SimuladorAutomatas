@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Logica\ConvertidorAFNaAFD.cs" />
     <Compile Include="Logica\DibujadorAutomata.cs" />
+    <Compile Include="Logica\EstiloInterfaz.cs" />
     <Compile Include="Logica\MinimizadorAFD.cs" />
     <Compile Include="Logica\ResultadoConversion.cs" />
     <Compile Include="Logica\SimuladorAFD.cs" />

@@ -46,9 +46,9 @@ namespace SimuladorAutomatas.Logica
         }
 
         private void DibujarEstado(
-            Graphics g,
-            Estado estado,
-            Font fuente)
+    Graphics g,
+    Estado estado,
+    Font fuente)
         {
             int x = estado.X;
             int y = estado.Y;
@@ -63,82 +63,94 @@ namespace SimuladorAutomatas.Logica
 
             if (estado.EsInicial)
             {
-                g.DrawLine(
-                    Pens.Black,
-                    x - 55,
-                    y,
-                    x - RADIO_ESTADO,
-                    y
-                );
-
-                Point[] flecha =
+                using (Pen lapiz =
+                    new Pen(
+                        EstiloInterfaz.ColorLinea,
+                        2))
                 {
-                    new Point(
+                    lapiz.CustomEndCap =
+                        new System.Drawing.Drawing2D.AdjustableArrowCap(
+                            5,
+                            5
+                        );
+
+                    g.DrawLine(
+                        lapiz,
+                        x - 55,
+                        y,
                         x - RADIO_ESTADO,
                         y
-                    ),
-                    new Point(
-                        x - RADIO_ESTADO - 8,
-                        y - 5
-                    ),
-                    new Point(
-                        x - RADIO_ESTADO - 8,
-                        y + 5
-                    )
-                };
-
-                g.FillPolygon(
-                    Brushes.Black,
-                    flecha
-                );
-            }
-
-            g.DrawEllipse(
-                Pens.Black,
-                rectangulo
-            );
-
-            if (estado.EsFinal)
-            {
-                Rectangle interior =
-                    new Rectangle(
-                        x - RADIO_ESTADO + 5,
-                        y - RADIO_ESTADO + 5,
-                        (RADIO_ESTADO - 5) * 2,
-                        (RADIO_ESTADO - 5) * 2
                     );
+                }
+            }
 
-                g.DrawEllipse(
-                    Pens.Black,
-                    interior
+            using (Brush pincel =
+                new SolidBrush(
+                    EstiloInterfaz.ColorEstado))
+            {
+                g.FillEllipse(
+                    pincel,
+                    rectangulo
                 );
             }
 
-            using (StringFormat formato =
-                new StringFormat())
+            using (Pen lapiz =
+                new Pen(
+                    EstiloInterfaz.CianActivo,
+                    2))
             {
-                formato.Alignment =
-                    StringAlignment.Center;
-
-                formato.LineAlignment =
-                    StringAlignment.Center;
-
-                g.DrawString(
-                    estado.Nombre,
-                    fuente,
-                    Brushes.Black,
-                    rectangulo,
-                    formato
+                g.DrawEllipse(
+                    lapiz,
+                    rectangulo
                 );
+
+                if (estado.EsFinal)
+                {
+                    Rectangle interior =
+                        new Rectangle(
+                            x - RADIO_ESTADO + 5,
+                            y - RADIO_ESTADO + 5,
+                            (RADIO_ESTADO - 5) * 2,
+                            (RADIO_ESTADO - 5) * 2
+                        );
+
+                    g.DrawEllipse(
+                        lapiz,
+                        interior
+                    );
+                }
+            }
+
+            using (Brush pincel =
+                new SolidBrush(
+                    EstiloInterfaz.TextoPrincipal))
+            {
+                using (StringFormat formato =
+                    new StringFormat())
+                {
+                    formato.Alignment =
+                        StringAlignment.Center;
+
+                    formato.LineAlignment =
+                        StringAlignment.Center;
+
+                    g.DrawString(
+                        estado.Nombre,
+                        fuente,
+                        pincel,
+                        rectangulo,
+                        formato
+                    );
+                }
             }
         }
 
         private void DibujarTransicion(
-            Graphics g,
-            Transicion transicion,
-            AutomataEditor automata,
-            Font fuente,
-            List<Transicion> dibujadas)
+    Graphics g,
+    Transicion transicion,
+    AutomataEditor automata,
+    Font fuente,
+    List<Transicion> dibujadas)
         {
             Estado origen =
                 transicion.Origen;
@@ -253,7 +265,7 @@ namespace SimuladorAutomatas.Logica
                     (inicioX + finalX) / 2;
 
                 float textoY =
-                    (inicioY + finalY) / 2;
+                    (inicioY + finalY) / 2 - 15;
 
                 DibujarTexto(
                     g,
@@ -284,7 +296,9 @@ namespace SimuladorAutomatas.Logica
                 medioY + py * curvatura;
 
             using (Pen pen =
-                new Pen(Color.Black, 1))
+                new Pen(
+                    EstiloInterfaz.ColorLinea,
+                    2))
             {
                 pen.CustomEndCap =
                     new System.Drawing.Drawing2D.AdjustableArrowCap(
@@ -324,7 +338,9 @@ namespace SimuladorAutomatas.Logica
             float y2)
         {
             using (Pen pen =
-                new Pen(Color.Black, 1))
+                new Pen(
+                    EstiloInterfaz.ColorLinea,
+                    2))
             {
                 pen.CustomEndCap =
                     new System.Drawing.Drawing2D.AdjustableArrowCap(
@@ -343,10 +359,10 @@ namespace SimuladorAutomatas.Logica
         }
 
         private void DibujarBucle(
-            Graphics g,
-            Estado estado,
-            List<Transicion> bucles,
-            Font fuente)
+    Graphics g,
+    Estado estado,
+    List<Transicion> bucles,
+    Font fuente)
         {
             int x = estado.X;
             int y = estado.Y;
@@ -360,7 +376,9 @@ namespace SimuladorAutomatas.Logica
                 );
 
             using (Pen pen =
-                new Pen(Color.Black, 1))
+                new Pen(
+                    EstiloInterfaz.ColorLinea,
+                    2))
             {
                 pen.CustomEndCap =
                     new System.Drawing.Drawing2D.AdjustableArrowCap(
@@ -403,13 +421,18 @@ namespace SimuladorAutomatas.Logica
                     fuente
                 );
 
-            g.DrawString(
-                texto,
-                fuente,
-                Brushes.Black,
-                x - tamaño.Width / 2,
-                y - tamaño.Height / 2
-            );
+            using (Brush pincel =
+                new SolidBrush(
+                    EstiloInterfaz.ColorSimbolo))
+            {
+                g.DrawString(
+                    texto,
+                    fuente,
+                    pincel,
+                    x - tamaño.Width / 2,
+                    y - tamaño.Height / 2
+                );
+            }
         }
 
         private void DibujarTextoCurva(
