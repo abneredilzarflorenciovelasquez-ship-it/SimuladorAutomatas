@@ -47,7 +47,7 @@
             this.panelTabla.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelTabla.Location = new System.Drawing.Point(0, 0);
             this.panelTabla.Name = "panelTabla";
-            this.panelTabla.Size = new System.Drawing.Size(573, 622);
+            this.panelTabla.Size = new System.Drawing.Size(573, 623);
             this.panelTabla.TabIndex = 0;
             // 
             // panelAFDMinimizado
@@ -59,18 +59,18 @@
             this.panelAFDMinimizado.Controls.Add(this.btnSimularAFDMin);
             this.panelAFDMinimizado.Controls.Add(this.btnValidarAFDMin);
             this.panelAFDMinimizado.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAFDMinimizado.Location = new System.Drawing.Point(716, 0);
+            this.panelAFDMinimizado.Location = new System.Drawing.Point(573, 0);
             this.panelAFDMinimizado.Name = "panelAFDMinimizado";
-            this.panelAFDMinimizado.Size = new System.Drawing.Size(694, 778);
+            this.panelAFDMinimizado.Size = new System.Drawing.Size(646, 623);
             this.panelAFDMinimizado.TabIndex = 1;
             // 
             // txtProcedimientoMin
             // 
             this.txtProcedimientoMin.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txtProcedimientoMin.Location = new System.Drawing.Point(0, 628);
+            this.txtProcedimientoMin.Location = new System.Drawing.Point(0, 473);
             this.txtProcedimientoMin.Name = "txtProcedimientoMin";
             this.txtProcedimientoMin.ReadOnly = true;
-            this.txtProcedimientoMin.Size = new System.Drawing.Size(716, 150);
+            this.txtProcedimientoMin.Size = new System.Drawing.Size(573, 150);
             this.txtProcedimientoMin.TabIndex = 0;
             this.txtProcedimientoMin.Text = "";
             // 
@@ -130,7 +130,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1128, 622);
+            this.ClientSize = new System.Drawing.Size(1219, 623);
             this.Controls.Add(this.panelAFDMinimizado);
             this.Controls.Add(this.panelTabla);
             this.Name = "FrmMinimizacionAFD";

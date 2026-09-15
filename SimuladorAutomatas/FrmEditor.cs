@@ -994,5 +994,25 @@ namespace SimuladorAutomatas
 
             ventana.ShowDialog();
         }
+
+        private void btnMinimizarAFD_Click(object sender, EventArgs e)
+        {
+            SimuladorAFD simulador = new SimuladorAFD(automata);
+
+            if (!simulador.Validar())
+            {
+                MessageBox.Show(
+                    "El autómata no es un AFD válido.",
+                    "Minimización"
+                );
+
+                return;
+            }
+
+            FrmMinimizacionAFD ventana =
+                new FrmMinimizacionAFD(automata);
+
+            ventana.ShowDialog();
+        }
     }
 }

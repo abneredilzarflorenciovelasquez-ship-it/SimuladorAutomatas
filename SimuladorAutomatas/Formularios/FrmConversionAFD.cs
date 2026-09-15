@@ -98,7 +98,9 @@ namespace SimuladorAutomatas.Formularios
 
         private void btnMinimizarAFD_Click(object sender, EventArgs e)
         {
+            FrmMinimizacionAFD ventana = new FrmMinimizacionAFD(afd);
 
+            ventana.ShowDialog();
         }
     }
 }

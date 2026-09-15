@@ -139,6 +139,7 @@ namespace SimuladorAutomatas.Logica
                 DibujarBucle(
                     g,
                     transicion,
+                    automata,
                     fuente
                 );
 
@@ -325,6 +326,7 @@ namespace SimuladorAutomatas.Logica
         private void DibujarBucle(
             Graphics g,
             Transicion transicion,
+            AutomataEditor automata,
             Font fuente)
         {
             Estado estado = transicion.Origen;
@@ -357,10 +359,34 @@ namespace SimuladorAutomatas.Logica
                 );
             }
 
+            List<Transicion> bucles =
+                new List<Transicion>();
+
+            foreach (Transicion t
+                in automata.Transiciones)
+            {
+                if (t.Origen == estado &&
+                    t.Destino == estado)
+                {
+                    bucles.Add(t);
+                }
+            }
+
+            int posicion =
+                bucles.IndexOf(transicion);
+
+            float separacion = 15;
+
+            float textoX =
+                x +
+                (posicion -
+                (bucles.Count - 1) / 2f) *
+                separacion;
+
             DibujarTexto(
                 g,
                 transicion.Simbolo,
-                x,
+                textoX,
                 y - 65,
                 fuente
             );

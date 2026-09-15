@@ -40,12 +40,14 @@
             this.btnTransicion = new System.Windows.Forms.Button();
             this.btnEstadoFinal = new System.Windows.Forms.Button();
             this.btnEstadoInicial = new System.Windows.Forms.Button();
+            this.btnMinimizarAFD = new System.Windows.Forms.Button();
             this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnMinimizarAFD);
             this.panelEditor.Controls.Add(this.btnConvertirAFD);
             this.panelEditor.Controls.Add(this.btnValidarAFN);
             this.panelEditor.Controls.Add(this.button2);
@@ -60,7 +62,7 @@
             this.panelEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditor.Location = new System.Drawing.Point(0, 0);
             this.panelEditor.Name = "panelEditor";
-            this.panelEditor.Size = new System.Drawing.Size(984, 454);
+            this.panelEditor.Size = new System.Drawing.Size(1094, 598);
             this.panelEditor.TabIndex = 0;
             this.panelEditor.Paint += new System.Windows.Forms.PaintEventHandler(this.panelEditor_Paint);
             this.panelEditor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseClick);
@@ -173,11 +175,21 @@
             this.btnEstadoInicial.UseVisualStyleBackColor = true;
             this.btnEstadoInicial.Click += new System.EventHandler(this.btnEstadoInicial_Click);
             // 
+            // btnMinimizarAFD
+            // 
+            this.btnMinimizarAFD.Location = new System.Drawing.Point(12, 448);
+            this.btnMinimizarAFD.Name = "btnMinimizarAFD";
+            this.btnMinimizarAFD.Size = new System.Drawing.Size(113, 32);
+            this.btnMinimizarAFD.TabIndex = 12;
+            this.btnMinimizarAFD.Text = "Minimizar AFD";
+            this.btnMinimizarAFD.UseVisualStyleBackColor = true;
+            this.btnMinimizarAFD.Click += new System.EventHandler(this.btnMinimizarAFD_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 454);
+            this.ClientSize = new System.Drawing.Size(1094, 598);
             this.Controls.Add(this.panelEditor);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -202,6 +214,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnValidarAFN;
         private System.Windows.Forms.Button btnConvertirAFD;
+        private System.Windows.Forms.Button btnMinimizarAFD;
     }
 }
 
