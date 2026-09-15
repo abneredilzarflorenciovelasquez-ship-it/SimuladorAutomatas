@@ -36,8 +36,6 @@ namespace SimuladorAutomatas.Formularios
 
             CrearTabla();
 
-            PrimeraRonda();
-
             SegundaRonda();
 
             panelAFDMinimizado.Paint +=
@@ -193,7 +191,7 @@ namespace SimuladorAutomatas.Formularios
                 estado2.Nombre;
         }
 
-        private void PrimeraRonda()
+        private void SegundaRonda()
         {
             procedimiento.Clear();
 
@@ -260,14 +258,12 @@ namespace SimuladorAutomatas.Formularios
                 }
             }
 
-            txtProcedimientoMin.Text =
-                procedimiento.ToString();
-        }
-
-        private void SegundaRonda()
-        {
             procedimiento.AppendLine();
-            procedimiento.AppendLine("SEGUNDA RONDA");
+
+            procedimiento.AppendLine(
+                "SEGUNDA RONDA"
+            );
+
             procedimiento.AppendLine();
 
             procedimiento.AppendLine(
@@ -339,8 +335,68 @@ namespace SimuladorAutomatas.Formularios
             procedimiento.AppendLine();
 
             procedimiento.AppendLine(
-                "AFD MINIMIZADO CREADO."
+                "AFD MINIMIZADO"
             );
+
+            procedimiento.AppendLine();
+
+            procedimiento.AppendLine(
+                "Estados:"
+            );
+
+            foreach (Estado estado
+                in afdMinimizado.Estados)
+            {
+                procedimiento.AppendLine(
+                    estado.Nombre
+                );
+            }
+
+            procedimiento.AppendLine();
+
+            procedimiento.AppendLine(
+                "Estado inicial:"
+            );
+
+            if (afdMinimizado.EstadoInicial != null)
+            {
+                procedimiento.AppendLine(
+                    afdMinimizado.EstadoInicial.Nombre
+                );
+            }
+
+            procedimiento.AppendLine();
+
+            procedimiento.AppendLine(
+                "Estados finales:"
+            );
+
+            foreach (Estado estado
+                in afdMinimizado.EstadosFinales)
+            {
+                procedimiento.AppendLine(
+                    estado.Nombre
+                );
+            }
+
+            procedimiento.AppendLine();
+
+            procedimiento.AppendLine(
+                "Transiciones:"
+            );
+
+            foreach (Transicion transicion
+                in afdMinimizado.Transiciones)
+            {
+                procedimiento.AppendLine(
+                    "δ(" +
+                    transicion.Origen.Nombre +
+                    "," +
+                    transicion.Simbolo +
+                    ") = " +
+                    transicion.Destino.Nombre
+                );
+            }
 
             txtProcedimientoMin.Text =
                 procedimiento.ToString();
@@ -769,6 +825,73 @@ namespace SimuladorAutomatas.Formularios
         private void FrmMinimizacionAFD_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnValidarAFDMin_Click(object sender, EventArgs e)
+        {
+            if (afdMinimizado == null)
+            {
+                MessageBox.Show(
+                    "No existe un AFD minimizado.",
+                    "Validación"
+                );
+
+                return;
+            }
+
+            SimuladorAFD simulador =
+                new SimuladorAFD(
+                    afdMinimizado
+                );
+
+            if (simulador.Validar())
+            {
+                MessageBox.Show(
+                    "El AFD minimizado es válido.",
+                    "Validación"
+                );
+            }
+            else
+            {
+                MessageBox.Show(
+                    "El AFD minimizado no es válido.",
+                    "Validación"
+                );
+            }
+        }
+
+        private void btnSimularAFDMin_Click(object sender, EventArgs e)
+        {
+            if (afdMinimizado == null)
+            {
+                MessageBox.Show(
+                    "No existe un AFD minimizado.",
+                    "Simulación"
+                );
+
+                return;
+            }
+
+            SimuladorAFD simulador =
+                new SimuladorAFD(
+                    afdMinimizado
+                );
+
+            bool aceptada =
+                simulador.Simular(
+                    txtCadenaAFDMin.Text
+                );
+
+            if (aceptada)
+            {
+                lblResultadoAFDMin.Text =
+                    "Resultado: Cadena aceptada";
+            }
+            else
+            {
+                lblResultadoAFDMin.Text =
+                    "Resultado: Cadena rechazada";
+            }
         }
     }
 }

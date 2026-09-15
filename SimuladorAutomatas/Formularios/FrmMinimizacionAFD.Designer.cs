@@ -82,6 +82,7 @@
             this.btnValidarAFDMin.TabIndex = 0;
             this.btnValidarAFDMin.Text = "Validar AFD";
             this.btnValidarAFDMin.UseVisualStyleBackColor = true;
+            this.btnValidarAFDMin.Click += new System.EventHandler(this.btnValidarAFDMin_Click);
             // 
             // btnSimularAFDMin
             // 
@@ -91,6 +92,7 @@
             this.btnSimularAFDMin.TabIndex = 1;
             this.btnSimularAFDMin.Text = "Simular AFD";
             this.btnSimularAFDMin.UseVisualStyleBackColor = true;
+            this.btnSimularAFDMin.Click += new System.EventHandler(this.btnSimularAFDMin_Click);
             // 
             // txtCadenaAFDMin
             // 
