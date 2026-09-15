@@ -132,7 +132,9 @@ namespace SimuladorAutomatas
             }
         }
 
-        private void DibujarTransicion(Graphics g, Transicion transicion)
+        private void DibujarTransicion(
+    Graphics g,
+    Transicion transicion)
         {
             Estado origen = transicion.Origen;
             Estado destino = transicion.Destino;
@@ -140,89 +142,136 @@ namespace SimuladorAutomatas
             // Si es un bucle
             if (origen == destino)
             {
-                DibujarBucle(g, transicion);
+                DibujarBucle(
+                    g,
+                    transicion
+                );
+
                 return;
             }
 
-            // Obtener transiciones del mismo sentido
-            List<Transicion> mismasTransiciones = new List<Transicion>();
+            // Obtener todas las transiciones del mismo sentido
+            List<Transicion> mismasTransiciones =
+                new List<Transicion>();
 
-            foreach (Transicion t in automata.Transiciones)
+            foreach (Transicion t
+                in automata.Transiciones)
             {
-                if (t.Origen == origen && t.Destino == destino)
+                if (t.Origen == origen &&
+                    t.Destino == destino)
                 {
                     mismasTransiciones.Add(t);
                 }
             }
 
-            int indice = mismasTransiciones.IndexOf(transicion);
-            int cantidad = mismasTransiciones.Count;
+            // Solo dibujar una vez
+            if (transicion != mismasTransiciones[0])
+                return;
+
+            // Obtener símbolos
+            List<string> simbolos =
+                new List<string>();
+
+            foreach (Transicion t
+                in mismasTransiciones)
+            {
+                if (!simbolos.Contains(t.Simbolo))
+                {
+                    simbolos.Add(t.Simbolo);
+                }
+            }
+
+            string textoSimbolos =
+                string.Join(",", simbolos);
 
             // Buscar transición en sentido contrario
             bool existeSentidoContrario = false;
 
-            foreach (Transicion t in automata.Transiciones)
+            foreach (Transicion t
+                in automata.Transiciones)
             {
-                if (t.Origen == destino && t.Destino == origen)
+                if (t.Origen == destino &&
+                    t.Destino == origen)
                 {
                     existeSentidoContrario = true;
                     break;
                 }
             }
 
-            // Diferencia entre las posiciones
-            float dx = destino.X - origen.X;
-            float dy = destino.Y - origen.Y;
+            float dx =
+                destino.X - origen.X;
 
-            double distancia = Math.Sqrt(dx * dx + dy * dy);
+            float dy =
+                destino.Y - origen.Y;
+
+            double distancia =
+                Math.Sqrt(
+                    dx * dx +
+                    dy * dy
+                );
 
             // Si la línea tiene longitud cero
             if (distancia == 0)
                 return;
 
-            // Vector normalizado
-            float nx = dx / (float)distancia;
-            float ny = dy / (float)distancia;
+            float nx =
+                dx / (float)distancia;
 
-            // Vector perpendicular
+            float ny =
+                dy / (float)distancia;
+
             float px = -ny;
             float py = nx;
 
-            // Desplazamiento de la curva
             float desplazamiento = 0;
 
-            if (cantidad > 1)
-            {
-                float separacion = 35;
-
-                desplazamiento =
-                    (indice - (cantidad - 1) / 2.0f) * separacion;
-            }
-            else if (existeSentidoContrario)
+            // Si existen transiciones en sentido contrario,
+            // usar una curva para separarlas
+            if (existeSentidoContrario)
             {
                 desplazamiento = 35;
             }
 
-            // Puntos de inicio y final
-            float inicioX = origen.X + nx * RADIO_ESTADO;
-            float inicioY = origen.Y + ny * RADIO_ESTADO;
+            float inicioX =
+                origen.X +
+                nx * RADIO_ESTADO;
 
-            float finalX = destino.X - nx * RADIO_ESTADO;
-            float finalY = destino.Y - ny * RADIO_ESTADO;
+            float inicioY =
+                origen.Y +
+                ny * RADIO_ESTADO;
 
-            // Punto de control
-            float medioX = (inicioX + finalX) / 2;
-            float medioY = (inicioY + finalY) / 2;
+            float finalX =
+                destino.X -
+                nx * RADIO_ESTADO;
 
-            float controlX = medioX + px * desplazamiento;
-            float controlY = medioY + py * desplazamiento;
+            float finalY =
+                destino.Y -
+                ny * RADIO_ESTADO;
 
-            using (Pen lapiz = new Pen(Color.Black, 2))
+            float medioX =
+                (inicioX + finalX) / 2;
+
+            float medioY =
+                (inicioY + finalY) / 2;
+
+            float controlX =
+                medioX +
+                px * desplazamiento;
+
+            float controlY =
+                medioY +
+                py * desplazamiento;
+
+            using (Pen lapiz =
+                new Pen(Color.Black, 2))
             {
                 lapiz.CustomEndCap =
-                    new System.Drawing.Drawing2D.AdjustableArrowCap(5, 5);
+                    new System.Drawing.Drawing2D.AdjustableArrowCap(
+                        5,
+                        5
+                    );
 
-                if (cantidad == 1 && !existeSentidoContrario)
+                if (!existeSentidoContrario)
                 {
                     g.DrawLine(
                         lapiz,
@@ -235,7 +284,7 @@ namespace SimuladorAutomatas
                 else
                 {
                     using (System.Drawing.Drawing2D.GraphicsPath ruta =
-                           new System.Drawing.Drawing2D.GraphicsPath())
+                        new System.Drawing.Drawing2D.GraphicsPath())
                     {
                         ruta.AddBezier(
                             inicioX,
@@ -248,19 +297,24 @@ namespace SimuladorAutomatas
                             finalY
                         );
 
-                        g.DrawPath(lapiz, ruta);
+                        g.DrawPath(
+                            lapiz,
+                            ruta
+                        );
                     }
                 }
             }
 
-            // Posición del símbolo
             float textoX;
             float textoY;
 
-            if (cantidad == 1 && !existeSentidoContrario)
+            if (!existeSentidoContrario)
             {
-                textoX = (inicioX + finalX) / 2;
-                textoY = (inicioY + finalY) / 2;
+                textoX =
+                    (inicioX + finalX) / 2;
+
+                textoY =
+                    (inicioY + finalY) / 2 - 15;
             }
             else
             {
@@ -268,22 +322,28 @@ namespace SimuladorAutomatas
                 textoY = controlY;
             }
 
-            using (Brush pincel = new SolidBrush(Color.Black))
+            using (Brush pincel =
+                new SolidBrush(Color.Black))
             {
-                StringFormat formato = new StringFormat();
+                StringFormat formato =
+                    new StringFormat();
 
-                formato.Alignment = StringAlignment.Center;
-                formato.LineAlignment = StringAlignment.Center;
+                formato.Alignment =
+                    StringAlignment.Center;
 
-                RectangleF areaTexto = new RectangleF(
-                    textoX - 20,
-                    textoY - 15,
-                    40,
-                    30
-                );
+                formato.LineAlignment =
+                    StringAlignment.Center;
+
+                RectangleF areaTexto =
+                    new RectangleF(
+                        textoX - 30,
+                        textoY - 15,
+                        60,
+                        30
+                    );
 
                 g.DrawString(
-                    transicion.Simbolo,
+                    textoSimbolos,
                     this.Font,
                     pincel,
                     areaTexto,
@@ -296,12 +356,9 @@ namespace SimuladorAutomatas
         {
             Estado estado = transicion.Origen;
 
-            // Tamaño del bucle
             int ancho = 35;
             int alto = 35;
 
-            // Posición del bucle
-            // Lo colocamos arriba del estado
             float x = estado.X - ancho / 2;
             float y = estado.Y - RADIO_ESTADO - alto + 5;
 
@@ -312,16 +369,11 @@ namespace SimuladorAutomatas
                 alto
             );
 
-            // -----------------------------------------
-            // DIBUJAR BUCLE
-            // -----------------------------------------
-
             using (Pen lapiz = new Pen(Color.Black, 2))
             {
                 lapiz.CustomEndCap =
                     new System.Drawing.Drawing2D.AdjustableArrowCap(5, 5);
 
-                // Dibujar arco
                 g.DrawArc(
                     lapiz,
                     rectanguloBucle,
@@ -330,29 +382,62 @@ namespace SimuladorAutomatas
                 );
             }
 
-            // -----------------------------------------
-            // DIBUJAR SÍMBOLO
-            // -----------------------------------------
+            // Obtener todos los símbolos del mismo bucle
+            List<Transicion> bucles =
+                new List<Transicion>();
+
+            foreach (Transicion t in automata.Transiciones)
+            {
+                if (t.Origen == estado &&
+                    t.Destino == estado)
+                {
+                    bucles.Add(t);
+                }
+            }
+
+            // Solo dibujar una vez
+            if (transicion != bucles[0])
+                return;
+
+            List<string> simbolos =
+                new List<string>();
+
+            foreach (Transicion t in bucles)
+            {
+                if (!simbolos.Contains(t.Simbolo))
+                {
+                    simbolos.Add(t.Simbolo);
+                }
+            }
+
+            string textoSimbolos =
+                string.Join(",", simbolos);
 
             float textoX = estado.X;
             float textoY = y - 8;
 
-            using (Brush pincel = new SolidBrush(Color.Black))
+            using (Brush pincel =
+                new SolidBrush(Color.Black))
             {
-                StringFormat formato = new StringFormat();
+                StringFormat formato =
+                    new StringFormat();
 
-                formato.Alignment = StringAlignment.Center;
-                formato.LineAlignment = StringAlignment.Center;
+                formato.Alignment =
+                    StringAlignment.Center;
 
-                RectangleF areaTexto = new RectangleF(
-                    textoX - 20,
-                    textoY - 15,
-                    40,
-                    30
-                );
+                formato.LineAlignment =
+                    StringAlignment.Center;
+
+                RectangleF areaTexto =
+                    new RectangleF(
+                        textoX - 30,
+                        textoY - 15,
+                        60,
+                        30
+                    );
 
                 g.DrawString(
-                    transicion.Simbolo,
+                    textoSimbolos,
                     this.Font,
                     pincel,
                     areaTexto,
@@ -503,35 +588,49 @@ namespace SimuladorAutomatas
                         Estado destino = estado;
 
                         // Pedir símbolo
-                        string simbolo = Microsoft.VisualBasic.Interaction.InputBox(
-                            "Ingrese el símbolo de la transición:",
+                        string simbolos = Microsoft.VisualBasic.Interaction.InputBox(
+                            "Ingrese el símbolo o varios separados por coma:",
                             "Nueva transición",
                             ""
                         );
 
                         // Si el usuario cancela o deja vacío
-                        if (string.IsNullOrWhiteSpace(simbolo))
+                        if (string.IsNullOrWhiteSpace(simbolos))
                         {
                             estadoOrigenTransicion = null;
-                            modoTransicion = false;
                             return;
                         }
 
-                        // Crear transición
-                        Transicion nuevaTransicion = new Transicion(
-                            estadoOrigenTransicion,
-                            simbolo,
-                            destino
-                        );
+                        // Separar símbolos
+                        string[] listaSimbolos = simbolos.Split(',');
 
-                        automata.AgregarTransicion(nuevaTransicion);
+                        foreach (string simboloTexto in listaSimbolos)
+                        {
+                            string simbolo = simboloTexto.Trim();
 
-                        // Agregar símbolo al alfabeto
-                        automata.AgregarSimbolo(simbolo);
+                            if (string.IsNullOrWhiteSpace(simbolo))
+                                continue;
 
-                        // Reiniciar modo
+                            Transicion nuevaTransicion = new Transicion(
+                                estadoOrigenTransicion,
+                                simbolo,
+                                destino
+                            );
+
+                            automata.AgregarTransicion(
+                                nuevaTransicion
+                            );
+
+                            if (simbolo != "ε")
+                            {
+                                automata.AgregarSimbolo(
+                                    simbolo
+                                );
+                            }
+                        }
+
+                        // Reiniciar origen para otra transición
                         estadoOrigenTransicion = null;
-                        modoTransicion = false;
 
                         panelEditor.Invalidate();
                         return;
@@ -870,7 +969,8 @@ namespace SimuladorAutomatas
 
         private void btnTransicion_Click(object sender, EventArgs e)
         {
-            modoTransicion = true;
+            modoTransicion = !modoTransicion;
+
             modoEstadoInicial = false;
             modoEstadoFinal = false;
             estadoOrigenTransicion = null;

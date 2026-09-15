@@ -17,13 +17,21 @@ namespace SimuladorAutomatas.Logica
             AutomataEditor automata,
             Font fuente)
         {
-            foreach (Transicion transicion in automata.Transiciones)
+            List<Transicion> dibujadas =
+                new List<Transicion>();
+
+            foreach (Transicion transicion
+                in automata.Transiciones)
             {
+                if (dibujadas.Contains(transicion))
+                    continue;
+
                 DibujarTransicion(
                     g,
                     transicion,
                     automata,
-                    fuente
+                    fuente,
+                    dibujadas
                 );
             }
 
@@ -129,22 +137,64 @@ namespace SimuladorAutomatas.Logica
             Graphics g,
             Transicion transicion,
             AutomataEditor automata,
-            Font fuente)
+            Font fuente,
+            List<Transicion> dibujadas)
         {
-            Estado origen = transicion.Origen;
-            Estado destino = transicion.Destino;
+            Estado origen =
+                transicion.Origen;
+
+            Estado destino =
+                transicion.Destino;
 
             if (origen == destino)
             {
+                List<Transicion> bucles =
+                    ObtenerGrupo(
+                        origen,
+                        destino,
+                        automata
+                    );
+
                 DibujarBucle(
                     g,
-                    transicion,
-                    automata,
+                    origen,
+                    bucles,
                     fuente
                 );
 
+                foreach (Transicion t
+                    in bucles)
+                {
+                    dibujadas.Add(t);
+                }
+
                 return;
             }
+
+            List<Transicion> grupo =
+                ObtenerGrupo(
+                    origen,
+                    destino,
+                    automata
+                );
+
+            foreach (Transicion t
+                in grupo)
+            {
+                dibujadas.Add(t);
+            }
+
+            // Solo se dibuja una vez el grupo
+            Transicion primera =
+                grupo[0];
+
+            if (transicion != primera)
+                return;
+
+            string simbolos =
+                ObtenerSimbolos(
+                    grupo
+                );
 
             float x1 = origen.X;
             float y1 = origen.Y;
@@ -156,8 +206,9 @@ namespace SimuladorAutomatas.Logica
             float dy = y2 - y1;
 
             float distancia =
-                (float)System.Math.Sqrt(
-                    dx * dx + dy * dy
+                (float)Math.Sqrt(
+                    dx * dx +
+                    dy * dy
                 );
 
             if (distancia == 0)
@@ -178,13 +229,6 @@ namespace SimuladorAutomatas.Logica
             float finalY =
                 y2 - uy * RADIO_ESTADO;
 
-            int cantidad =
-                ContarTransiciones(
-                    automata,
-                    origen,
-                    destino
-                );
-
             int inversas =
                 ContarTransiciones(
                     automata,
@@ -193,7 +237,6 @@ namespace SimuladorAutomatas.Logica
                 );
 
             bool curva =
-                cantidad > 1 ||
                 inversas > 0;
 
             if (!curva)
@@ -205,64 +248,40 @@ namespace SimuladorAutomatas.Logica
                     finalX,
                     finalY
                 );
-            }
-            else
-            {
-                float px = -uy;
-                float py = ux;
 
-                float curvatura = 50;
-
-                if (inversas > 0 &&
-                    cantidad == 1)
-                {
-                    curvatura = 50;
-                }
-
-                float medioX =
+                float textoX =
                     (inicioX + finalX) / 2;
 
-                float medioY =
+                float textoY =
                     (inicioY + finalY) / 2;
 
-                float controlX =
-                    medioX + px * curvatura;
-
-                float controlY =
-                    medioY + py * curvatura;
-
-                using (Pen pen =
-                    new Pen(Color.Black, 1))
-                {
-                    pen.CustomEndCap =
-                        new System.Drawing.Drawing2D.AdjustableArrowCap(
-                            5,
-                            5
-                        );
-
-                    g.DrawBezier(
-                        pen,
-                        inicioX,
-                        inicioY,
-                        controlX,
-                        controlY,
-                        controlX,
-                        controlY,
-                        finalX,
-                        finalY
-                    );
-                }
-
-                DibujarTextoCurva(
+                DibujarTexto(
                     g,
-                    transicion.Simbolo,
-                    medioX + px * curvatura * 0.65f,
-                    medioY + py * curvatura * 0.65f,
+                    simbolos,
+                    textoX,
+                    textoY,
                     fuente
                 );
 
                 return;
             }
+
+            float px = -uy;
+            float py = ux;
+
+            float curvatura = 50;
+
+            float medioX =
+                (inicioX + finalX) / 2;
+
+            float medioY =
+                (inicioY + finalY) / 2;
+
+            float controlX =
+                medioX + px * curvatura;
+
+            float controlY =
+                medioY + py * curvatura;
 
             using (Pen pen =
                 new Pen(Color.Black, 1))
@@ -273,26 +292,26 @@ namespace SimuladorAutomatas.Logica
                         5
                     );
 
-                g.DrawLine(
+                g.DrawBezier(
                     pen,
                     inicioX,
                     inicioY,
+                    controlX,
+                    controlY,
+                    controlX,
+                    controlY,
                     finalX,
                     finalY
                 );
             }
 
-            float textoX =
-                (inicioX + finalX) / 2;
-
-            float textoY =
-                (inicioY + finalY) / 2;
-
-            DibujarTexto(
+            DibujarTextoCurva(
                 g,
-                transicion.Simbolo,
-                textoX,
-                textoY,
+                simbolos,
+                medioX +
+                px * curvatura * 0.65f,
+                medioY +
+                py * curvatura * 0.65f,
                 fuente
             );
         }
@@ -325,12 +344,10 @@ namespace SimuladorAutomatas.Logica
 
         private void DibujarBucle(
             Graphics g,
-            Transicion transicion,
-            AutomataEditor automata,
+            Estado estado,
+            List<Transicion> bucles,
             Font fuente)
         {
-            Estado estado = transicion.Origen;
-
             int x = estado.X;
             int y = estado.Y;
 
@@ -359,34 +376,15 @@ namespace SimuladorAutomatas.Logica
                 );
             }
 
-            List<Transicion> bucles =
-                new List<Transicion>();
-
-            foreach (Transicion t
-                in automata.Transiciones)
-            {
-                if (t.Origen == estado &&
-                    t.Destino == estado)
-                {
-                    bucles.Add(t);
-                }
-            }
-
-            int posicion =
-                bucles.IndexOf(transicion);
-
-            float separacion = 15;
-
-            float textoX =
-                x +
-                (posicion -
-                (bucles.Count - 1) / 2f) *
-                separacion;
+            string simbolos =
+                ObtenerSimbolos(
+                    bucles
+                );
 
             DibujarTexto(
                 g,
-                transicion.Simbolo,
-                textoX,
+                simbolos,
+                x,
                 y - 65,
                 fuente
             );
@@ -448,6 +446,51 @@ namespace SimuladorAutomatas.Logica
             }
 
             return cantidad;
+        }
+
+        private List<Transicion> ObtenerGrupo(
+            Estado origen,
+            Estado destino,
+            AutomataEditor automata)
+        {
+            List<Transicion> grupo =
+                new List<Transicion>();
+
+            foreach (Transicion transicion
+                in automata.Transiciones)
+            {
+                if (transicion.Origen == origen &&
+                    transicion.Destino == destino)
+                {
+                    grupo.Add(transicion);
+                }
+            }
+
+            return grupo;
+        }
+
+        private string ObtenerSimbolos(
+            List<Transicion> grupo)
+        {
+            List<string> simbolos =
+                new List<string>();
+
+            foreach (Transicion transicion
+                in grupo)
+            {
+                if (!simbolos.Contains(
+                    transicion.Simbolo))
+                {
+                    simbolos.Add(
+                        transicion.Simbolo
+                    );
+                }
+            }
+
+            return string.Join(
+                ",",
+                simbolos
+            );
         }
     }
 }

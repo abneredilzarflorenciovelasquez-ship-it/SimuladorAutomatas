@@ -76,7 +76,7 @@
             // 
             // btnValidarAFDMin
             // 
-            this.btnValidarAFDMin.Location = new System.Drawing.Point(12, 421);
+            this.btnValidarAFDMin.Location = new System.Drawing.Point(12, 434);
             this.btnValidarAFDMin.Name = "btnValidarAFDMin";
             this.btnValidarAFDMin.Size = new System.Drawing.Size(101, 23);
             this.btnValidarAFDMin.TabIndex = 0;
@@ -86,7 +86,7 @@
             // 
             // btnSimularAFDMin
             // 
-            this.btnSimularAFDMin.Location = new System.Drawing.Point(12, 450);
+            this.btnSimularAFDMin.Location = new System.Drawing.Point(12, 537);
             this.btnSimularAFDMin.Name = "btnSimularAFDMin";
             this.btnSimularAFDMin.Size = new System.Drawing.Size(101, 23);
             this.btnSimularAFDMin.TabIndex = 1;
@@ -96,7 +96,7 @@
             // 
             // txtCadenaAFDMin
             // 
-            this.txtCadenaAFDMin.Location = new System.Drawing.Point(12, 532);
+            this.txtCadenaAFDMin.Location = new System.Drawing.Point(12, 499);
             this.txtCadenaAFDMin.Name = "txtCadenaAFDMin";
             this.txtCadenaAFDMin.Size = new System.Drawing.Size(101, 22);
             this.txtCadenaAFDMin.TabIndex = 2;
@@ -104,7 +104,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 509);
+            this.label1.Location = new System.Drawing.Point(29, 476);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 16);
             this.label1.TabIndex = 3;
@@ -122,9 +122,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(227, 52);
+            this.label2.Location = new System.Drawing.Point(298, 50);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(148, 20);
+            this.label2.Size = new System.Drawing.Size(118, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "AFD  MINIMIZADO";
             // 

@@ -36,7 +36,6 @@
             this.btnSimularAFD = new System.Windows.Forms.Button();
             this.txtCadenaAFD = new System.Windows.Forms.TextBox();
             this.btnValidarAFD = new System.Windows.Forms.Button();
-            this.btnMinimizarAFD = new System.Windows.Forms.Button();
             this.panelProcedimiento.SuspendLayout();
             this.panelAFD.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +59,6 @@
             // 
             // panelAFD
             // 
-            this.panelAFD.Controls.Add(this.btnMinimizarAFD);
             this.panelAFD.Controls.Add(this.label1);
             this.panelAFD.Controls.Add(this.lblResultadoAFD);
             this.panelAFD.Controls.Add(this.btnSimularAFD);
@@ -108,23 +106,13 @@
             // 
             // btnValidarAFD
             // 
-            this.btnValidarAFD.Location = new System.Drawing.Point(-3, 254);
+            this.btnValidarAFD.Location = new System.Drawing.Point(3, 303);
             this.btnValidarAFD.Name = "btnValidarAFD";
             this.btnValidarAFD.Size = new System.Drawing.Size(101, 23);
             this.btnValidarAFD.TabIndex = 0;
             this.btnValidarAFD.Text = "ValidarAFD";
             this.btnValidarAFD.UseVisualStyleBackColor = true;
             this.btnValidarAFD.Click += new System.EventHandler(this.btnValidarAFD_Click);
-            // 
-            // btnMinimizarAFD
-            // 
-            this.btnMinimizarAFD.Location = new System.Drawing.Point(3, 283);
-            this.btnMinimizarAFD.Name = "btnMinimizarAFD";
-            this.btnMinimizarAFD.Size = new System.Drawing.Size(101, 23);
-            this.btnMinimizarAFD.TabIndex = 5;
-            this.btnMinimizarAFD.Text = "Minimizar AFD";
-            this.btnMinimizarAFD.UseVisualStyleBackColor = true;
-            this.btnMinimizarAFD.Click += new System.EventHandler(this.btnMinimizarAFD_Click);
             // 
             // FrmConversionAFD
             // 
@@ -153,6 +141,5 @@
         private System.Windows.Forms.Label lblResultadoAFD;
         private System.Windows.Forms.Button btnSimularAFD;
         private System.Windows.Forms.TextBox txtCadenaAFD;
-        private System.Windows.Forms.Button btnMinimizarAFD;
     }
 }
