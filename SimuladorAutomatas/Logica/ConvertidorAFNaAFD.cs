@@ -52,7 +52,7 @@ namespace SimuladorAutomatas.Logica
                 CierreEpsilon(
                     new List<Estado>
                     {
-                        afn.EstadoInicial
+                afn.EstadoInicial
                     }
                 );
 
@@ -170,8 +170,77 @@ namespace SimuladorAutomatas.Logica
                         resultadoMover
                     );
 
+                    // Si el resultado es vacío
                     if (nuevosEstados.Count == 0)
                     {
+                        Estado estadoVacio =
+                            BuscarEstado(
+                                afd,
+                                "∅"
+                            );
+
+                        if (estadoVacio == null)
+                        {
+                            int indice =
+                                afd.Estados.Count;
+
+                            int x =
+                                100 +
+                                (indice % 4) * 130;
+
+                            int y =
+                                150 +
+                                (indice / 4) * 150;
+
+                            estadoVacio =
+                                new Estado(
+                                    "∅",
+                                    x,
+                                    y
+                                );
+
+                            afd.AgregarEstado(
+                                estadoVacio
+                            );
+
+                            procedimiento.AppendLine(
+                                "Se crea el estado ∅"
+                            );
+
+                            procedimiento.AppendLine();
+                        }
+
+                        afd.AgregarSimbolo(
+                            simbolo
+                        );
+
+                        Estado estadoOrigen =
+                            BuscarEstado(
+                                afd,
+                                nombreActual
+                            );
+
+                        Transicion transicionVacia =
+                            new Transicion(
+                                estadoOrigen,
+                                simbolo,
+                                estadoVacio
+                            );
+
+                        afd.AgregarTransicion(
+                            transicionVacia
+                        );
+
+                        if (!pendientes.Any(
+                            x =>
+                                ObtenerNombreConjunto(x)
+                                == "∅"))
+                        {
+                            pendientes.Enqueue(
+                                new List<Estado>()
+                            );
+                        }
+
                         procedimiento.AppendLine();
 
                         continue;
@@ -256,7 +325,7 @@ namespace SimuladorAutomatas.Logica
                         simbolo
                     );
 
-                    Estado estadoOrigen =
+                    Estado estadoOrigenNormal =
                         BuscarEstado(
                             afd,
                             nombreActual
@@ -264,7 +333,7 @@ namespace SimuladorAutomatas.Logica
 
                     Transicion transicion =
                         new Transicion(
-                            estadoOrigen,
+                            estadoOrigenNormal,
                             simbolo,
                             estadoDestino
                         );

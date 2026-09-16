@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37111.16 d17.14
+VisualStudioVersion = 17.14.37111.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorAutomatas", "SimuladorAutomatas\SimuladorAutomatas.csproj", "{D7307031-E211-4D81-8900-A7DBF2E51D07}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "InstaladorSimuladorAutomatas", "InstaladorSimuladorAutomatas\InstaladorSimuladorAutomatas.vdproj", "{322BBEC3-6071-AFE2-0F21-D4A3B9959EDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{D7307031-E211-4D81-8900-A7DBF2E51D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7307031-E211-4D81-8900-A7DBF2E51D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7307031-E211-4D81-8900-A7DBF2E51D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322BBEC3-6071-AFE2-0F21-D4A3B9959EDB}.Debug|Any CPU.ActiveCfg = Debug
+		{322BBEC3-6071-AFE2-0F21-D4A3B9959EDB}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
