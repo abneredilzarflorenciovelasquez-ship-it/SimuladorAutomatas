@@ -47,7 +47,7 @@
             this.panelTabla.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelTabla.Location = new System.Drawing.Point(0, 0);
             this.panelTabla.Name = "panelTabla";
-            this.panelTabla.Size = new System.Drawing.Size(573, 623);
+            this.panelTabla.Size = new System.Drawing.Size(573, 720);
             this.panelTabla.TabIndex = 0;
             // 
             // panelAFDMinimizado
@@ -61,22 +61,22 @@
             this.panelAFDMinimizado.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAFDMinimizado.Location = new System.Drawing.Point(573, 0);
             this.panelAFDMinimizado.Name = "panelAFDMinimizado";
-            this.panelAFDMinimizado.Size = new System.Drawing.Size(646, 623);
+            this.panelAFDMinimizado.Size = new System.Drawing.Size(646, 720);
             this.panelAFDMinimizado.TabIndex = 1;
             // 
             // txtProcedimientoMin
             // 
             this.txtProcedimientoMin.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txtProcedimientoMin.Location = new System.Drawing.Point(0, 473);
+            this.txtProcedimientoMin.Location = new System.Drawing.Point(0, 427);
             this.txtProcedimientoMin.Name = "txtProcedimientoMin";
             this.txtProcedimientoMin.ReadOnly = true;
-            this.txtProcedimientoMin.Size = new System.Drawing.Size(573, 150);
+            this.txtProcedimientoMin.Size = new System.Drawing.Size(573, 293);
             this.txtProcedimientoMin.TabIndex = 0;
             this.txtProcedimientoMin.Text = "";
             // 
             // btnValidarAFDMin
             // 
-            this.btnValidarAFDMin.Location = new System.Drawing.Point(12, 434);
+            this.btnValidarAFDMin.Location = new System.Drawing.Point(17, 519);
             this.btnValidarAFDMin.Name = "btnValidarAFDMin";
             this.btnValidarAFDMin.Size = new System.Drawing.Size(101, 23);
             this.btnValidarAFDMin.TabIndex = 0;
@@ -86,7 +86,7 @@
             // 
             // btnSimularAFDMin
             // 
-            this.btnSimularAFDMin.Location = new System.Drawing.Point(12, 537);
+            this.btnSimularAFDMin.Location = new System.Drawing.Point(17, 622);
             this.btnSimularAFDMin.Name = "btnSimularAFDMin";
             this.btnSimularAFDMin.Size = new System.Drawing.Size(101, 23);
             this.btnSimularAFDMin.TabIndex = 1;
@@ -96,7 +96,7 @@
             // 
             // txtCadenaAFDMin
             // 
-            this.txtCadenaAFDMin.Location = new System.Drawing.Point(12, 499);
+            this.txtCadenaAFDMin.Location = new System.Drawing.Point(17, 584);
             this.txtCadenaAFDMin.Name = "txtCadenaAFDMin";
             this.txtCadenaAFDMin.Size = new System.Drawing.Size(101, 22);
             this.txtCadenaAFDMin.TabIndex = 2;
@@ -104,7 +104,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 476);
+            this.label1.Location = new System.Drawing.Point(34, 561);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 16);
             this.label1.TabIndex = 3;
@@ -113,7 +113,7 @@
             // lblResultadoAFDMin
             // 
             this.lblResultadoAFDMin.AutoSize = true;
-            this.lblResultadoAFDMin.Location = new System.Drawing.Point(29, 580);
+            this.lblResultadoAFDMin.Location = new System.Drawing.Point(34, 665);
             this.lblResultadoAFDMin.Name = "lblResultadoAFDMin";
             this.lblResultadoAFDMin.Size = new System.Drawing.Size(72, 16);
             this.lblResultadoAFDMin.TabIndex = 4;
@@ -132,7 +132,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1219, 623);
+            this.ClientSize = new System.Drawing.Size(1219, 720);
             this.Controls.Add(this.panelAFDMinimizado);
             this.Controls.Add(this.panelTabla);
             this.Name = "FrmMinimizacionAFD";

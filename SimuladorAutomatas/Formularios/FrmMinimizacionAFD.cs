@@ -20,6 +20,8 @@ namespace SimuladorAutomatas.Formularios
         private StringBuilder procedimiento;
         private DibujadorAutomata dibujador;
 
+        private Panel panelAreaTabla;
+
         public FrmMinimizacionAFD(AutomataEditor afd)
         {
             InitializeComponent();
@@ -33,6 +35,8 @@ namespace SimuladorAutomatas.Formularios
 
             dibujador =
                 new DibujadorAutomata();
+
+            CrearAreaTabla();
 
             CrearTabla();
 
@@ -80,18 +84,36 @@ namespace SimuladorAutomatas.Formularios
             );
         }
 
-        private void CrearTabla()
+        private void CrearAreaTabla()
         {
-            panelTabla.Controls.Clear();
+            panelAreaTabla =
+                new Panel();
+
+            panelAreaTabla.Dock =
+                DockStyle.Fill;
+
+            panelAreaTabla.AutoScroll =
+                true;
+
+            panelAreaTabla.BackColor =
+                EstiloInterfaz.FondoPanel;
+
+            panelTabla.Controls.Add(
+                panelAreaTabla
+            );
+
+            panelTabla.Controls.SetChildIndex(
+                panelAreaTabla,
+                0
+            );
 
             txtProcedimientoMin.Dock =
                 DockStyle.Bottom;
+        }
 
-            txtProcedimientoMin.Height = 250;
-
-            panelTabla.Controls.Add(
-                txtProcedimientoMin
-            );
+        private void CrearTabla()
+        {
+            panelAreaTabla.Controls.Clear();
 
             int inicioX = 70;
             int inicioY = 20;
@@ -114,7 +136,7 @@ namespace SimuladorAutomatas.Formularios
                         altoCelda
                     );
 
-                panelTabla.Controls.Add(
+                panelAreaTabla.Controls.Add(
                     encabezado
                 );
             }
@@ -134,7 +156,7 @@ namespace SimuladorAutomatas.Formularios
                         altoCelda
                     );
 
-                panelTabla.Controls.Add(
+                panelAreaTabla.Controls.Add(
                     encabezado
                 );
             }
@@ -176,12 +198,29 @@ namespace SimuladorAutomatas.Formularios
                         celda
                     );
 
-                    panelTabla.Controls.Add(
+                    panelAreaTabla.Controls.Add(
                         celda
                     );
                 }
             }
+
+            int anchoNecesario =
+                inicioX +
+                afd.Estados.Count * anchoCelda +
+                20;
+
+            int altoNecesario =
+                inicioY +
+                afd.Estados.Count * altoCelda +
+                20;
+
+            panelAreaTabla.AutoScrollMinSize =
+                new Size(
+                    anchoNecesario,
+                    altoNecesario
+                );
         }
+
 
         private Label CrearEtiqueta(
     string texto,

@@ -26,6 +26,7 @@ namespace SimuladorAutomatas
         private bool estadoFueMovido;
         private bool modoEstadoInicial;
         private bool modoEstadoFinal;
+        private bool modoMover;
 
         //Transiciones
         private bool modoTransicion;
@@ -51,6 +52,10 @@ namespace SimuladorAutomatas
             EstiloInterfaz.AplicarEstiloBoton(
                 btnEstadoInicial
             );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+    btnMover
+);
 
             EstiloInterfaz.AplicarEstiloBoton(
                 btnEstadoFinal
@@ -773,6 +778,9 @@ namespace SimuladorAutomatas
 
             estadoFueMovido = false;
 
+            if (!modoMover)
+                return;
+
             foreach (Estado estado in automata.Estados)
             {
                 if (EstaDentroDelEstado(estado, e.X, e.Y))
@@ -1045,6 +1053,7 @@ namespace SimuladorAutomatas
             modoEstadoInicial = true;
             modoEstadoFinal = false;
             modoTransicion = false;
+            modoMover = false;
             estadoOrigenTransicion = null;
         }
 
@@ -1053,6 +1062,7 @@ namespace SimuladorAutomatas
             modoEstadoFinal = true;
             modoEstadoInicial = false;
             modoTransicion = false;
+            modoMover = false;
             estadoOrigenTransicion = null;
         }
 
@@ -1062,6 +1072,7 @@ namespace SimuladorAutomatas
 
             modoEstadoInicial = false;
             modoEstadoFinal = false;
+            modoMover = false;
             estadoOrigenTransicion = null;
         }
 
@@ -1202,6 +1213,17 @@ namespace SimuladorAutomatas
                 new FrmMinimizacionAFD(automata);
 
             ventana.ShowDialog();
+        }
+
+        private void btnMover_Click(object sender, EventArgs e)
+        {
+            modoMover = !modoMover;
+
+            modoEstadoInicial = false;
+            modoEstadoFinal = false;
+            modoTransicion = false;
+
+            estadoOrigenTransicion = null;
         }
     }
 }

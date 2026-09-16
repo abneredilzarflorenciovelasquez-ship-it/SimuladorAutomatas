@@ -41,12 +41,14 @@
             this.btnEstadoFinal = new System.Windows.Forms.Button();
             this.btnEstadoInicial = new System.Windows.Forms.Button();
             this.btnMinimizarAFD = new System.Windows.Forms.Button();
+            this.btnMover = new System.Windows.Forms.Button();
             this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnMover);
             this.panelEditor.Controls.Add(this.btnMinimizarAFD);
             this.panelEditor.Controls.Add(this.btnConvertirAFD);
             this.panelEditor.Controls.Add(this.btnValidarAFN);
@@ -72,7 +74,7 @@
             // 
             // btnConvertirAFD
             // 
-            this.btnConvertirAFD.Location = new System.Drawing.Point(12, 491);
+            this.btnConvertirAFD.Location = new System.Drawing.Point(12, 503);
             this.btnConvertirAFD.Name = "btnConvertirAFD";
             this.btnConvertirAFD.Size = new System.Drawing.Size(170, 33);
             this.btnConvertirAFD.TabIndex = 11;
@@ -82,7 +84,7 @@
             // 
             // btnValidarAFN
             // 
-            this.btnValidarAFN.Location = new System.Drawing.Point(4, 203);
+            this.btnValidarAFN.Location = new System.Drawing.Point(12, 248);
             this.btnValidarAFN.Name = "btnValidarAFN";
             this.btnValidarAFN.Size = new System.Drawing.Size(97, 23);
             this.btnValidarAFN.TabIndex = 10;
@@ -92,7 +94,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 372);
+            this.button2.Location = new System.Drawing.Point(3, 395);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(113, 32);
             this.button2.TabIndex = 9;
@@ -103,7 +105,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 287);
+            this.label1.Location = new System.Drawing.Point(27, 310);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 16);
             this.label1.TabIndex = 8;
@@ -111,7 +113,7 @@
             // 
             // btnValidarAFD
             // 
-            this.btnValidarAFD.Location = new System.Drawing.Point(3, 174);
+            this.btnValidarAFD.Location = new System.Drawing.Point(12, 219);
             this.btnValidarAFD.Name = "btnValidarAFD";
             this.btnValidarAFD.Size = new System.Drawing.Size(97, 23);
             this.btnValidarAFD.TabIndex = 7;
@@ -122,7 +124,7 @@
             // lblResultado
             // 
             this.lblResultado.AutoSize = true;
-            this.lblResultado.Location = new System.Drawing.Point(36, 426);
+            this.lblResultado.Location = new System.Drawing.Point(27, 449);
             this.lblResultado.Name = "lblResultado";
             this.lblResultado.Size = new System.Drawing.Size(72, 16);
             this.lblResultado.TabIndex = 6;
@@ -130,7 +132,7 @@
             // 
             // btnSimular
             // 
-            this.btnSimular.Location = new System.Drawing.Point(12, 334);
+            this.btnSimular.Location = new System.Drawing.Point(3, 357);
             this.btnSimular.Name = "btnSimular";
             this.btnSimular.Size = new System.Drawing.Size(113, 32);
             this.btnSimular.TabIndex = 5;
@@ -140,14 +142,14 @@
             // 
             // txtCadena
             // 
-            this.txtCadena.Location = new System.Drawing.Point(12, 306);
+            this.txtCadena.Location = new System.Drawing.Point(3, 329);
             this.txtCadena.Name = "txtCadena";
             this.txtCadena.Size = new System.Drawing.Size(96, 22);
             this.txtCadena.TabIndex = 4;
             // 
             // btnTransicion
             // 
-            this.btnTransicion.Location = new System.Drawing.Point(4, 99);
+            this.btnTransicion.Location = new System.Drawing.Point(3, 96);
             this.btnTransicion.Name = "btnTransicion";
             this.btnTransicion.Size = new System.Drawing.Size(96, 42);
             this.btnTransicion.TabIndex = 3;
@@ -157,7 +159,7 @@
             // 
             // btnEstadoFinal
             // 
-            this.btnEstadoFinal.Location = new System.Drawing.Point(4, 51);
+            this.btnEstadoFinal.Location = new System.Drawing.Point(3, 48);
             this.btnEstadoFinal.Name = "btnEstadoFinal";
             this.btnEstadoFinal.Size = new System.Drawing.Size(96, 42);
             this.btnEstadoFinal.TabIndex = 2;
@@ -167,7 +169,7 @@
             // 
             // btnEstadoInicial
             // 
-            this.btnEstadoInicial.Location = new System.Drawing.Point(3, 3);
+            this.btnEstadoInicial.Location = new System.Drawing.Point(3, 0);
             this.btnEstadoInicial.Name = "btnEstadoInicial";
             this.btnEstadoInicial.Size = new System.Drawing.Size(96, 42);
             this.btnEstadoInicial.TabIndex = 0;
@@ -177,13 +179,23 @@
             // 
             // btnMinimizarAFD
             // 
-            this.btnMinimizarAFD.Location = new System.Drawing.Point(12, 530);
+            this.btnMinimizarAFD.Location = new System.Drawing.Point(12, 542);
             this.btnMinimizarAFD.Name = "btnMinimizarAFD";
             this.btnMinimizarAFD.Size = new System.Drawing.Size(113, 32);
             this.btnMinimizarAFD.TabIndex = 12;
             this.btnMinimizarAFD.Text = "Minimizar AFD";
             this.btnMinimizarAFD.UseVisualStyleBackColor = true;
             this.btnMinimizarAFD.Click += new System.EventHandler(this.btnMinimizarAFD_Click);
+            // 
+            // btnMover
+            // 
+            this.btnMover.Location = new System.Drawing.Point(3, 144);
+            this.btnMover.Name = "btnMover";
+            this.btnMover.Size = new System.Drawing.Size(114, 42);
+            this.btnMover.TabIndex = 13;
+            this.btnMover.Text = "Mover Estado";
+            this.btnMover.UseVisualStyleBackColor = true;
+            this.btnMover.Click += new System.EventHandler(this.btnMover_Click);
             // 
             // Form1
             // 
@@ -215,6 +227,7 @@
         private System.Windows.Forms.Button btnValidarAFN;
         private System.Windows.Forms.Button btnConvertirAFD;
         private System.Windows.Forms.Button btnMinimizarAFD;
+        private System.Windows.Forms.Button btnMover;
     }
 }
 
