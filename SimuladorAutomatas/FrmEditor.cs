@@ -1225,5 +1225,102 @@ namespace SimuladorAutomatas
 
             estadoOrigenTransicion = null;
         }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog guardar =
+    new SaveFileDialog();
+
+            guardar.Title =
+                "Guardar proyecto";
+
+            guardar.Filter =
+                "Proyecto de autómata (*.aut)|*.aut";
+
+            guardar.DefaultExt = "aut";
+
+            guardar.AddExtension = true;
+
+            if (guardar.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                GestorProyectos.Guardar(
+                    automata,
+                    guardar.FileName
+                );
+
+                MessageBox.Show(
+                    "Proyecto guardado correctamente.",
+                    "Guardar proyecto"
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudo guardar el proyecto.\n\n" +
+                    ex.Message,
+                    "Error"
+                );
+            }
+        }
+
+        private void btnAbrir_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog abrir =
+    new OpenFileDialog();
+
+            abrir.Title =
+                "Abrir proyecto";
+
+            abrir.Filter =
+                "Proyecto de autómata (*.aut)|*.aut";
+
+            if (abrir.ShowDialog() != DialogResult.OK)
+                return;
+
+            try
+            {
+                AutomataEditor proyecto =
+                    GestorProyectos.Cargar(
+                        abrir.FileName
+                    );
+
+                automata = proyecto;
+
+                panelEditor.Invalidate();
+
+                MessageBox.Show(
+                    "Proyecto abierto correctamente.",
+                    "Abrir proyecto"
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudo abrir el proyecto.\n\n" +
+                    ex.Message,
+                    "Error"
+                );
+            }
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+    "¿Deseas crear un proyecto nuevo?\n\nSe perderá el autómata actual si no lo has guardado.",
+    "Nuevo proyecto",
+    MessageBoxButtons.YesNo,
+    MessageBoxIcon.Question
+);
+
+            if (resultado != DialogResult.Yes)
+                return;
+
+            automata = new AutomataEditor();
+
+            panelEditor.Invalidate();
+        }
     }
 }

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panelEditor = new System.Windows.Forms.Panel();
+            this.btnMover = new System.Windows.Forms.Button();
+            this.btnMinimizarAFD = new System.Windows.Forms.Button();
             this.btnConvertirAFD = new System.Windows.Forms.Button();
             this.btnValidarAFN = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -40,14 +42,18 @@
             this.btnTransicion = new System.Windows.Forms.Button();
             this.btnEstadoFinal = new System.Windows.Forms.Button();
             this.btnEstadoInicial = new System.Windows.Forms.Button();
-            this.btnMinimizarAFD = new System.Windows.Forms.Button();
-            this.btnMover = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnAbrir = new System.Windows.Forms.Button();
+            this.btnNuevo = new System.Windows.Forms.Button();
             this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnNuevo);
+            this.panelEditor.Controls.Add(this.btnAbrir);
+            this.panelEditor.Controls.Add(this.btnGuardar);
             this.panelEditor.Controls.Add(this.btnMover);
             this.panelEditor.Controls.Add(this.btnMinimizarAFD);
             this.panelEditor.Controls.Add(this.btnConvertirAFD);
@@ -64,13 +70,33 @@
             this.panelEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditor.Location = new System.Drawing.Point(0, 0);
             this.panelEditor.Name = "panelEditor";
-            this.panelEditor.Size = new System.Drawing.Size(1094, 598);
+            this.panelEditor.Size = new System.Drawing.Size(1094, 718);
             this.panelEditor.TabIndex = 0;
             this.panelEditor.Paint += new System.Windows.Forms.PaintEventHandler(this.panelEditor_Paint);
             this.panelEditor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseClick);
             this.panelEditor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseDown);
             this.panelEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseMove);
             this.panelEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseUp);
+            // 
+            // btnMover
+            // 
+            this.btnMover.Location = new System.Drawing.Point(3, 144);
+            this.btnMover.Name = "btnMover";
+            this.btnMover.Size = new System.Drawing.Size(114, 42);
+            this.btnMover.TabIndex = 13;
+            this.btnMover.Text = "Mover Estado";
+            this.btnMover.UseVisualStyleBackColor = true;
+            this.btnMover.Click += new System.EventHandler(this.btnMover_Click);
+            // 
+            // btnMinimizarAFD
+            // 
+            this.btnMinimizarAFD.Location = new System.Drawing.Point(12, 542);
+            this.btnMinimizarAFD.Name = "btnMinimizarAFD";
+            this.btnMinimizarAFD.Size = new System.Drawing.Size(113, 32);
+            this.btnMinimizarAFD.TabIndex = 12;
+            this.btnMinimizarAFD.Text = "Minimizar AFD";
+            this.btnMinimizarAFD.UseVisualStyleBackColor = true;
+            this.btnMinimizarAFD.Click += new System.EventHandler(this.btnMinimizarAFD_Click);
             // 
             // btnConvertirAFD
             // 
@@ -177,31 +203,41 @@
             this.btnEstadoInicial.UseVisualStyleBackColor = true;
             this.btnEstadoInicial.Click += new System.EventHandler(this.btnEstadoInicial_Click);
             // 
-            // btnMinimizarAFD
+            // btnGuardar
             // 
-            this.btnMinimizarAFD.Location = new System.Drawing.Point(12, 542);
-            this.btnMinimizarAFD.Name = "btnMinimizarAFD";
-            this.btnMinimizarAFD.Size = new System.Drawing.Size(113, 32);
-            this.btnMinimizarAFD.TabIndex = 12;
-            this.btnMinimizarAFD.Text = "Minimizar AFD";
-            this.btnMinimizarAFD.UseVisualStyleBackColor = true;
-            this.btnMinimizarAFD.Click += new System.EventHandler(this.btnMinimizarAFD_Click);
+            this.btnGuardar.Location = new System.Drawing.Point(12, 603);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(113, 32);
+            this.btnGuardar.TabIndex = 14;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // btnMover
+            // btnAbrir
             // 
-            this.btnMover.Location = new System.Drawing.Point(3, 144);
-            this.btnMover.Name = "btnMover";
-            this.btnMover.Size = new System.Drawing.Size(114, 42);
-            this.btnMover.TabIndex = 13;
-            this.btnMover.Text = "Mover Estado";
-            this.btnMover.UseVisualStyleBackColor = true;
-            this.btnMover.Click += new System.EventHandler(this.btnMover_Click);
+            this.btnAbrir.Location = new System.Drawing.Point(12, 641);
+            this.btnAbrir.Name = "btnAbrir";
+            this.btnAbrir.Size = new System.Drawing.Size(113, 32);
+            this.btnAbrir.TabIndex = 15;
+            this.btnAbrir.Text = "Abrir";
+            this.btnAbrir.UseVisualStyleBackColor = true;
+            this.btnAbrir.Click += new System.EventHandler(this.btnAbrir_Click);
+            // 
+            // btnNuevo
+            // 
+            this.btnNuevo.Location = new System.Drawing.Point(12, 679);
+            this.btnNuevo.Name = "btnNuevo";
+            this.btnNuevo.Size = new System.Drawing.Size(113, 32);
+            this.btnNuevo.TabIndex = 16;
+            this.btnNuevo.Text = "Nuevo";
+            this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1094, 598);
+            this.ClientSize = new System.Drawing.Size(1094, 718);
             this.Controls.Add(this.panelEditor);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -228,6 +264,9 @@
         private System.Windows.Forms.Button btnConvertirAFD;
         private System.Windows.Forms.Button btnMinimizarAFD;
         private System.Windows.Forms.Button btnMover;
+        private System.Windows.Forms.Button btnAbrir;
+        private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnNuevo;
     }
 }
 

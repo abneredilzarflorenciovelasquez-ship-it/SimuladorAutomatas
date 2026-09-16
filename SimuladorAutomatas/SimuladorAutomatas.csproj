@@ -75,6 +75,7 @@
     <Compile Include="Modelos\Automata.cs" />
     <Compile Include="Modelos\AutomataEditor.cs" />
     <Compile Include="Modelos\Estado.cs" />
+    <Compile Include="Modelos\GestorProyectos.cs" />
     <Compile Include="Modelos\Transicion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
