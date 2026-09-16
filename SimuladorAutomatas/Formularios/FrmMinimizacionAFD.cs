@@ -21,7 +21,8 @@ namespace SimuladorAutomatas.Formularios
         private DibujadorAutomata dibujador;
 
         private Panel panelAreaTabla;
-
+        private Estado estadoSeleccionadoMin;
+        private bool moviendoEstadoMin;
         public FrmMinimizacionAFD(AutomataEditor afd)
         {
             InitializeComponent();
@@ -44,6 +45,10 @@ namespace SimuladorAutomatas.Formularios
 
             panelAFDMinimizado.Paint +=
                 panelAFDMinimizado_Paint;
+
+            panelAFDMinimizado.MouseDown += panelAFDMinimizado_MouseDown;
+            panelAFDMinimizado.MouseMove += panelAFDMinimizado_MouseMove;
+            panelAFDMinimizado.MouseUp += panelAFDMinimizado_MouseUp;
 
             AplicarEstilo();
         }
@@ -82,6 +87,48 @@ namespace SimuladorAutomatas.Formularios
             EstiloInterfaz.AplicarEstiloLabel(
                 lblResultadoAFDMin
             );
+        }
+
+        private void panelAFDMinimizado_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            if (afdMinimizado == null)
+                return;
+
+            foreach (Estado estado in afdMinimizado.Estados)
+            {
+                int dx = e.X - estado.X;
+                int dy = e.Y - estado.Y;
+
+                if (Math.Sqrt(dx * dx + dy * dy) <= 25)
+                {
+                    estadoSeleccionadoMin = estado;
+                    moviendoEstadoMin = true;
+                    break;
+                }
+            }
+        }
+
+        private void panelAFDMinimizado_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!moviendoEstadoMin || estadoSeleccionadoMin == null)
+                return;
+
+            estadoSeleccionadoMin.X = e.X;
+            estadoSeleccionadoMin.Y = e.Y;
+
+            panelAFDMinimizado.Invalidate();
+        }
+
+        private void panelAFDMinimizado_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            moviendoEstadoMin = false;
+            estadoSeleccionadoMin = null;
         }
 
         private void CrearAreaTabla()
@@ -315,8 +362,7 @@ namespace SimuladorAutomatas.Formularios
                     Estado estado2 =
                         afd.Estados[fila];
 
-                    if (estado1.EsFinal !=
-                        estado2.EsFinal)
+                    if (estado1.EsFinal != estado2.EsFinal)
                     {
                         MarcarCelda(
                             estado1,
@@ -354,39 +400,64 @@ namespace SimuladorAutomatas.Formularios
             procedimiento.AppendLine();
 
             procedimiento.AppendLine(
-                "Se analizan los pares que no fueron marcados."
+                "Se analizan los pares hasta que " +
+                "no aparezcan nuevas marcas."
             );
 
             procedimiento.AppendLine();
 
-            for (int fila = 1;
-                fila < afd.Estados.Count;
-                fila++)
+            bool cambio = true;
+            int ronda = 2;
+
+            while (cambio)
             {
-                for (int columna = 0;
-                    columna < fila;
-                    columna++)
+                cambio = false;
+
+                procedimiento.AppendLine(
+                    "RONDA " + ronda
+                );
+
+                procedimiento.AppendLine();
+
+                for (int fila = 1;
+                    fila < afd.Estados.Count;
+                    fila++)
                 {
-                    Estado estado1 =
-                        afd.Estados[columna];
+                    for (int columna = 0;
+                        columna < fila;
+                        columna++)
+                    {
+                        Estado estado1 =
+                            afd.Estados[columna];
 
-                    Estado estado2 =
-                        afd.Estados[fila];
+                        Estado estado2 =
+                            afd.Estados[fila];
 
-                    string marca =
-                        ObtenerMarca(
-                            estado1,
-                            estado2
-                        );
+                        if (EsMarcaDistinta(
+                            ObtenerMarca(
+                                estado1,
+                                estado2
+                            )))
+                        {
+                            continue;
+                        }
 
-                    if (marca == "X")
-                        continue;
+                        bool marcado =
+                            AnalizarPar(
+                                estado1,
+                                estado2
+                            );
 
-                    AnalizarPar(
-                        estado1,
-                        estado2
-                    );
+                        if (marcado)
+                        {
+                            cambio = true;
+                        }
+                    }
                 }
+
+                procedimiento.AppendLine();
+
+                ronda++;
             }
 
             MarcarEquivalentes();
@@ -489,7 +560,7 @@ namespace SimuladorAutomatas.Formularios
                 procedimiento.ToString();
         }
 
-        private void AnalizarPar(
+        private bool AnalizarPar(
     Estado estado1,
     Estado estado2)
         {
@@ -535,59 +606,67 @@ namespace SimuladorAutomatas.Formularios
                     ObtenerNombre(destino2)
                 );
 
-                if (destino1 != null &&
-                    destino2 != null)
+                if (destino1 == null ||
+                    destino2 == null)
                 {
-                    if (destino1 == destino2)
-                    {
-                        procedimiento.AppendLine(
-                            "Ambos llegan al mismo estado."
-                        );
-                    }
-                    else
-                    {
-                        procedimiento.AppendLine(
-                            "Se analiza el par (" +
-                            destino1.Nombre +
-                            "," +
-                            destino2.Nombre +
-                            ")."
-                        );
+                    procedimiento.AppendLine();
 
-                        if (ObtenerMarca(
-                            destino1,
-                            destino2) == "X")
-                        {
-                            procedimiento.AppendLine(
-                                "El par está marcado con X."
-                            );
-
-                            MarcarCelda(
-                                estado1,
-                                estado2,
-                                "ⓧ"
-                            );
-
-                            procedimiento.AppendLine(
-                                "Se marca (" +
-                                estado1.Nombre +
-                                "," +
-                                estado2.Nombre +
-                                ") con ⓧ."
-                            );
-
-                            procedimiento.AppendLine();
-
-                            return;
-                        }
-                        else
-                        {
-                            procedimiento.AppendLine(
-                                "El par no está marcado."
-                            );
-                        }
-                    }
+                    continue;
                 }
+
+                if (destino1 == destino2)
+                {
+                    procedimiento.AppendLine(
+                        "Ambos llegan al mismo estado."
+                    );
+
+                    procedimiento.AppendLine();
+
+                    continue;
+                }
+
+                procedimiento.AppendLine(
+                    "Se analiza el par (" +
+                    destino1.Nombre +
+                    "," +
+                    destino2.Nombre +
+                    ")."
+                );
+
+                string marcaDestino =
+                    ObtenerMarca(
+                        destino1,
+                        destino2
+                    );
+
+                if (EsMarcaDistinta(marcaDestino))
+                {
+                    procedimiento.AppendLine(
+                        "El par está marcado con X."
+                    );
+
+                    MarcarCelda(
+                        estado1,
+                        estado2,
+                        "X"
+                    );
+
+                    procedimiento.AppendLine(
+                        "Se marca (" +
+                        estado1.Nombre +
+                        "," +
+                        estado2.Nombre +
+                        ") con X."
+                    );
+
+                    procedimiento.AppendLine();
+
+                    return true;
+                }
+
+                procedimiento.AppendLine(
+                    "El par no está marcado."
+                );
 
                 procedimiento.AppendLine();
             }
@@ -600,11 +679,15 @@ namespace SimuladorAutomatas.Formularios
                 ") continúa sin marcar."
             );
 
-            procedimiento.AppendLine(
-                "Por lo tanto, los estados siguen siendo equivalentes."
-            );
-
             procedimiento.AppendLine();
+
+            return false;
+        }
+
+        private bool EsMarcaDistinta(string marca)
+        {
+            return marca == "X" ||
+                   marca == "ⓧ";
         }
 
         private Estado ObtenerDestino(
@@ -690,7 +773,7 @@ namespace SimuladorAutomatas.Formularios
                             estado2
                         );
 
-                    if (string.IsNullOrEmpty(marca))
+                    if (!EsMarcaDistinta(marca))
                     {
                         MarcarCelda(
                             estado1,
@@ -711,19 +794,33 @@ namespace SimuladorAutomatas.Formularios
         }
 
         private void MarcarCelda(
-            Estado estado1,
-            Estado estado2,
-            string marca)
+                                    Estado estado1,
+                                    Estado estado2,
+                                    string marca)
         {
-            string clave =
+            string clave1 =
                 ObtenerClave(
                     estado1,
                     estado2
                 );
 
-            if (celdasTabla.ContainsKey(clave))
+            string clave2 =
+                ObtenerClave(
+                    estado2,
+                    estado1
+                );
+
+            if (celdasTabla.ContainsKey(clave1))
             {
-                celdasTabla[clave].Text =
+                celdasTabla[clave1].Text =
+                    marca;
+
+                return;
+            }
+
+            if (celdasTabla.ContainsKey(clave2))
+            {
+                celdasTabla[clave2].Text =
                     marca;
             }
         }
