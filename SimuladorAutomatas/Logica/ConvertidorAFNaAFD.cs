@@ -23,6 +23,12 @@ namespace SimuladorAutomatas.Logica
         {
             AutomataEditor afd = new AutomataEditor();
 
+            // Copiar el alfabeto
+            foreach (string simbolo in afn.Alfabeto)
+            {
+                afd.AgregarSimbolo(simbolo);
+            }
+
             procedimiento.Clear();
 
             procedimiento.AppendLine("CONVERSIÓN AFN → AFD");
@@ -31,6 +37,23 @@ namespace SimuladorAutomatas.Logica
                 "Método: Construcción por subconjuntos"
             );
             procedimiento.AppendLine();
+
+            // Validar AFN
+            SimuladorAFN simulador = new SimuladorAFN(afn);
+
+            if (!simulador.Validar())
+            {
+                procedimiento.AppendLine(
+                    "El AFN no es válido y no puede convertirse."
+                );
+
+                return new ResultadoConversion
+                {
+                    AFD = afd,
+                    Procedimiento =
+                        procedimiento.ToString()
+                };
+            }
 
             // Verificar estado inicial
             if (afn.EstadoInicial == null)
@@ -173,73 +196,9 @@ namespace SimuladorAutomatas.Logica
                     // Si el resultado es vacío
                     if (nuevosEstados.Count == 0)
                     {
-                        Estado estadoVacio =
-                            BuscarEstado(
-                                afd,
-                                "∅"
-                            );
-
-                        if (estadoVacio == null)
-                        {
-                            int indice =
-                                afd.Estados.Count;
-
-                            int x =
-                                100 +
-                                (indice % 4) * 130;
-
-                            int y =
-                                150 +
-                                (indice / 4) * 150;
-
-                            estadoVacio =
-                                new Estado(
-                                    "∅",
-                                    x,
-                                    y
-                                );
-
-                            afd.AgregarEstado(
-                                estadoVacio
-                            );
-
-                            procedimiento.AppendLine(
-                                "Se crea el estado ∅"
-                            );
-
-                            procedimiento.AppendLine();
-                        }
-
-                        afd.AgregarSimbolo(
-                            simbolo
+                        procedimiento.AppendLine(
+                            "No se crea estado porque el conjunto resultante es vacío."
                         );
-
-                        Estado estadoOrigen =
-                            BuscarEstado(
-                                afd,
-                                nombreActual
-                            );
-
-                        Transicion transicionVacia =
-                            new Transicion(
-                                estadoOrigen,
-                                simbolo,
-                                estadoVacio
-                            );
-
-                        afd.AgregarTransicion(
-                            transicionVacia
-                        );
-
-                        if (!pendientes.Any(
-                            x =>
-                                ObtenerNombreConjunto(x)
-                                == "∅"))
-                        {
-                            pendientes.Enqueue(
-                                new List<Estado>()
-                            );
-                        }
 
                         procedimiento.AppendLine();
 
@@ -320,10 +279,6 @@ namespace SimuladorAutomatas.Logica
 
                         procedimiento.AppendLine();
                     }
-
-                    afd.AgregarSimbolo(
-                        simbolo
-                    );
 
                     Estado estadoOrigenNormal =
                         BuscarEstado(

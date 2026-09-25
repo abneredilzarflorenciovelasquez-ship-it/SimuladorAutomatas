@@ -71,6 +71,19 @@ namespace SimuladorAutomatas.Logica
             if (automata.EstadoInicial == null)
                 return false;
 
+            // Verificar alfabeto
+            if (automata.Alfabeto.Count == 0)
+                return false;
+
+            // Verificar símbolos de la cadena
+            foreach (char caracter in cadena)
+            {
+                string simbolo = caracter.ToString();
+
+                if (!automata.Alfabeto.Contains(simbolo))
+                    return false;
+            }
+
             Estado estadoActual = automata.EstadoInicial;
 
             // Recorrer la cadena

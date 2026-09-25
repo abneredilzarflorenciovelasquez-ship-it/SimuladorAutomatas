@@ -238,12 +238,58 @@ namespace SimuladorAutomatas.Formularios
 
         private void btnSimularAFD_Click(object sender, EventArgs e)
         {
-            SimuladorAFD simulador = new SimuladorAFD(afd);
+            SimuladorAFD simulador =
+    new SimuladorAFD(afd);
 
+            // Verificar que exista un alfabeto
+            if (afd.Alfabeto.Count == 0)
+            {
+                lblResultadoAFD.Text =
+                    "Resultado: Debe establecer el alfabeto antes de simular";
+
+                return;
+            }
+
+            // Validar AFD
+            if (!simulador.Validar())
+            {
+                lblResultadoAFD.Text =
+                    "Resultado: El AFD convertido no es válido";
+
+                return;
+            }
+
+            string cadena =
+                txtCadenaAFD.Text.Trim();
+
+            // Validar símbolos de la cadena
+            List<string> simbolosInvalidos =
+                new List<string>();
+
+            foreach (char caracter in cadena)
+            {
+                string simbolo =
+                    caracter.ToString();
+
+                if (!afd.Alfabeto.Contains(simbolo) &&
+                    !simbolosInvalidos.Contains(simbolo))
+                {
+                    simbolosInvalidos.Add(simbolo);
+                }
+            }
+
+            if (simbolosInvalidos.Count > 0)
+            {
+                lblResultadoAFD.Text =
+                    "Resultado: Símbolos inválidos: " +
+                    string.Join(", ", simbolosInvalidos);
+
+                return;
+            }
+
+            // Simular cadena
             bool aceptada =
-                simulador.Simular(
-                    txtCadenaAFD.Text
-                );
+                simulador.Simular(cadena);
 
             if (aceptada)
             {

@@ -1056,14 +1056,61 @@ namespace SimuladorAutomatas.Formularios
                 return;
             }
 
+            // Verificar que exista un alfabeto
+            if (afdMinimizado.Alfabeto.Count == 0)
+            {
+                lblResultadoAFDMin.Text =
+                    "Resultado: Debe establecer el alfabeto antes de simular";
+
+                return;
+            }
+
             SimuladorAFD simulador =
                 new SimuladorAFD(
                     afdMinimizado
                 );
 
+            // Validar AFD
+            if (!simulador.Validar())
+            {
+                lblResultadoAFDMin.Text =
+                    "Resultado: El AFD minimizado no es válido";
+
+                return;
+            }
+
+            string cadena =
+                txtCadenaAFDMin.Text.Trim();
+
+            // Validar símbolos de la cadena
+            List<string> simbolosInvalidos =
+                new List<string>();
+
+            foreach (char caracter in cadena)
+            {
+                string simbolo =
+                    caracter.ToString();
+
+                if (!afdMinimizado.Alfabeto.Contains(simbolo) &&
+                    !simbolosInvalidos.Contains(simbolo))
+                {
+                    simbolosInvalidos.Add(simbolo);
+                }
+            }
+
+            if (simbolosInvalidos.Count > 0)
+            {
+                lblResultadoAFDMin.Text =
+                    "Resultado: Símbolos inválidos: " +
+                    string.Join(", ", simbolosInvalidos);
+
+                return;
+            }
+
+            // Simular cadena
             bool aceptada =
                 simulador.Simular(
-                    txtCadenaAFDMin.Text
+                    cadena
                 );
 
             if (aceptada)

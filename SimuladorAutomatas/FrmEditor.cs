@@ -1,6 +1,5 @@
 ﻿using SimuladorAutomatas.Formularios;
 using SimuladorAutomatas.Logica;
-using SimuladorAutomatas.Logica;
 using SimuladorAutomatas.Modelos;
 using System;
 using System.Collections.Generic;
@@ -51,6 +50,21 @@ namespace SimuladorAutomatas
 
             EstiloInterfaz.AplicarEstiloBoton(
                 btnEstadoInicial
+            );
+
+            EstiloInterfaz.AplicarEstiloBoton(
+    btnEstablecerAlfabeto
+);
+
+
+            EstiloInterfaz.AplicarEstiloBoton(
+    btnGuardar
+);
+            EstiloInterfaz.AplicarEstiloBoton(
+    btnNuevo
+);
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnAbrir
             );
 
             EstiloInterfaz.AplicarEstiloBoton(
@@ -107,6 +121,24 @@ namespace SimuladorAutomatas
             InitializeComponent();
 
             automata = automataConvertido;
+        }
+
+        private List<string> ObtenerSimbolosInvalidos(string cadena)
+        {
+            List<string> simbolosInvalidos = new List<string>();
+
+            foreach (char caracter in cadena)
+            {
+                string simbolo = caracter.ToString();
+
+                if (!automata.Alfabeto.Contains(simbolo) &&
+                    !simbolosInvalidos.Contains(simbolo))
+                {
+                    simbolosInvalidos.Add(simbolo);
+                }
+            }
+
+            return simbolosInvalidos;
         }
 
         private void panelEditor_Paint(object sender, PaintEventArgs e)
@@ -697,7 +729,6 @@ namespace SimuladorAutomatas
 
                         // Separar símbolos
                         string[] listaSimbolos = simbolos.Split(',');
-
                         foreach (string simboloTexto in listaSimbolos)
                         {
                             string simbolo = simboloTexto.Trim();
@@ -705,22 +736,46 @@ namespace SimuladorAutomatas
                             if (string.IsNullOrWhiteSpace(simbolo))
                                 continue;
 
-                            Transicion nuevaTransicion = new Transicion(
+                            // ε se permite como transición epsilon
+                            if (simbolo == "ε")
+                            {
+                                Transicion nuevaTransicion = new Transicion(
+                                    estadoOrigenTransicion,
+                                    simbolo,
+                                    destino
+                                );
+
+                                automata.AgregarTransicion(nuevaTransicion);
+
+                                continue;
+                            }
+
+                            // Verificar que el símbolo pertenezca al alfabeto
+                            if (!automata.Alfabeto.Contains(simbolo))
+                            {
+                                MessageBox.Show(
+                                    "El símbolo \"" + simbolo +
+                                    "\" no pertenece al alfabeto.\n\n" +
+                                    "Alfabeto actual: " +
+                                    string.Join(", ", automata.Alfabeto),
+                                    "Símbolo inválido",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
+
+                                estadoOrigenTransicion = null;
+                                return;
+                            }
+
+                            Transicion nuevaTransicionValida = new Transicion(
                                 estadoOrigenTransicion,
                                 simbolo,
                                 destino
                             );
 
                             automata.AgregarTransicion(
-                                nuevaTransicion
+                                nuevaTransicionValida
                             );
-
-                            if (simbolo != "ε")
-                            {
-                                automata.AgregarSimbolo(
-                                    simbolo
-                                );
-                            }
                         }
 
                         // Reiniciar origen para otra transición
@@ -1080,24 +1135,53 @@ namespace SimuladorAutomatas
         {
             SimuladorAFD simulador = new SimuladorAFD(automata);
 
+            // Verificar que exista un alfabeto
+            if (automata.Alfabeto.Count == 0)
+            {
+                lblResultado.Text =
+                    "Resultado: Debe establecer el alfabeto antes de simular";
+
+                return;
+            }
+
             // Validar AFD
             if (!simulador.Validar())
             {
-                lblResultado.Text = "Resultado: El autómata no es un AFD válido";
+                lblResultado.Text =
+                    "Resultado: El autómata no es un AFD válido";
+
+                return;
+            }
+
+            string cadena = txtCadena.Text.Trim();
+
+            // Validar símbolos de la cadena
+            List<string> simbolosInvalidos =
+                ObtenerSimbolosInvalidos(cadena);
+
+            if (simbolosInvalidos.Count > 0)
+            {
+                lblResultado.Text =
+                    "Resultado: Símbolos inválidos: " +
+                    string.Join(", ", simbolosInvalidos);
+
                 return;
             }
 
             // Simular cadena
-            bool aceptada = simulador.Simular(txtCadena.Text);
+            bool aceptada = simulador.Simular(cadena);
 
             if (aceptada)
             {
-                lblResultado.Text = "Resultado: Cadena aceptada";
+                lblResultado.Text =
+                    "Resultado: Cadena aceptada";
             }
             else
             {
-                lblResultado.Text = "Resultado: Cadena rechazada";
+                lblResultado.Text =
+                    "Resultado: Cadena rechazada";
             }
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -1127,18 +1211,55 @@ namespace SimuladorAutomatas
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // Verificar que exista un alfabeto
+            if (automata.Alfabeto.Count == 0)
+            {
+                lblResultado.Text =
+                    "Resultado: Debe establecer el alfabeto antes de simular";
+
+                return;
+            }
+
             SimuladorAFN simulador = new SimuladorAFN(automata);
 
-            bool aceptada = simulador.Simular(txtCadena.Text);
+            // Validar AFN
+            if (!simulador.Validar())
+            {
+                lblResultado.Text =
+                    "Resultado: El autómata no es un AFN válido";
+
+                return;
+            }
+
+            string cadena = txtCadena.Text.Trim();
+
+            // Validar símbolos de la cadena
+            List<string> simbolosInvalidos =
+                ObtenerSimbolosInvalidos(cadena);
+
+            if (simbolosInvalidos.Count > 0)
+            {
+                lblResultado.Text =
+                    "Resultado: Símbolos inválidos: " +
+                    string.Join(", ", simbolosInvalidos);
+
+                return;
+            }
+
+            // Simular cadena
+            bool aceptada = simulador.Simular(cadena);
 
             if (aceptada)
             {
-                lblResultado.Text = "Resultado: Cadena aceptada";
+                lblResultado.Text =
+                    "Resultado: Cadena aceptada";
             }
             else
             {
-                lblResultado.Text = "Resultado: Cadena rechazada";
+                lblResultado.Text =
+                    "Resultado: Cadena rechazada";
             }
+
         }
 
         private void btnValidarAFN_Click(object sender, EventArgs e)
@@ -1197,13 +1318,30 @@ namespace SimuladorAutomatas
 
         private void btnMinimizarAFD_Click(object sender, EventArgs e)
         {
-            SimuladorAFD simulador = new SimuladorAFD(automata);
+            // Verificar que exista un alfabeto
+            if (automata.Alfabeto.Count == 0)
+            {
+                MessageBox.Show(
+                    "Debe establecer el alfabeto antes de minimizar el AFD.",
+                    "Minimización",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
 
+                return;
+            }
+
+            SimuladorAFD simulador =
+                new SimuladorAFD(automata);
+
+            // Validar AFD
             if (!simulador.Validar())
             {
                 MessageBox.Show(
                     "El autómata no es un AFD válido.",
-                    "Minimización"
+                    "Minimización",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
                 );
 
                 return;
@@ -1321,6 +1459,92 @@ namespace SimuladorAutomatas
             automata = new AutomataEditor();
 
             panelEditor.Invalidate();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEstablecerAlfabeto_Click(object sender, EventArgs e)
+        {
+            string entrada = txtAlfabeto.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(entrada))
+            {
+                MessageBox.Show(
+                    "Debe ingresar al menos un símbolo.",
+                    "Alfabeto",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
+            string[] simbolos = entrada.Split(',');
+
+            List<string> nuevoAlfabeto = new List<string>();
+
+            foreach (string simboloTexto in simbolos)
+            {
+                string simbolo = simboloTexto.Trim();
+
+                if (string.IsNullOrWhiteSpace(simbolo))
+                    continue;
+
+                if (simbolo == "ε")
+                {
+                    MessageBox.Show(
+                        "El símbolo ε no pertenece al alfabeto.",
+                        "Alfabeto",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+
+                    return;
+                }
+
+                if (simbolo.Length > 1)
+                {
+                    MessageBox.Show(
+                        "Cada símbolo debe tener un solo carácter.\n\n" +
+                        "Ejemplos válidos: 0,1 o a,b",
+                        "Alfabeto",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+
+                    return;
+                }
+
+                if (!nuevoAlfabeto.Contains(simbolo))
+                {
+                    nuevoAlfabeto.Add(simbolo);
+                }
+            }
+
+            if (nuevoAlfabeto.Count == 0)
+            {
+                MessageBox.Show(
+                    "Debe ingresar símbolos válidos.",
+                    "Alfabeto",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
+            automata.Alfabeto = nuevoAlfabeto;
+
+            MessageBox.Show(
+                "Alfabeto establecido correctamente:\n\n" +
+                string.Join(", ", automata.Alfabeto),
+                "Alfabeto",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
     }
 }
