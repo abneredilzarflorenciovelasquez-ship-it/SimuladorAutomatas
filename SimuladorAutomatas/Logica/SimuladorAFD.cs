@@ -18,44 +18,91 @@ namespace SimuladorAutomatas.Logica
 
         public bool Validar()
         {
-            // Verificar estado inicial
+            // Debe existir un estado inicial
             if (automata.EstadoInicial == null)
                 return false;
 
-            // Verificar estados
+            // Debe haber estados
             if (automata.Estados.Count == 0)
                 return false;
 
-            // Verificar transiciones
-            foreach (Transicion transicion in automata.Transiciones)
+            // El estado inicial debe pertenecer al automata
+            if (!automata.Estados.Contains(
+                automata.EstadoInicial))
             {
-                // Verificar origen
-                if (!automata.Estados.Contains(transicion.Origen))
-                    return false;
+                return false;
+            }
 
-                // Verificar destino
-                if (!automata.Estados.Contains(transicion.Destino))
+            // Comprobar que todas las transiciones sean válidas
+            foreach (Transicion transicion
+                in automata.Transiciones)
+            {
+                if (!automata.Estados.Contains(
+                    transicion.Origen))
+                {
                     return false;
+                }
 
-                // Verificar epsilon
+                if (!automata.Estados.Contains(
+                    transicion.Destino))
+                {
+                    return false;
+                }
+
+                // Un AFD no permite transiciones epsilon
                 if (transicion.EsEpsilon)
                     return false;
 
-                // Verificar símbolo
-                if (!automata.Alfabeto.Contains(transicion.Simbolo))
+                // El símbolo debe pertenecer al alfabeto
+                if (!automata.Alfabeto.Contains(
+                    transicion.Simbolo))
+                {
                     return false;
+                }
             }
 
-            // Verificar transiciones repetidas
-            for (int i = 0; i < automata.Transiciones.Count; i++)
+            // Comprobar que no haya transiciones duplicadas
+            for (int i = 0;
+                i < automata.Transiciones.Count;
+                i++)
             {
-                for (int j = i + 1; j < automata.Transiciones.Count; j++)
+                for (int j = i + 1;
+                    j < automata.Transiciones.Count;
+                    j++)
                 {
-                    Transicion t1 = automata.Transiciones[i];
-                    Transicion t2 = automata.Transiciones[j];
+                    Transicion t1 =
+                        automata.Transiciones[i];
+
+                    Transicion t2 =
+                        automata.Transiciones[j];
 
                     if (t1.Origen == t2.Origen &&
                         t1.Simbolo == t2.Simbolo)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // NUEVO: comprobar que todas las transiciones estén definidas
+            foreach (Estado estado in automata.Estados)
+            {
+                foreach (string simbolo in automata.Alfabeto)
+                {
+                    int cantidadTransiciones = 0;
+
+                    foreach (Transicion transicion
+                        in automata.Transiciones)
+                    {
+                        if (transicion.Origen == estado &&
+                            transicion.Simbolo == simbolo)
+                        {
+                            cantidadTransiciones++;
+                        }
+                    }
+
+                    // Debe existir exactamente una transición
+                    if (cantidadTransiciones != 1)
                     {
                         return false;
                     }

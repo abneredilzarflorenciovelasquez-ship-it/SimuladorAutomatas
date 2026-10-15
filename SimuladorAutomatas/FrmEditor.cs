@@ -70,7 +70,9 @@ namespace SimuladorAutomatas
             EstiloInterfaz.AplicarEstiloBoton(
     btnMover
 );
-
+            EstiloInterfaz.AplicarEstiloBoton(
+    btnExpresionesRegulares
+);
             EstiloInterfaz.AplicarEstiloBoton(
                 btnEstadoFinal
             );
@@ -1545,6 +1547,14 @@ namespace SimuladorAutomatas
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
+        }
+
+        private void btnExpresionesRegulares_Click(object sender, EventArgs e)
+        {
+            FrmExpresionesRegulares formulario =
+    new FrmExpresionesRegulares();
+
+            formulario.ShowDialog();
         }
     }
 }

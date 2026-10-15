@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.panelEditor = new System.Windows.Forms.Panel();
+            this.btnExpresionesRegulares = new System.Windows.Forms.Button();
+            this.btnEstablecerAlfabeto = new System.Windows.Forms.Button();
+            this.txtAlfabeto = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.btnAbrir = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -45,15 +49,13 @@
             this.btnTransicion = new System.Windows.Forms.Button();
             this.btnEstadoFinal = new System.Windows.Forms.Button();
             this.btnEstadoInicial = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtAlfabeto = new System.Windows.Forms.TextBox();
-            this.btnEstablecerAlfabeto = new System.Windows.Forms.Button();
             this.panelEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnExpresionesRegulares);
             this.panelEditor.Controls.Add(this.btnEstablecerAlfabeto);
             this.panelEditor.Controls.Add(this.txtAlfabeto);
             this.panelEditor.Controls.Add(this.label2);
@@ -84,9 +86,46 @@
             this.panelEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseMove);
             this.panelEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseUp);
             // 
+            // btnExpresionesRegulares
+            // 
+            this.btnExpresionesRegulares.Location = new System.Drawing.Point(11, 435);
+            this.btnExpresionesRegulares.Name = "btnExpresionesRegulares";
+            this.btnExpresionesRegulares.Size = new System.Drawing.Size(157, 59);
+            this.btnExpresionesRegulares.TabIndex = 20;
+            this.btnExpresionesRegulares.Text = "Expresiones Regulares y Logs";
+            this.btnExpresionesRegulares.UseVisualStyleBackColor = true;
+            this.btnExpresionesRegulares.Click += new System.EventHandler(this.btnExpresionesRegulares_Click);
+            // 
+            // btnEstablecerAlfabeto
+            // 
+            this.btnEstablecerAlfabeto.Location = new System.Drawing.Point(11, 40);
+            this.btnEstablecerAlfabeto.Name = "btnEstablecerAlfabeto";
+            this.btnEstablecerAlfabeto.Size = new System.Drawing.Size(146, 42);
+            this.btnEstablecerAlfabeto.TabIndex = 19;
+            this.btnEstablecerAlfabeto.Text = "Establecer Alfabeto";
+            this.btnEstablecerAlfabeto.UseVisualStyleBackColor = true;
+            this.btnEstablecerAlfabeto.Click += new System.EventHandler(this.btnEstablecerAlfabeto_Click);
+            // 
+            // txtAlfabeto
+            // 
+            this.txtAlfabeto.Location = new System.Drawing.Point(96, 12);
+            this.txtAlfabeto.Name = "txtAlfabeto";
+            this.txtAlfabeto.Size = new System.Drawing.Size(120, 22);
+            this.txtAlfabeto.TabIndex = 18;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 16);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Alfabeto:";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // btnNuevo
             // 
-            this.btnNuevo.Location = new System.Drawing.Point(12, 679);
+            this.btnNuevo.Location = new System.Drawing.Point(68, 689);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(113, 32);
             this.btnNuevo.TabIndex = 16;
@@ -96,7 +135,7 @@
             // 
             // btnAbrir
             // 
-            this.btnAbrir.Location = new System.Drawing.Point(12, 641);
+            this.btnAbrir.Location = new System.Drawing.Point(130, 642);
             this.btnAbrir.Name = "btnAbrir";
             this.btnAbrir.Size = new System.Drawing.Size(113, 32);
             this.btnAbrir.TabIndex = 15;
@@ -106,7 +145,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(12, 603);
+            this.btnGuardar.Location = new System.Drawing.Point(11, 642);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(113, 32);
             this.btnGuardar.TabIndex = 14;
@@ -116,17 +155,17 @@
             // 
             // btnMover
             // 
-            this.btnMover.Location = new System.Drawing.Point(11, 236);
+            this.btnMover.Location = new System.Drawing.Point(130, 140);
             this.btnMover.Name = "btnMover";
-            this.btnMover.Size = new System.Drawing.Size(162, 42);
+            this.btnMover.Size = new System.Drawing.Size(97, 42);
             this.btnMover.TabIndex = 13;
-            this.btnMover.Text = "Crear/Mover Estado";
+            this.btnMover.Text = "Crear/Mover";
             this.btnMover.UseVisualStyleBackColor = true;
             this.btnMover.Click += new System.EventHandler(this.btnMover_Click);
             // 
             // btnMinimizarAFD
             // 
-            this.btnMinimizarAFD.Location = new System.Drawing.Point(12, 565);
+            this.btnMinimizarAFD.Location = new System.Drawing.Point(11, 397);
             this.btnMinimizarAFD.Name = "btnMinimizarAFD";
             this.btnMinimizarAFD.Size = new System.Drawing.Size(113, 32);
             this.btnMinimizarAFD.TabIndex = 12;
@@ -136,7 +175,7 @@
             // 
             // btnConvertirAFD
             // 
-            this.btnConvertirAFD.Location = new System.Drawing.Point(3, 526);
+            this.btnConvertirAFD.Location = new System.Drawing.Point(11, 358);
             this.btnConvertirAFD.Name = "btnConvertirAFD";
             this.btnConvertirAFD.Size = new System.Drawing.Size(170, 33);
             this.btnConvertirAFD.TabIndex = 11;
@@ -146,7 +185,7 @@
             // 
             // btnValidarAFN
             // 
-            this.btnValidarAFN.Location = new System.Drawing.Point(12, 313);
+            this.btnValidarAFN.Location = new System.Drawing.Point(130, 204);
             this.btnValidarAFN.Name = "btnValidarAFN";
             this.btnValidarAFN.Size = new System.Drawing.Size(97, 23);
             this.btnValidarAFN.TabIndex = 10;
@@ -156,7 +195,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(4, 448);
+            this.button2.Location = new System.Drawing.Point(130, 278);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(113, 32);
             this.button2.TabIndex = 9;
@@ -167,7 +206,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 354);
+            this.label1.Location = new System.Drawing.Point(27, 250);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 16);
             this.label1.TabIndex = 8;
@@ -175,7 +214,7 @@
             // 
             // btnValidarAFD
             // 
-            this.btnValidarAFD.Location = new System.Drawing.Point(12, 284);
+            this.btnValidarAFD.Location = new System.Drawing.Point(12, 204);
             this.btnValidarAFD.Name = "btnValidarAFD";
             this.btnValidarAFD.Size = new System.Drawing.Size(97, 23);
             this.btnValidarAFD.TabIndex = 7;
@@ -186,7 +225,7 @@
             // lblResultado
             // 
             this.lblResultado.AutoSize = true;
-            this.lblResultado.Location = new System.Drawing.Point(27, 496);
+            this.lblResultado.Location = new System.Drawing.Point(15, 322);
             this.lblResultado.Name = "lblResultado";
             this.lblResultado.Size = new System.Drawing.Size(72, 16);
             this.lblResultado.TabIndex = 6;
@@ -194,7 +233,7 @@
             // 
             // btnSimular
             // 
-            this.btnSimular.Location = new System.Drawing.Point(4, 410);
+            this.btnSimular.Location = new System.Drawing.Point(11, 278);
             this.btnSimular.Name = "btnSimular";
             this.btnSimular.Size = new System.Drawing.Size(113, 32);
             this.btnSimular.TabIndex = 5;
@@ -204,14 +243,14 @@
             // 
             // txtCadena
             // 
-            this.txtCadena.Location = new System.Drawing.Point(12, 373);
+            this.txtCadena.Location = new System.Drawing.Point(130, 247);
             this.txtCadena.Name = "txtCadena";
             this.txtCadena.Size = new System.Drawing.Size(96, 22);
             this.txtCadena.TabIndex = 4;
             // 
             // btnTransicion
             // 
-            this.btnTransicion.Location = new System.Drawing.Point(11, 188);
+            this.btnTransicion.Location = new System.Drawing.Point(11, 140);
             this.btnTransicion.Name = "btnTransicion";
             this.btnTransicion.Size = new System.Drawing.Size(96, 42);
             this.btnTransicion.TabIndex = 3;
@@ -221,7 +260,7 @@
             // 
             // btnEstadoFinal
             // 
-            this.btnEstadoFinal.Location = new System.Drawing.Point(11, 140);
+            this.btnEstadoFinal.Location = new System.Drawing.Point(130, 92);
             this.btnEstadoFinal.Name = "btnEstadoFinal";
             this.btnEstadoFinal.Size = new System.Drawing.Size(96, 42);
             this.btnEstadoFinal.TabIndex = 2;
@@ -239,33 +278,6 @@
             this.btnEstadoInicial.UseVisualStyleBackColor = true;
             this.btnEstadoInicial.Click += new System.EventHandler(this.btnEstadoInicial_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 15);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 16);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "Alfabeto:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // txtAlfabeto
-            // 
-            this.txtAlfabeto.Location = new System.Drawing.Point(96, 12);
-            this.txtAlfabeto.Name = "txtAlfabeto";
-            this.txtAlfabeto.Size = new System.Drawing.Size(120, 22);
-            this.txtAlfabeto.TabIndex = 18;
-            // 
-            // btnEstablecerAlfabeto
-            // 
-            this.btnEstablecerAlfabeto.Location = new System.Drawing.Point(11, 44);
-            this.btnEstablecerAlfabeto.Name = "btnEstablecerAlfabeto";
-            this.btnEstablecerAlfabeto.Size = new System.Drawing.Size(146, 42);
-            this.btnEstablecerAlfabeto.TabIndex = 19;
-            this.btnEstablecerAlfabeto.Text = "Establecer Alfabeto";
-            this.btnEstablecerAlfabeto.UseVisualStyleBackColor = true;
-            this.btnEstablecerAlfabeto.Click += new System.EventHandler(this.btnEstablecerAlfabeto_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -273,7 +285,7 @@
             this.ClientSize = new System.Drawing.Size(1094, 733);
             this.Controls.Add(this.panelEditor);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Simulador de Autómatas";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelEditor.ResumeLayout(false);
             this.panelEditor.PerformLayout();
@@ -303,6 +315,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtAlfabeto;
         private System.Windows.Forms.Button btnEstablecerAlfabeto;
+        private System.Windows.Forms.Button btnExpresionesRegulares;
     }
 }
 

@@ -193,16 +193,15 @@ namespace SimuladorAutomatas.Logica
                         resultadoMover
                     );
 
-                    // Si el resultado es vacío
+
+                    // Si el resultado es vacío, se utilizará el estado trampa ∅
                     if (nuevosEstados.Count == 0)
                     {
                         procedimiento.AppendLine(
-                            "No se crea estado porque el conjunto resultante es vacío."
+                            "El conjunto resultante es vacío; se utilizará el estado trampa ∅."
                         );
 
                         procedimiento.AppendLine();
-
-                        continue;
                     }
 
                     nuevosEstados =

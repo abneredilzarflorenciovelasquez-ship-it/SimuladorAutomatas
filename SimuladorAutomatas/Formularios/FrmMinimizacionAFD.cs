@@ -28,6 +28,21 @@ namespace SimuladorAutomatas.Formularios
             InitializeComponent();
             this.afd = afd;
 
+
+            // Comprobar el resultado del minimizador independiente.
+            MinimizadorAFD minimizador = new MinimizadorAFD(afd);
+            ResultadoConversion resultadoMinimizacion = minimizador.Minimizar();
+
+            System.Diagnostics.Debug.WriteLine(
+                "Estados del AFD minimizado: " +
+                resultadoMinimizacion.AFD.Estados.Count
+            );
+
+            System.Diagnostics.Debug.WriteLine(
+                resultadoMinimizacion.Procedimiento
+            );
+            // Termina
+
             celdasTabla =
                 new Dictionary<string, Label>();
 

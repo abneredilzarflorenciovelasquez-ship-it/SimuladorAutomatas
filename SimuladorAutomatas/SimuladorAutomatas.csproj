@@ -53,11 +53,23 @@
     <Compile Include="Formularios\FrmConversionAFD.Designer.cs">
       <DependentUpon>FrmConversionAFD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\FrmExpresionesRegulares.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmExpresionesRegulares.Designer.cs">
+      <DependentUpon>FrmExpresionesRegulares.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\FrmMinimizacionAFD.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Formularios\FrmMinimizacionAFD.Designer.cs">
       <DependentUpon>FrmMinimizacionAFD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\FrmVisualizarAFNRegex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\FrmVisualizarAFNRegex.Designer.cs">
+      <DependentUpon>FrmVisualizarAFNRegex.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmEditor.cs">
       <SubType>Form</SubType>
@@ -66,12 +78,14 @@
       <DependentUpon>FrmEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Logica\ConvertidorAFNaAFD.cs" />
+    <Compile Include="Logica\ConvertidorRegexAFN.cs" />
     <Compile Include="Logica\DibujadorAutomata.cs" />
     <Compile Include="Logica\EstiloInterfaz.cs" />
     <Compile Include="Logica\MinimizadorAFD.cs" />
     <Compile Include="Logica\ResultadoConversion.cs" />
     <Compile Include="Logica\SimuladorAFD.cs" />
     <Compile Include="Logica\SimuladorAFN.cs" />
+    <Compile Include="Logica\ValidadorExpresionRegular.cs" />
     <Compile Include="Modelos\Automata.cs" />
     <Compile Include="Modelos\AutomataEditor.cs" />
     <Compile Include="Modelos\Estado.cs" />
@@ -82,8 +96,14 @@
     <EmbeddedResource Include="Formularios\FrmConversionAFD.resx">
       <DependentUpon>FrmConversionAFD.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\FrmExpresionesRegulares.resx">
+      <DependentUpon>FrmExpresionesRegulares.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\FrmMinimizacionAFD.resx">
       <DependentUpon>FrmMinimizacionAFD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\FrmVisualizarAFNRegex.resx">
+      <DependentUpon>FrmVisualizarAFNRegex.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmEditor.resx">
       <DependentUpon>FrmEditor.cs</DependentUpon>

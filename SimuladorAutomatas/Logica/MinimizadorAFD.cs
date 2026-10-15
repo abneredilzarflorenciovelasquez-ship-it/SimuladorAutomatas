@@ -256,52 +256,84 @@ namespace SimuladorAutomatas.Logica
             return null;
         }
 
-        private List<List<Estado>> CrearGrupos(
-            List<ParEstados> pares)
+
+
+        private List<List<Estado>> CrearGrupos(List<ParEstados> pares)
         {
-            List<List<Estado>> grupos =
-                new List<List<Estado>>();
+            List<List<Estado>> grupos = new List<List<Estado>>();
 
-            foreach (Estado estado in afd.Estados)
+            // Primera partición: estados finales y no finales.
+            List<Estado> finales = afd.Estados
+                .Where(e => e.EsFinal)
+                .ToList();
+
+            List<Estado> noFinales = afd.Estados
+                .Where(e => !e.EsFinal)
+                .ToList();
+
+            if (finales.Count > 0)
+                grupos.Add(finales);
+
+            if (noFinales.Count > 0)
+                grupos.Add(noFinales);
+
+            bool cambio;
+
+            do
             {
-                bool agregado = false;
+                cambio = false;
 
-                foreach (List<Estado> grupo
-                    in grupos)
+                List<List<Estado>> nuevosGrupos =
+                    new List<List<Estado>>();
+
+                foreach (List<Estado> grupo in grupos)
                 {
-                    Estado representante =
-                        grupo[0];
+                    // Cada estado se agrupa según los grupos
+                    // a los que llegan sus transiciones.
+                    Dictionary<string, List<Estado>> particiones =
+                        new Dictionary<string, List<Estado>>();
 
-                    ParEstados par =
-                        BuscarPar(
-                            pares,
-                            estado,
-                            representante
-                        );
-
-                    if (estado == representante ||
-                        (par != null &&
-                         !par.Distintos))
+                    foreach (Estado estado in grupo)
                     {
-                        grupo.Add(estado);
-                        agregado = true;
-                        break;
+                        List<int> destinos = new List<int>();
+
+                        foreach (string simbolo in afd.Alfabeto)
+                        {
+                            Estado destino = ObtenerDestino(estado, simbolo);
+
+                            int indiceGrupo = grupos.FindIndex(
+                                g => g.Contains(destino));
+
+                            destinos.Add(indiceGrupo);
+                        }
+
+                        string firma = string.Join(",", destinos);
+
+                        if (!particiones.ContainsKey(firma))
+                        {
+                            particiones[firma] = new List<Estado>();
+                        }
+
+                        particiones[firma].Add(estado);
                     }
+
+                    foreach (List<Estado> subgrupo in particiones.Values)
+                    {
+                        nuevosGrupos.Add(subgrupo);
+                    }
+
+                    if (particiones.Count > 1)
+                        cambio = true;
                 }
 
-                if (!agregado)
-                {
-                    grupos.Add(
-                        new List<Estado>
-                        {
-                            estado
-                        }
-                    );
-                }
-            }
+                grupos = nuevosGrupos;
+
+            } while (cambio);
 
             return grupos;
         }
+
+
 
         private string ObtenerNombreGrupo(
             List<Estado> grupo)
