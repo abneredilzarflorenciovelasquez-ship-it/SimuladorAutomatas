@@ -322,12 +322,34 @@ namespace SimuladorAutomatas.Formularios
                 }
 
                 // Mostrar el resultado en la tabla.
-                dgvResultadosLogs.Rows.Add(
+
+                int indiceFila = dgvResultadosLogs.Rows.Add(
                     i + 1,
                     lineaOriginal,
                     resultado,
                     detalle
                 );
+
+                DataGridViewRow fila =
+                    dgvResultadosLogs.Rows[indiceFila];
+
+                if (resultado == "VÁLIDO")
+                {
+                    fila.DefaultCellStyle.BackColor =
+                        System.Drawing.Color.Honeydew;
+
+                    fila.DefaultCellStyle.ForeColor =
+                        System.Drawing.Color.DarkGreen;
+                }
+                else
+                {
+                    fila.DefaultCellStyle.BackColor =
+                        System.Drawing.Color.MistyRose;
+
+                    fila.DefaultCellStyle.ForeColor =
+                        System.Drawing.Color.DarkRed;
+                }
+
             }
 
             if (validos + invalidos == 0)
