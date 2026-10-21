@@ -1,4 +1,4 @@
-﻿namespace SimuladorAutomatas
+namespace SimuladorAutomatas
 {
     partial class Form1
     {
@@ -30,6 +30,7 @@
         {
             this.panelEditor = new System.Windows.Forms.Panel();
             this.btnExpresionesRegulares = new System.Windows.Forms.Button();
+            this.btnAnalizarLogs = new System.Windows.Forms.Button();
             this.btnEstablecerAlfabeto = new System.Windows.Forms.Button();
             this.txtAlfabeto = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -55,6 +56,7 @@
             // panelEditor
             // 
             this.panelEditor.BackColor = System.Drawing.Color.White;
+            this.panelEditor.Controls.Add(this.btnAnalizarLogs);
             this.panelEditor.Controls.Add(this.btnExpresionesRegulares);
             this.panelEditor.Controls.Add(this.btnEstablecerAlfabeto);
             this.panelEditor.Controls.Add(this.txtAlfabeto);
@@ -85,6 +87,16 @@
             this.panelEditor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseDown);
             this.panelEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseMove);
             this.panelEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseUp);
+            // 
+            // btnAnalizarLogs
+            // 
+            this.btnAnalizarLogs.Location = new System.Drawing.Point(187, 689);
+            this.btnAnalizarLogs.Name = "btnAnalizarLogs";
+            this.btnAnalizarLogs.Size = new System.Drawing.Size(150, 32);
+            this.btnAnalizarLogs.TabIndex = 21;
+            this.btnAnalizarLogs.Text = "Analizar Logs";
+            this.btnAnalizarLogs.UseVisualStyleBackColor = true;
+            this.btnAnalizarLogs.Click += new System.EventHandler(this.btnAnalizarLogs_Click);
             // 
             // btnExpresionesRegulares
             // 
@@ -157,7 +169,7 @@
             // 
             this.btnMover.Location = new System.Drawing.Point(130, 140);
             this.btnMover.Name = "btnMover";
-            this.btnMover.Size = new System.Drawing.Size(97, 42);
+            this.btnMover.Size = new System.Drawing.Size(113, 42);
             this.btnMover.TabIndex = 13;
             this.btnMover.Text = "Crear/Mover";
             this.btnMover.UseVisualStyleBackColor = true;
@@ -316,6 +328,7 @@
         private System.Windows.Forms.TextBox txtAlfabeto;
         private System.Windows.Forms.Button btnEstablecerAlfabeto;
         private System.Windows.Forms.Button btnExpresionesRegulares;
+        private System.Windows.Forms.Button btnAnalizarLogs;
     }
 }
 

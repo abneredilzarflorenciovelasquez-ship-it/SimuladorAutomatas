@@ -36,6 +36,7 @@
             this.btnSimularAFD = new System.Windows.Forms.Button();
             this.txtCadenaAFD = new System.Windows.Forms.TextBox();
             this.btnValidarAFD = new System.Windows.Forms.Button();
+            this.btnMinimizarAFD = new System.Windows.Forms.Button();
             this.panelProcedimiento.SuspendLayout();
             this.panelAFD.SuspendLayout();
             this.SuspendLayout();
@@ -59,6 +60,7 @@
             // 
             // panelAFD
             // 
+            this.panelAFD.Controls.Add(this.btnMinimizarAFD);
             this.panelAFD.Controls.Add(this.label1);
             this.panelAFD.Controls.Add(this.lblResultadoAFD);
             this.panelAFD.Controls.Add(this.btnSimularAFD);
@@ -72,7 +74,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 427);
+            this.label1.Location = new System.Drawing.Point(13, 450);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 16);
             this.label1.TabIndex = 4;
@@ -81,7 +83,7 @@
             // lblResultadoAFD
             // 
             this.lblResultadoAFD.AutoSize = true;
-            this.lblResultadoAFD.Location = new System.Drawing.Point(26, 529);
+            this.lblResultadoAFD.Location = new System.Drawing.Point(13, 527);
             this.lblResultadoAFD.Name = "lblResultadoAFD";
             this.lblResultadoAFD.Size = new System.Drawing.Size(72, 16);
             this.lblResultadoAFD.TabIndex = 3;
@@ -89,7 +91,7 @@
             // 
             // btnSimularAFD
             // 
-            this.btnSimularAFD.Location = new System.Drawing.Point(15, 487);
+            this.btnSimularAFD.Location = new System.Drawing.Point(16, 483);
             this.btnSimularAFD.Name = "btnSimularAFD";
             this.btnSimularAFD.Size = new System.Drawing.Size(101, 23);
             this.btnSimularAFD.TabIndex = 2;
@@ -99,20 +101,30 @@
             // 
             // txtCadenaAFD
             // 
-            this.txtCadenaAFD.Location = new System.Drawing.Point(16, 446);
+            this.txtCadenaAFD.Location = new System.Drawing.Point(74, 444);
             this.txtCadenaAFD.Name = "txtCadenaAFD";
             this.txtCadenaAFD.Size = new System.Drawing.Size(100, 22);
             this.txtCadenaAFD.TabIndex = 1;
             // 
             // btnValidarAFD
             // 
-            this.btnValidarAFD.Location = new System.Drawing.Point(14, 380);
+            this.btnValidarAFD.Location = new System.Drawing.Point(15, 415);
             this.btnValidarAFD.Name = "btnValidarAFD";
             this.btnValidarAFD.Size = new System.Drawing.Size(101, 23);
             this.btnValidarAFD.TabIndex = 0;
             this.btnValidarAFD.Text = "ValidarAFD";
             this.btnValidarAFD.UseVisualStyleBackColor = true;
             this.btnValidarAFD.Click += new System.EventHandler(this.btnValidarAFD_Click);
+            // 
+            // btnMinimizarAFD
+            // 
+            this.btnMinimizarAFD.Location = new System.Drawing.Point(16, 557);
+            this.btnMinimizarAFD.Name = "btnMinimizarAFD";
+            this.btnMinimizarAFD.Size = new System.Drawing.Size(121, 23);
+            this.btnMinimizarAFD.TabIndex = 5;
+            this.btnMinimizarAFD.Text = "Minimizar AFD";
+            this.btnMinimizarAFD.UseVisualStyleBackColor = true;
+            this.btnMinimizarAFD.Click += new System.EventHandler(this.btnMinimizarAFD_Click);
             // 
             // FrmConversionAFD
             // 
@@ -141,5 +153,6 @@
         private System.Windows.Forms.Label lblResultadoAFD;
         private System.Windows.Forms.Button btnSimularAFD;
         private System.Windows.Forms.TextBox txtCadenaAFD;
+        private System.Windows.Forms.Button btnMinimizarAFD;
     }
 }

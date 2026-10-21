@@ -166,6 +166,8 @@ namespace SimuladorAutomatas.Formularios
 
         private void AplicarEstilo()
         {
+            EstiloInterfaz.AplicarEstiloBoton(btnMinimizarAFD);
+
             EstiloInterfaz.AplicarEstiloFormulario(
                 this
             );
@@ -303,5 +305,40 @@ namespace SimuladorAutomatas.Formularios
             }
         }
 
+        private void btnMinimizarAFD_Click(object sender, EventArgs e)
+        {
+            // Verificar que exista un alfabeto
+            if (afd.Alfabeto.Count == 0)
+            {
+                MessageBox.Show(
+                    "El AFD convertido debe tener un alfabeto.",
+                    "Minimización",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
+            // Validar que el autómata convertido sea un AFD válido
+            SimuladorAFD simulador = new SimuladorAFD(afd);
+
+            if (!simulador.Validar())
+            {
+                MessageBox.Show(
+                    "El AFD convertido no es válido y no puede minimizarse.",
+                    "Minimización",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
+            // Abrir la ventana de minimización usando el AFD convertido
+            FrmMinimizacionAFD ventana = new FrmMinimizacionAFD(afd);
+
+            ventana.ShowDialog();
+        }
     }
 }

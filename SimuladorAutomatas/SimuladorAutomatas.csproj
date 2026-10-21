@@ -77,6 +77,9 @@
     <Compile Include="FrmEditor.Designer.cs">
       <DependentUpon>FrmEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\FrmAnalizadorLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Logica\ConvertidorAFNaAFD.cs" />
     <Compile Include="Logica\ConvertidorRegexAFN.cs" />
     <Compile Include="Logica\DibujadorAutomata.cs" />
@@ -86,6 +89,11 @@
     <Compile Include="Logica\SimuladorAFD.cs" />
     <Compile Include="Logica\SimuladorAFN.cs" />
     <Compile Include="Logica\ValidadorExpresionRegular.cs" />
+    <Compile Include="Logica\LogAnalysisResult.cs" />
+    <Compile Include="Logica\LogAnalyzer.cs" />
+    <Compile Include="Logica\LogEvent.cs" />
+    <Compile Include="Logica\LogParser.cs" />
+    <Compile Include="Logica\LogService.cs" />
     <Compile Include="Modelos\Automata.cs" />
     <Compile Include="Modelos\AutomataEditor.cs" />
     <Compile Include="Modelos\Estado.cs" />

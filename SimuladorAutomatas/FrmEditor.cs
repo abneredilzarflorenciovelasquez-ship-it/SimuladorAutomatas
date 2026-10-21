@@ -1,4 +1,4 @@
-﻿using SimuladorAutomatas.Formularios;
+using SimuladorAutomatas.Formularios;
 using SimuladorAutomatas.Logica;
 using SimuladorAutomatas.Modelos;
 using System;
@@ -72,6 +72,10 @@ namespace SimuladorAutomatas
 );
             EstiloInterfaz.AplicarEstiloBoton(
     btnExpresionesRegulares
+);
+
+            EstiloInterfaz.AplicarEstiloBoton(
+    btnAnalizarLogs
 );
             EstiloInterfaz.AplicarEstiloBoton(
                 btnEstadoFinal
@@ -603,6 +607,7 @@ namespace SimuladorAutomatas
 
                         // Eliminar el estado
                         automata.Estados.Remove(estado);
+                        LogService.Info("STATE", "Estado " + estado.Nombre + " eliminado");
 
                         panelEditor.Invalidate();
                         return;
@@ -618,6 +623,7 @@ namespace SimuladorAutomatas
                     if (EstaSobreTransicion(transicion, e.X, e.Y))
                     {
                         automata.Transiciones.RemoveAt(i);
+                        LogService.Info("TRANSITION", "Transicion " + transicion.Origen.Nombre + "->" + transicion.Destino.Nombre + " eliminada");
 
                         panelEditor.Invalidate();
                         return;
@@ -653,6 +659,7 @@ namespace SimuladorAutomatas
                         // Establecer nuevo estado inicial
                         automata.EstadoInicial = estado;
                         estado.EsInicial = true;
+                        LogService.Info("STATE", "Estado " + estado.Nombre + " establecido como inicial");
 
                         modoEstadoInicial = false;
 
@@ -687,6 +694,7 @@ namespace SimuladorAutomatas
                             automata.EstadosFinales.Remove(estado);
                         }
 
+                        LogService.Info("STATE", "Estado " + estado.Nombre + (estado.EsFinal ? " marcado como final" : " desmarcado como final"));
                         panelEditor.Invalidate();
                         return;
                     }
@@ -748,6 +756,7 @@ namespace SimuladorAutomatas
                                 );
 
                                 automata.AgregarTransicion(nuevaTransicion);
+                                LogService.Info("TRANSITION", "Transicion " + estadoOrigenTransicion.Nombre + "->" + destino.Nombre + " creada con simbolo epsilon");
 
                                 continue;
                             }
@@ -765,6 +774,7 @@ namespace SimuladorAutomatas
                                     MessageBoxIcon.Warning
                                 );
 
+                                LogService.Warning("TRANSITION", "Intento de crear transicion con simbolo fuera del alfabeto: " + simbolo);
                                 estadoOrigenTransicion = null;
                                 return;
                             }
@@ -778,6 +788,7 @@ namespace SimuladorAutomatas
                             automata.AgregarTransicion(
                                 nuevaTransicionValida
                             );
+                            LogService.Info("TRANSITION", "Transicion " + estadoOrigenTransicion.Nombre + "->" + destino.Nombre + " creada con simbolo " + simbolo);
                         }
 
                         // Reiniciar origen para otra transición
@@ -824,6 +835,7 @@ namespace SimuladorAutomatas
             );
 
             automata.AgregarEstado(nuevoEstado);
+            LogService.Info("STATE", "Estado " + nuevoEstado.Nombre + " creado");
 
             panelEditor.Invalidate();
         }
@@ -1101,8 +1113,12 @@ namespace SimuladorAutomatas
             if (e.Button != MouseButtons.Left)
                 return;
 
+            if (moviendoEstado && estadoSeleccionado != null && estadoFueMovido)
+                LogService.Info("STATE", "Estado " + estadoSeleccionado.Nombre + " movido a (" + estadoSeleccionado.X + "," + estadoSeleccionado.Y + ")");
+
             moviendoEstado = false;
             estadoSeleccionado = null;
+            estadoFueMovido = false;
         }
 
         private void btnEstadoInicial_Click(object sender, EventArgs e)
@@ -1135,6 +1151,7 @@ namespace SimuladorAutomatas
 
         private void btnSimular_Click(object sender, EventArgs e)
         {
+            LogService.Info("SIMULATION", "Inicio de simulacion AFD con cadena: " + txtCadena.Text.Trim());
             SimuladorAFD simulador = new SimuladorAFD(automata);
 
             // Verificar que exista un alfabeto
@@ -1142,6 +1159,7 @@ namespace SimuladorAutomatas
             {
                 lblResultado.Text =
                     "Resultado: Debe establecer el alfabeto antes de simular";
+                LogService.Warning("SIMULATION", "Simulacion AFD cancelada: no hay alfabeto");
 
                 return;
             }
@@ -1151,6 +1169,7 @@ namespace SimuladorAutomatas
             {
                 lblResultado.Text =
                     "Resultado: El autómata no es un AFD válido";
+                LogService.Warning("VALIDATION", "El automata no es un AFD valido");
 
                 return;
             }
@@ -1166,6 +1185,7 @@ namespace SimuladorAutomatas
                 lblResultado.Text =
                     "Resultado: Símbolos inválidos: " +
                     string.Join(", ", simbolosInvalidos);
+                LogService.Warning("SIMULATION", "Cadena con simbolos invalidos: " + string.Join(", ", simbolosInvalidos));
 
                 return;
             }
@@ -1177,11 +1197,13 @@ namespace SimuladorAutomatas
             {
                 lblResultado.Text =
                     "Resultado: Cadena aceptada";
+                LogService.Info("SIMULATION", "Cadena aceptada por AFD");
             }
             else
             {
                 lblResultado.Text =
                     "Resultado: Cadena rechazada";
+                LogService.Info("SIMULATION", "Cadena rechazada por AFD");
             }
 
         }
@@ -1197,6 +1219,7 @@ namespace SimuladorAutomatas
 
             if (simulador.Validar())
             {
+                LogService.Info("VALIDATION", "AFD valido");
                 MessageBox.Show(
                     "El autómata es un AFD válido.",
                     "Validación"
@@ -1204,6 +1227,7 @@ namespace SimuladorAutomatas
             }
             else
             {
+                LogService.Warning("VALIDATION", "AFD invalido");
                 MessageBox.Show(
                     "El autómata no es un AFD válido.",
                     "Validación"
@@ -1270,6 +1294,7 @@ namespace SimuladorAutomatas
 
             if (simulador.Validar())
             {
+                LogService.Info("VALIDATION", "AFN valido");
                 MessageBox.Show(
                     "El autómata es un AFN válido.",
                     "Validación"
@@ -1277,6 +1302,7 @@ namespace SimuladorAutomatas
             }
             else
             {
+                LogService.Warning("VALIDATION", "AFN invalido");
                 MessageBox.Show(
                     "El autómata no es un AFN válido.",
                     "Validación"
@@ -1291,6 +1317,7 @@ namespace SimuladorAutomatas
 
         private void btnConvertirAFD_Click(object sender, EventArgs e)
         {
+            LogService.Info("CONVERSION", "Inicio de conversion AFN a AFD");
             SimuladorAFN simulador = new SimuladorAFN(automata);
 
             if (!simulador.Validar())
@@ -1308,6 +1335,7 @@ namespace SimuladorAutomatas
 
             ResultadoConversion resultado =
                 convertidor.Convertir();
+            LogService.Info("CONVERSION", "Conversion AFN a AFD completada");
 
             FrmConversionAFD ventana =
                 new FrmConversionAFD(
@@ -1320,6 +1348,7 @@ namespace SimuladorAutomatas
 
         private void btnMinimizarAFD_Click(object sender, EventArgs e)
         {
+            LogService.Info("MINIMIZATION", "Inicio de minimizacion de AFD");
             // Verificar que exista un alfabeto
             if (automata.Alfabeto.Count == 0)
             {
@@ -1351,6 +1380,7 @@ namespace SimuladorAutomatas
 
             FrmMinimizacionAFD ventana =
                 new FrmMinimizacionAFD(automata);
+            LogService.Info("MINIMIZATION", "Minimizacion de AFD abierta");
 
             ventana.ShowDialog();
         }
@@ -1391,6 +1421,7 @@ namespace SimuladorAutomatas
                     guardar.FileName
                 );
 
+                LogService.Info("PROJECT", "Automata guardado en " + guardar.FileName);
                 MessageBox.Show(
                     "Proyecto guardado correctamente.",
                     "Guardar proyecto"
@@ -1398,6 +1429,7 @@ namespace SimuladorAutomatas
             }
             catch (Exception ex)
             {
+                LogService.Error("PROJECT", "No se pudo guardar el automata", ex);
                 MessageBox.Show(
                     "No se pudo guardar el proyecto.\n\n" +
                     ex.Message,
@@ -1431,6 +1463,7 @@ namespace SimuladorAutomatas
 
                 panelEditor.Invalidate();
 
+                LogService.Info("PROJECT", "Automata abierto desde " + abrir.FileName);
                 MessageBox.Show(
                     "Proyecto abierto correctamente.",
                     "Abrir proyecto"
@@ -1438,6 +1471,7 @@ namespace SimuladorAutomatas
             }
             catch (Exception ex)
             {
+                LogService.Error("PROJECT", "No se pudo abrir el automata", ex);
                 MessageBox.Show(
                     "No se pudo abrir el proyecto.\n\n" +
                     ex.Message,
@@ -1459,6 +1493,7 @@ namespace SimuladorAutomatas
                 return;
 
             automata = new AutomataEditor();
+            LogService.Info("PROJECT", "Nuevo automata creado");
 
             panelEditor.Invalidate();
         }
@@ -1481,6 +1516,7 @@ namespace SimuladorAutomatas
                     MessageBoxIcon.Warning
                 );
 
+                LogService.Warning("ALPHABET", "Intento de establecer alfabeto vacio");
                 return;
             }
 
@@ -1539,6 +1575,7 @@ namespace SimuladorAutomatas
             }
 
             automata.Alfabeto = nuevoAlfabeto;
+            LogService.Info("ALPHABET", "Alfabeto establecido: " + string.Join(", ", automata.Alfabeto));
 
             MessageBox.Show(
                 "Alfabeto establecido correctamente:\n\n" +
@@ -1549,8 +1586,16 @@ namespace SimuladorAutomatas
             );
         }
 
+        private void btnAnalizarLogs_Click(object sender, EventArgs e)
+        {
+            LogService.Info("LOG", "Analizador de logs abierto");
+            FrmAnalizadorLogs formulario = new FrmAnalizadorLogs();
+            formulario.ShowDialog(this);
+        }
+
         private void btnExpresionesRegulares_Click(object sender, EventArgs e)
         {
+            LogService.Info("REGEX", "Modulo de expresiones regulares abierto");
             FrmExpresionesRegulares formulario =
     new FrmExpresionesRegulares();
 

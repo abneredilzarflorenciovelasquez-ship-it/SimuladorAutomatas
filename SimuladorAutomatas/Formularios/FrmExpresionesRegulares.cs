@@ -1,4 +1,4 @@
-﻿using SimuladorAutomatas.Logica;
+using SimuladorAutomatas.Logica;
 using SimuladorAutomatas.Modelos;
 using SimuladorAutomatas.Formularios;
 using System;
@@ -71,6 +71,8 @@ namespace SimuladorAutomatas.Formularios
             string mensaje;
             bool esValida = validador.Validar(expresion, out mensaje);
 
+            LogService.Info("REGEX", esValida ? "Expresion regular valida" : "Expresion regular invalida");
+
             if (esValida)
             {
                 lblResultadoRegex.Text = mensaje;
@@ -97,6 +99,7 @@ namespace SimuladorAutomatas.Formularios
 
                 // Guardamos el autómata en la variable del formulario.
                 automataGenerado = convertidor.Convertir(expresion);
+                LogService.Info("REGEX", "Expresion regular convertida a AFN");
 
                 // Creamos el simulador para validar cadenas.
                 simuladorAFN = new SimuladorAFN(automataGenerado);
@@ -149,6 +152,7 @@ namespace SimuladorAutomatas.Formularios
 
             // Simular la cadena con el AFN.
             bool aceptada = simuladorAFN.Simular(cadena);
+            LogService.Info("REGEX", "Simulacion de cadena en AFN: " + (aceptada ? "aceptada" : "rechazada"));
 
             string resultado = aceptada ? "ACEPTADA" : "RECHAZADA";
 
@@ -207,6 +211,7 @@ namespace SimuladorAutomatas.Formularios
                     convertidor.Convertir();
 
                 afdGenerado = resultado.AFD;
+                LogService.Info("REGEX", "AFN generado desde regex convertido a AFD");
 
                 FrmConversionAFD ventana =
                     new FrmConversionAFD(
@@ -271,57 +276,15 @@ namespace SimuladorAutomatas.Formularios
                 string lineaOriginal = lineas[i];
                 string linea = lineaOriginal.Trim();
 
-                // Ignorar las líneas vacías.
                 if (string.IsNullOrWhiteSpace(linea))
-                {
                     continue;
-                }
 
-                string resultado;
+                LogEvent evento;
                 string detalle;
+                bool esValido = LogParser.TryParse(linea, out evento, out detalle);
 
-                // Comprobar la estructura del log.
-                Match coincidencia = Regex.Match(
-                    linea,
-                    @"^(INFO|WARNING|ERROR)\s+(\d{4}-\d{2}-\d{2})\s+(.+)$"
-                );
-
-                if (!coincidencia.Success)
-                {
-                    resultado = "INVÁLIDO";
-                    detalle = "Formato incorrecto. Use NIVEL AAAA-MM-DD Mensaje.";
-                    invalidos++;
-                }
-                else
-                {
-                    string fechaTexto = coincidencia.Groups[2].Value;
-
-                    // Comprobar que la fecha exista realmente.
-                    DateTime fecha;
-
-                    bool fechaValida = DateTime.TryParseExact(
-                        fechaTexto,
-                        "yyyy-MM-dd",
-                        CultureInfo.InvariantCulture,
-                        DateTimeStyles.None,
-                        out fecha
-                    );
-
-                    if (!fechaValida)
-                    {
-                        resultado = "INVÁLIDO";
-                        detalle = "La fecha no es válida.";
-                        invalidos++;
-                    }
-                    else
-                    {
-                        resultado = "VÁLIDO";
-                        detalle = "El log cumple con el formato.";
-                        validos++;
-                    }
-                }
-
-                // Mostrar el resultado en la tabla.
+                string resultado = esValido ? "VÁLIDO" : "INVÁLIDO";
+                if (esValido) validos++; else invalidos++;
 
                 int indiceFila = dgvResultadosLogs.Rows.Add(
                     i + 1,
@@ -330,26 +293,17 @@ namespace SimuladorAutomatas.Formularios
                     detalle
                 );
 
-                DataGridViewRow fila =
-                    dgvResultadosLogs.Rows[indiceFila];
-
-                if (resultado == "VÁLIDO")
+                DataGridViewRow fila = dgvResultadosLogs.Rows[indiceFila];
+                if (esValido)
                 {
-                    fila.DefaultCellStyle.BackColor =
-                        System.Drawing.Color.Honeydew;
-
-                    fila.DefaultCellStyle.ForeColor =
-                        System.Drawing.Color.DarkGreen;
+                    fila.DefaultCellStyle.BackColor = System.Drawing.Color.Honeydew;
+                    fila.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen;
                 }
                 else
                 {
-                    fila.DefaultCellStyle.BackColor =
-                        System.Drawing.Color.MistyRose;
-
-                    fila.DefaultCellStyle.ForeColor =
-                        System.Drawing.Color.DarkRed;
+                    fila.DefaultCellStyle.BackColor = System.Drawing.Color.MistyRose;
+                    fila.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkRed;
                 }
-
             }
 
             if (validos + invalidos == 0)
@@ -360,9 +314,10 @@ namespace SimuladorAutomatas.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
+
+            LogService.Info("LOG", "Validacion manual de logs: " + validos + " validos, " + invalidos + " invalidos");
 
             lblResultadoRegex.Text =
                 "Validación terminada. Válidos: " + validos
