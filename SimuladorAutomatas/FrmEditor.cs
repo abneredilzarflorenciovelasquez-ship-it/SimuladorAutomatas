@@ -809,7 +809,7 @@ namespace SimuladorAutomatas
 
             if (estadoFueMovido)
             {
-                estadoFueMovido = false;
+
                 return;
             }
 
@@ -857,6 +857,11 @@ namespace SimuladorAutomatas
                 {
                     estadoSeleccionado = estado;
                     moviendoEstado = true;
+
+                    LogService.Info(
+                        "STATE",
+                        "Estado seleccionado para mover: " + estado.Nombre);
+
                     break;
                 }
             }
@@ -1098,13 +1103,14 @@ namespace SimuladorAutomatas
 
         private void panelEditor_MouseMove(object sender, MouseEventArgs e)
         {
+
             if (!moviendoEstado || estadoSeleccionado == null)
                 return;
 
+            estadoFueMovido = true;
+
             estadoSeleccionado.X = e.X;
             estadoSeleccionado.Y = e.Y;
-
-            estadoFueMovido = true;
 
             panelEditor.Invalidate();
         }

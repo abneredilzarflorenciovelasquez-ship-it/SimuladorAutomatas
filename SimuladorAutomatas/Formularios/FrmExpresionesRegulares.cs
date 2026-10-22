@@ -283,6 +283,10 @@ namespace SimuladorAutomatas.Formularios
                 new FrmMinimizacionAFD(afdGenerado);
 
             ventana.ShowDialog();
+
+            LogService.Info(
+                "REGEX",
+                "AFD generado desde regex minimizado");
         }
 
         private void btnValidarLogs_Click(object sender, EventArgs e)

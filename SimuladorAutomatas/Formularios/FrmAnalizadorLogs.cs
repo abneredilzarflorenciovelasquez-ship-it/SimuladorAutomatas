@@ -19,6 +19,7 @@ namespace SimuladorAutomatas.Formularios
         private RichTextBox txtResumen;
         private Button btnAbrirArchivo;
         private Button btnCerrar;
+        private Button btnSeleccionarArchivo;
 
         private string rutaArchivo;
 
@@ -59,6 +60,12 @@ namespace SimuladorAutomatas.Formularios
             txtResumen.ReadOnly = true;
             EstiloInterfaz.AplicarEstiloRichTextBox(txtResumen);
 
+            btnSeleccionarArchivo = new Button();
+            btnSeleccionarArchivo.Text = "Seleccionar log";
+            btnSeleccionarArchivo.Location = new Point(220, 460);
+            btnSeleccionarArchivo.Size = new Size(180, 35);
+            btnSeleccionarArchivo.Click += btnSeleccionarArchivo_Click;
+            EstiloInterfaz.AplicarEstiloBoton(btnSeleccionarArchivo);
             btnAbrirArchivo = new Button();
             btnAbrirArchivo.Text = "Abrir archivo original";
             btnAbrirArchivo.Location = new Point(25, 460);
@@ -86,6 +93,7 @@ namespace SimuladorAutomatas.Formularios
             Controls.Add(lblError);
             Controls.Add(txtResumen);
             Controls.Add(btnAbrirArchivo);
+            Controls.Add(btnSeleccionarArchivo);
             Controls.Add(btnCerrar);
         }
 
@@ -153,12 +161,18 @@ namespace SimuladorAutomatas.Formularios
             if (resultado.Invalidos > 0)
             {
                 txtResumen.AppendText(
-                    "\r\nSe encontraron registros con formato inválido.");
-            }
-            else
-            {
+                    "\r\nSe encontraron registros con formato inválido.\r\n");
+
                 txtResumen.AppendText(
-                    "\r\nTodos los registros cumplen con el formato.");
+                    "\r\nDETALLE DE REGISTROS INVÁLIDOS\r\n");
+
+                for (int i = 0; i < resultado.RegistrosInvalidos.Count; i++)
+                {
+                    txtResumen.AppendText(
+                        "\r\n" +
+                        resultado.RegistrosInvalidos[i] +
+                        "\r\n");
+                }
             }
         }
 
@@ -172,6 +186,22 @@ namespace SimuladorAutomatas.Formularios
             System.Diagnostics.Process.Start(
                 "notepad.exe",
                 "\"" + rutaArchivo + "\"");
+        }
+
+        private void btnSeleccionarArchivo_Click(
+            object sender,
+            EventArgs e)
+        {
+            OpenFileDialog dialogo = new OpenFileDialog();
+
+            dialogo.Filter = "Archivos de log (*.log)|*.log|Todos los archivos (*.*)|*.*";
+            dialogo.Title = "Seleccionar archivo de log";
+
+            if (dialogo.ShowDialog() == DialogResult.OK)
+            {
+                rutaArchivo = dialogo.FileName;
+                CargarAnalisis();
+            }
         }
 
         private void InitializeComponent()
