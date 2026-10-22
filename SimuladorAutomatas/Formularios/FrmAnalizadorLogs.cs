@@ -170,8 +170,20 @@ namespace SimuladorAutomatas.Formularios
                 return;
 
             System.Diagnostics.Process.Start(
-                "explorer.exe",
-                "/select,\"" + rutaArchivo + "\"");
+                "notepad.exe",
+                "\"" + rutaArchivo + "\"");
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // FrmAnalizadorLogs
+            // 
+            this.ClientSize = new System.Drawing.Size(452, 397);
+            this.Name = "FrmAnalizadorLogs";
+            this.ResumeLayout(false);
+
         }
     }
 }
