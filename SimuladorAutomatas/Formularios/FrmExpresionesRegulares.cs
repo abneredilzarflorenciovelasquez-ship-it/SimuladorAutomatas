@@ -54,8 +54,41 @@ namespace SimuladorAutomatas.Formularios
                 DataGridViewSelectionMode.FullRowSelect;
             dgvResultadosLogs.MultiSelect = false;
 
+            AplicarEstilo();
+
         }
 
+        private void AplicarEstilo()
+        {
+            // Formulario
+            EstiloInterfaz.AplicarEstiloFormulario(this);
+
+            // Botones
+            EstiloInterfaz.AplicarEstiloBoton(btnValidarExpresion);
+            EstiloInterfaz.AplicarEstiloBoton(btnGenerarAutomata);
+            EstiloInterfaz.AplicarEstiloBoton(btnConvertirAFDRegex);
+            EstiloInterfaz.AplicarEstiloBoton(btnMinimizarAFDRegex);
+            EstiloInterfaz.AplicarEstiloBoton(btnValidarCadena);
+            EstiloInterfaz.AplicarEstiloBoton(btnValidarLogs);
+
+            // Labels
+            EstiloInterfaz.AplicarEstiloLabel(label1);
+            EstiloInterfaz.AplicarEstiloLabel(label2);
+            EstiloInterfaz.AplicarEstiloLabel(label3);
+            EstiloInterfaz.AplicarEstiloLabel(label4);
+            EstiloInterfaz.AplicarEstiloLabel(lblResultadoRegex);
+            EstiloInterfaz.AplicarEstiloLabel(label5);
+            EstiloInterfaz.AplicarEstiloLabel(lblLogs);
+
+            // Títulos principales
+            EstiloInterfaz.AplicarEstiloTitulo(label1);
+            EstiloInterfaz.AplicarEstiloTitulo(label5);
+
+            // TextBox
+            EstiloInterfaz.AplicarEstiloTextBox(txtExpresion);
+            EstiloInterfaz.AplicarEstiloTextBox(txtCadenaRegex);
+            EstiloInterfaz.AplicarEstiloTextBox(txtLogs);
+        }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
