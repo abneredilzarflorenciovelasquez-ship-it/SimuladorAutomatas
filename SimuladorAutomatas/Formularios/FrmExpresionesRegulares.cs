@@ -121,6 +121,10 @@ namespace SimuladorAutomatas.Formularios
             }
             catch (Exception ex)
             {
+                LogService.Error(
+    "REGEX",
+    "Error al convertir expresion regular a AFN",
+    ex);
                 // Evitamos validar con un autómata anterior si ocurre un error.
                 automataGenerado = null;
                 simuladorAFN = null;
@@ -177,8 +181,15 @@ namespace SimuladorAutomatas.Formularios
 
         private void btnConvertirAFDRegex_Click(object sender, EventArgs e)
         {
+            LogService.Info(
+    "REGEX",
+    "Inicio de conversion de AFN generado desde regex a AFD");
             if (automataGenerado == null)
             {
+                LogService.Warning(
+                    "REGEX",
+                    "Conversion a AFD cancelada: no se ha generado el automata AFN");
+
                 MessageBox.Show(
                     "Primero genera el autómata desde una expresión regular.",
                     "Conversión a AFD",
@@ -232,8 +243,16 @@ namespace SimuladorAutomatas.Formularios
 
         private void btnMinimizarAFDRegex_Click(object sender, EventArgs e)
         {
+            LogService.Info(
+    "REGEX",
+    "Inicio de minimizacion de AFD generado desde regex");
+
             if (afdGenerado == null)
             {
+                LogService.Warning(
+    "REGEX",
+    "Minimizacion cancelada: no se ha generado un AFD");
+
                 MessageBox.Show(
                     "Primero debes generar el AFN y convertirlo a AFD.",
                     "Minimización",
@@ -247,6 +266,10 @@ namespace SimuladorAutomatas.Formularios
 
             if (!simulador.Validar())
             {
+                LogService.Warning(
+                    "REGEX",
+                    "Minimizacion cancelada: el AFD generado no es valido");
+
                 MessageBox.Show(
                     "El AFD generado no es válido.",
                     "Minimización",
@@ -308,6 +331,9 @@ namespace SimuladorAutomatas.Formularios
 
             if (validos + invalidos == 0)
             {
+                LogService.Warning(
+                    "LOG",
+                    "Validacion manual cancelada: no se ingresaron logs");
                 MessageBox.Show(
                     "Ingresa al menos un log para validar.",
                     "Validación de logs",

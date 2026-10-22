@@ -1323,6 +1323,10 @@ namespace SimuladorAutomatas
 
             if (!simulador.Validar())
             {
+                LogService.Warning(
+                    "CONVERSION",
+                    "Conversion AFN a AFD cancelada: el automata no es un AFN valido");
+
                 MessageBox.Show(
                     "El autómata no es un AFN válido.",
                     "Conversión"
@@ -1353,6 +1357,10 @@ namespace SimuladorAutomatas
             // Verificar que exista un alfabeto
             if (automata.Alfabeto.Count == 0)
             {
+                LogService.Warning(
+    "MINIMIZATION",
+    "Minimizacion cancelada: no hay alfabeto establecido");
+
                 MessageBox.Show(
                     "Debe establecer el alfabeto antes de minimizar el AFD.",
                     "Minimización",
@@ -1369,6 +1377,10 @@ namespace SimuladorAutomatas
             // Validar AFD
             if (!simulador.Validar())
             {
+                LogService.Warning(
+    "MINIMIZATION",
+    "Minimizacion cancelada: el automata no es un AFD valido");
+
                 MessageBox.Show(
                     "El autómata no es un AFD válido.",
                     "Minimización",

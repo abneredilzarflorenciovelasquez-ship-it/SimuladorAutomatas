@@ -29,8 +29,8 @@ namespace SimuladorAutomatas
         private void InitializeComponent()
         {
             this.panelEditor = new System.Windows.Forms.Panel();
-            this.btnExpresionesRegulares = new System.Windows.Forms.Button();
             this.btnAnalizarLogs = new System.Windows.Forms.Button();
+            this.btnExpresionesRegulares = new System.Windows.Forms.Button();
             this.btnEstablecerAlfabeto = new System.Windows.Forms.Button();
             this.txtAlfabeto = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -90,7 +90,7 @@ namespace SimuladorAutomatas
             // 
             // btnAnalizarLogs
             // 
-            this.btnAnalizarLogs.Location = new System.Drawing.Point(187, 689);
+            this.btnAnalizarLogs.Location = new System.Drawing.Point(12, 500);
             this.btnAnalizarLogs.Name = "btnAnalizarLogs";
             this.btnAnalizarLogs.Size = new System.Drawing.Size(150, 32);
             this.btnAnalizarLogs.TabIndex = 21;
@@ -137,7 +137,7 @@ namespace SimuladorAutomatas
             // 
             // btnNuevo
             // 
-            this.btnNuevo.Location = new System.Drawing.Point(68, 689);
+            this.btnNuevo.Location = new System.Drawing.Point(18, 689);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(113, 32);
             this.btnNuevo.TabIndex = 16;
