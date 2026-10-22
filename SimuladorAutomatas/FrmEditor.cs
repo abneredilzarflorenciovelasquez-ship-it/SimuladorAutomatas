@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -1589,7 +1590,11 @@ namespace SimuladorAutomatas
         private void btnAnalizarLogs_Click(object sender, EventArgs e)
         {
             LogService.Info("LOG", "Analizador de logs abierto");
-            FrmAnalizadorLogs formulario = new FrmAnalizadorLogs();
+            string rutaLog = Path.Combine(Application.StartupPath, "logs", "simulador.log");
+
+            FrmAnalizadorLogs formulario =
+                new FrmAnalizadorLogs(rutaLog);
+
             formulario.ShowDialog(this);
         }
 

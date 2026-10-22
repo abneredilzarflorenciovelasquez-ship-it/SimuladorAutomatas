@@ -101,6 +101,9 @@
     <Compile Include="Modelos\Transicion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Formularios\FrmAnalizadorLogs.resx">
+      <DependentUpon>FrmAnalizadorLogs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\FrmConversionAFD.resx">
       <DependentUpon>FrmConversionAFD.cs</DependentUpon>
     </EmbeddedResource>
