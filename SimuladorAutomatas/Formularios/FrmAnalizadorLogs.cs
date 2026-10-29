@@ -26,6 +26,8 @@ namespace SimuladorAutomatas.Formularios
         private Button btnSeleccionarArchivo;
 
         private Label lblRegex;
+        private Label lblTituloRegex;
+        private Label lblEjemploRegex;
         private TextBox txtRegex;
         private Button btnBuscarRegex;
         private DataGridView dgvResultadosRegex;
@@ -45,7 +47,7 @@ namespace SimuladorAutomatas.Formularios
         {
             Text = "Análisis de Logs";
             Width = 850;
-            Height = 850;
+            Height = 900;
             StartPosition = FormStartPosition.CenterParent;
             AutoScroll = true;
 
@@ -87,17 +89,27 @@ namespace SimuladorAutomatas.Formularios
             // BÚSQUEDA CON REGEX
             // =========================
 
-            lblRegex = CrearLabel(25, 470);
+            lblTituloRegex = CrearLabel(25, 465);
+            lblTituloRegex.Text = "BÚSQUEDA MEDIANTE EXPRESIONES REGULARES";
+            lblTituloRegex.ForeColor = EstiloInterfaz.CianActivo;
+            lblTituloRegex.Font = EstiloInterfaz.FuenteTitulo;
+
+            lblEjemploRegex = CrearLabel(25, 495);
+            lblEjemploRegex.Text =
+                "Ejemplo: .* INFO .*   |   .* WARNING .*   |   .* STATE .*";
+            lblEjemploRegex.ForeColor = EstiloInterfaz.TextoSecundario;
+
+            lblRegex = CrearLabel(25, 525);
             lblRegex.Text = "Expresión regular:";
 
             txtRegex = new TextBox();
-            txtRegex.Location = new Point(25, 500);
+            txtRegex.Location = new Point(25, 550);
             txtRegex.Size = new Size(500, 30);
             EstiloInterfaz.AplicarEstiloTextBox(txtRegex);
 
             btnBuscarRegex = new Button();
             btnBuscarRegex.Text = "Buscar con Regex";
-            btnBuscarRegex.Location = new Point(540, 498);
+            btnBuscarRegex.Location = new Point(540, 553);
             btnBuscarRegex.Size = new Size(200, 35);
             btnBuscarRegex.Click += btnBuscarRegex_Click;
             EstiloInterfaz.AplicarEstiloBoton(btnBuscarRegex);
@@ -106,11 +118,11 @@ namespace SimuladorAutomatas.Formularios
             // RESULTADOS
             // =========================
 
-            lblCoincidencias = CrearLabel(25, 545);
+            lblCoincidencias = CrearLabel(25, 600);
             lblCoincidencias.Text = "Coincidencias: 0";
 
             dgvResultadosRegex = new DataGridView();
-            dgvResultadosRegex.Location = new Point(25, 575);
+            dgvResultadosRegex.Location = new Point(25, 630);
             dgvResultadosRegex.Size = new Size(790, 150);
 
             dgvResultadosRegex.AllowUserToAddRows = false;
@@ -141,21 +153,21 @@ namespace SimuladorAutomatas.Formularios
 
             btnAbrirArchivo = new Button();
             btnAbrirArchivo.Text = "Abrir archivo original";
-            btnAbrirArchivo.Location = new Point(25, 750);
+            btnAbrirArchivo.Location = new Point(25, 805);
             btnAbrirArchivo.Size = new Size(180, 35);
             btnAbrirArchivo.Click += btnAbrirArchivo_Click;
             EstiloInterfaz.AplicarEstiloBoton(btnAbrirArchivo);
 
             btnSeleccionarArchivo = new Button();
             btnSeleccionarArchivo.Text = "Seleccionar log";
-            btnSeleccionarArchivo.Location = new Point(220, 750);
+            btnSeleccionarArchivo.Location = new Point(220, 805);
             btnSeleccionarArchivo.Size = new Size(180, 35);
             btnSeleccionarArchivo.Click += btnSeleccionarArchivo_Click;
             EstiloInterfaz.AplicarEstiloBoton(btnSeleccionarArchivo);
 
             btnCerrar = new Button();
             btnCerrar.Text = "Cerrar";
-            btnCerrar.Location = new Point(680, 750);
+            btnCerrar.Location = new Point(680, 805);
             btnCerrar.Size = new Size(135, 35);
             btnCerrar.Click += delegate
             {
@@ -179,6 +191,8 @@ namespace SimuladorAutomatas.Formularios
 
             Controls.Add(txtResumen);
 
+            Controls.Add(lblTituloRegex);
+            Controls.Add(lblEjemploRegex);
             Controls.Add(lblRegex);
             Controls.Add(txtRegex);
             Controls.Add(btnBuscarRegex);
