@@ -40,6 +40,8 @@ namespace SimuladorAutomatas.Formularios
 
         private Label lblTituloRegex;
         private Label lblEjemploRegex;
+        private Label lblNivel;
+        private ComboBox cmbNivel;
         private Label lblRegex;
         private TextBox txtRegex;
         private Button btnBuscarRegex;
@@ -243,10 +245,43 @@ namespace SimuladorAutomatas.Formularios
                 lblEjemploRegex);
 
             // ==========================================
-            // EXPRESIÓN
+            // FILTRO POR NIVEL
             // ==========================================
 
-            lblRegex = CrearLabel(20, 90);
+            lblNivel = CrearLabel(20, 90);
+            lblNivel.Text =
+                "Filtrar por nivel:";
+
+            panelRegex.Controls.Add(lblNivel);
+
+            cmbNivel = new ComboBox();
+            cmbNivel.Location =
+                new Point(20, 120);
+
+            cmbNivel.Size =
+                new Size(180, 30);
+
+            cmbNivel.DropDownStyle =
+                ComboBoxStyle.DropDownList;
+
+            cmbNivel.Items.Add("Todos");
+            cmbNivel.Items.Add("INFO");
+            cmbNivel.Items.Add("WARNING");
+            cmbNivel.Items.Add("ERROR");
+            cmbNivel.Items.Add("CRITICAL");
+
+            cmbNivel.SelectedIndex = 0;
+
+            cmbNivel.SelectedIndexChanged +=
+                cmbNivel_SelectedIndexChanged;
+
+            panelRegex.Controls.Add(cmbNivel);
+
+            // ==========================================
+            // EXPRESIÓN REGULAR
+            // ==========================================
+
+            lblRegex = CrearLabel(220, 90);
             lblRegex.Text =
                 "Expresión regular:";
 
@@ -254,10 +289,10 @@ namespace SimuladorAutomatas.Formularios
 
             txtRegex = new TextBox();
             txtRegex.Location =
-                new Point(20, 120);
+                new Point(220, 120);
 
             txtRegex.Size =
-                new Size(480, 30);
+                new Size(280, 30);
 
             EstiloInterfaz.AplicarEstiloTextBox(
                 txtRegex);
@@ -420,6 +455,28 @@ namespace SimuladorAutomatas.Formularios
                 etiqueta);
 
             return etiqueta;
+        }
+
+        // ==========================================
+        // CAMBIAR FILTRO POR NIVEL
+        // ==========================================
+
+        private void cmbNivel_SelectedIndexChanged(
+            object sender,
+            EventArgs e)
+        {
+            string nivel =
+                cmbNivel.SelectedItem.ToString();
+
+            if (nivel == "Todos")
+            {
+                txtRegex.Text = ".*";
+            }
+            else
+            {
+                txtRegex.Text =
+                    ".* " + nivel + " .*";
+            }
         }
 
         // ==========================================
@@ -628,7 +685,10 @@ namespace SimuladorAutomatas.Formularios
                     out evento,
                     out detalle))
                 {
-                    // Mostrar resultado en la tabla
+                    // ==========================================
+                    // MOSTRAR RESULTADO EN LA TABLA
+                    // ==========================================
+
                     dgvResultadosRegex.Rows.Add(
                         i + 1,
                         evento.Nivel,
