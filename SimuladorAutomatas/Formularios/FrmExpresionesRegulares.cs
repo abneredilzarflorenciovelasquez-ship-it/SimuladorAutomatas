@@ -88,6 +88,9 @@ namespace SimuladorAutomatas.Formularios
             EstiloInterfaz.AplicarEstiloTextBox(txtExpresion);
             EstiloInterfaz.AplicarEstiloTextBox(txtCadenaRegex);
             EstiloInterfaz.AplicarEstiloTextBox(txtLogs);
+
+            EstiloInterfaz.AplicarEstiloDataGridView(dgvRegistro);
+            EstiloInterfaz.AplicarEstiloDataGridView(dgvResultadosLogs);
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {

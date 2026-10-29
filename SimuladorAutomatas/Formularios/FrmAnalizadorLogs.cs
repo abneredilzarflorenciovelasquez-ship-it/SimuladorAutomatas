@@ -1,7 +1,9 @@
 using SimuladorAutomatas.Logica;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SimuladorAutomatas.Formularios
@@ -16,10 +18,18 @@ namespace SimuladorAutomatas.Formularios
         private Label lblInfo;
         private Label lblWarning;
         private Label lblError;
+
         private RichTextBox txtResumen;
+
         private Button btnAbrirArchivo;
         private Button btnCerrar;
         private Button btnSeleccionarArchivo;
+
+        private Label lblRegex;
+        private TextBox txtRegex;
+        private Button btnBuscarRegex;
+        private DataGridView dgvResultadosRegex;
+        private Label lblCoincidencias;
 
         private string rutaArchivo;
 
@@ -34,17 +44,26 @@ namespace SimuladorAutomatas.Formularios
         private void InicializarFormulario()
         {
             Text = "Análisis de Logs";
-            Width = 700;
-            Height = 550;
+            Width = 850;
+            Height = 850;
             StartPosition = FormStartPosition.CenterParent;
+            AutoScroll = true;
 
             EstiloInterfaz.AplicarEstiloFormulario(this);
+
+            // =========================
+            // TÍTULO
+            // =========================
 
             lblTitulo = new Label();
             lblTitulo.Text = "ANÁLISIS DE LOGS";
             lblTitulo.AutoSize = true;
             lblTitulo.Location = new Point(25, 20);
             EstiloInterfaz.AplicarEstiloTitulo(lblTitulo);
+
+            // =========================
+            // INFORMACIÓN DEL ARCHIVO
+            // =========================
 
             lblArchivo = CrearLabel(25, 60);
             lblTotal = CrearLabel(25, 95);
@@ -54,28 +73,89 @@ namespace SimuladorAutomatas.Formularios
             lblWarning = CrearLabel(25, 235);
             lblError = CrearLabel(25, 270);
 
+            // =========================
+            // RESUMEN
+            // =========================
+
             txtResumen = new RichTextBox();
             txtResumen.Location = new Point(25, 310);
-            txtResumen.Size = new Size(630, 130);
+            txtResumen.Size = new Size(790, 140);
             txtResumen.ReadOnly = true;
             EstiloInterfaz.AplicarEstiloRichTextBox(txtResumen);
 
-            btnSeleccionarArchivo = new Button();
-            btnSeleccionarArchivo.Text = "Seleccionar log";
-            btnSeleccionarArchivo.Location = new Point(220, 460);
-            btnSeleccionarArchivo.Size = new Size(180, 35);
-            btnSeleccionarArchivo.Click += btnSeleccionarArchivo_Click;
-            EstiloInterfaz.AplicarEstiloBoton(btnSeleccionarArchivo);
+            // =========================
+            // BÚSQUEDA CON REGEX
+            // =========================
+
+            lblRegex = CrearLabel(25, 470);
+            lblRegex.Text = "Expresión regular:";
+
+            txtRegex = new TextBox();
+            txtRegex.Location = new Point(25, 500);
+            txtRegex.Size = new Size(500, 30);
+            EstiloInterfaz.AplicarEstiloTextBox(txtRegex);
+
+            btnBuscarRegex = new Button();
+            btnBuscarRegex.Text = "Buscar con Regex";
+            btnBuscarRegex.Location = new Point(540, 498);
+            btnBuscarRegex.Size = new Size(200, 35);
+            btnBuscarRegex.Click += btnBuscarRegex_Click;
+            EstiloInterfaz.AplicarEstiloBoton(btnBuscarRegex);
+
+            // =========================
+            // RESULTADOS
+            // =========================
+
+            lblCoincidencias = CrearLabel(25, 545);
+            lblCoincidencias.Text = "Coincidencias: 0";
+
+            dgvResultadosRegex = new DataGridView();
+            dgvResultadosRegex.Location = new Point(25, 575);
+            dgvResultadosRegex.Size = new Size(790, 150);
+
+            dgvResultadosRegex.AllowUserToAddRows = false;
+            dgvResultadosRegex.AllowUserToDeleteRows = false;
+            dgvResultadosRegex.ReadOnly = true;
+            dgvResultadosRegex.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+            dgvResultadosRegex.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            dgvResultadosRegex.Columns.Add(
+                "Numero",
+                "N°");
+
+            dgvResultadosRegex.Columns.Add(
+                "Registro",
+                "Registro encontrado");
+
+            dgvResultadosRegex.Columns["Numero"].FillWeight = 15;
+            dgvResultadosRegex.Columns["Registro"].FillWeight = 85;
+
+            EstiloInterfaz.AplicarEstiloDataGridView(
+                dgvResultadosRegex);
+
+            // =========================
+            // BOTONES
+            // =========================
+
             btnAbrirArchivo = new Button();
             btnAbrirArchivo.Text = "Abrir archivo original";
-            btnAbrirArchivo.Location = new Point(25, 460);
+            btnAbrirArchivo.Location = new Point(25, 750);
             btnAbrirArchivo.Size = new Size(180, 35);
             btnAbrirArchivo.Click += btnAbrirArchivo_Click;
             EstiloInterfaz.AplicarEstiloBoton(btnAbrirArchivo);
 
+            btnSeleccionarArchivo = new Button();
+            btnSeleccionarArchivo.Text = "Seleccionar log";
+            btnSeleccionarArchivo.Location = new Point(220, 750);
+            btnSeleccionarArchivo.Size = new Size(180, 35);
+            btnSeleccionarArchivo.Click += btnSeleccionarArchivo_Click;
+            EstiloInterfaz.AplicarEstiloBoton(btnSeleccionarArchivo);
+
             btnCerrar = new Button();
             btnCerrar.Text = "Cerrar";
-            btnCerrar.Location = new Point(520, 460);
+            btnCerrar.Location = new Point(680, 750);
             btnCerrar.Size = new Size(135, 35);
             btnCerrar.Click += delegate
             {
@@ -83,7 +163,12 @@ namespace SimuladorAutomatas.Formularios
             };
             EstiloInterfaz.AplicarEstiloBoton(btnCerrar);
 
+            // =========================
+            // AGREGAR CONTROLES
+            // =========================
+
             Controls.Add(lblTitulo);
+
             Controls.Add(lblArchivo);
             Controls.Add(lblTotal);
             Controls.Add(lblValidos);
@@ -91,7 +176,15 @@ namespace SimuladorAutomatas.Formularios
             Controls.Add(lblInfo);
             Controls.Add(lblWarning);
             Controls.Add(lblError);
+
             Controls.Add(txtResumen);
+
+            Controls.Add(lblRegex);
+            Controls.Add(txtRegex);
+            Controls.Add(btnBuscarRegex);
+            Controls.Add(lblCoincidencias);
+            Controls.Add(dgvResultadosRegex);
+
             Controls.Add(btnAbrirArchivo);
             Controls.Add(btnSeleccionarArchivo);
             Controls.Add(btnCerrar);
@@ -100,9 +193,12 @@ namespace SimuladorAutomatas.Formularios
         private Label CrearLabel(int x, int y)
         {
             Label etiqueta = new Label();
+
             etiqueta.AutoSize = true;
             etiqueta.Location = new Point(x, y);
+
             EstiloInterfaz.AplicarEstiloLabel(etiqueta);
+
             return etiqueta;
         }
 
@@ -121,13 +217,16 @@ namespace SimuladorAutomatas.Formularios
                 "Archivo: " + rutaArchivo;
 
             lblTotal.Text =
-                "Registros analizados: " + resultado.Total;
+                "Registros analizados: " +
+                resultado.Total;
 
             lblValidos.Text =
-                "Registros válidos: " + resultado.Validos;
+                "Registros válidos: " +
+                resultado.Validos;
 
             lblInvalidos.Text =
-                "Registros inválidos: " + resultado.Invalidos;
+                "Registros inválidos: " +
+                resultado.Invalidos;
 
             lblInfo.Text =
                 "INFO: " + resultado.Info;
@@ -161,12 +260,15 @@ namespace SimuladorAutomatas.Formularios
             if (resultado.Invalidos > 0)
             {
                 txtResumen.AppendText(
-                    "\r\nSe encontraron registros con formato inválido.\r\n");
+                    "\r\nSe encontraron registros " +
+                    "con formato inválido.\r\n");
 
                 txtResumen.AppendText(
                     "\r\nDETALLE DE REGISTROS INVÁLIDOS\r\n");
 
-                for (int i = 0; i < resultado.RegistrosInvalidos.Count; i++)
+                for (int i = 0;
+                     i < resultado.RegistrosInvalidos.Count;
+                     i++)
                 {
                     txtResumen.AppendText(
                         "\r\n" +
@@ -174,6 +276,67 @@ namespace SimuladorAutomatas.Formularios
                         "\r\n");
                 }
             }
+
+            // Limpiar resultados anteriores
+            dgvResultadosRegex.Rows.Clear();
+
+            lblCoincidencias.Text =
+                "Coincidencias: 0";
+        }
+
+        private void btnBuscarRegex_Click(
+            object sender,
+            EventArgs e)
+        {
+            string expresion =
+                txtRegex.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(expresion))
+            {
+                MessageBox.Show(
+                    "Ingrese una expresión regular.",
+                    "Búsqueda Regex",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // Validar que la expresión sea correcta
+            try
+            {
+                new Regex(expresion);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show(
+                    "La expresión regular no es válida.",
+                    "Búsqueda Regex",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            List<string> resultados =
+                LogRegexAnalyzer.Buscar(
+                    rutaArchivo,
+                    expresion);
+
+            dgvResultadosRegex.Rows.Clear();
+
+            for (int i = 0;
+                 i < resultados.Count;
+                 i++)
+            {
+                dgvResultadosRegex.Rows.Add(
+                    i + 1,
+                    resultados[i]);
+            }
+
+            lblCoincidencias.Text =
+                "Coincidencias: " +
+                resultados.Count;
         }
 
         private void btnAbrirArchivo_Click(
@@ -192,28 +355,23 @@ namespace SimuladorAutomatas.Formularios
             object sender,
             EventArgs e)
         {
-            OpenFileDialog dialogo = new OpenFileDialog();
+            OpenFileDialog dialogo =
+                new OpenFileDialog();
 
-            dialogo.Filter = "Archivos de log (*.log)|*.log|Todos los archivos (*.*)|*.*";
-            dialogo.Title = "Seleccionar archivo de log";
+            dialogo.Filter =
+                "Archivos de log (*.log)|*.log|" +
+                "Todos los archivos (*.*)|*.*";
+
+            dialogo.Title =
+                "Seleccionar archivo de log";
 
             if (dialogo.ShowDialog() == DialogResult.OK)
             {
-                rutaArchivo = dialogo.FileName;
+                rutaArchivo =
+                    dialogo.FileName;
+
                 CargarAnalisis();
             }
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // FrmAnalizadorLogs
-            // 
-            this.ClientSize = new System.Drawing.Size(452, 397);
-            this.Name = "FrmAnalizadorLogs";
-            this.ResumeLayout(false);
-
         }
     }
 }

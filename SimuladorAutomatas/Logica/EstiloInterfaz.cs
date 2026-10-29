@@ -159,6 +159,25 @@ namespace SimuladorAutomatas.Logica
                 TextoPrincipal;
         }
 
+        public static void AplicarEstiloDataGridView(DataGridView tabla)
+        {
+            tabla.BackgroundColor = Color.FromArgb(51, 65, 85);
+            tabla.GridColor = Color.FromArgb(100, 116, 139);
+
+            tabla.EnableHeadersVisualStyles = false;
+
+            tabla.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(30, 41, 59);
+            tabla.ColumnHeadersDefaultCellStyle.ForeColor = CianActivo;
+            tabla.ColumnHeadersDefaultCellStyle.Font = FuenteBoton;
+
+            tabla.DefaultCellStyle.BackColor = Color.FromArgb(51, 65, 85);
+            tabla.DefaultCellStyle.ForeColor = TextoPrincipal;
+            tabla.DefaultCellStyle.SelectionBackColor = AzulTecnologico;
+            tabla.DefaultCellStyle.SelectionForeColor = TextoPrincipal;
+
+            tabla.RowHeadersVisible = false;
+        }
+
         // Título
         public static void AplicarEstiloTitulo(
             Label etiqueta)
