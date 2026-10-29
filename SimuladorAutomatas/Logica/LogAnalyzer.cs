@@ -17,6 +17,7 @@ namespace SimuladorAutomatas.Logica
             for (int i = 0; i < lineas.Length; i++)
             {
                 string linea = lineas[i];
+
                 if (string.IsNullOrWhiteSpace(linea))
                     continue;
 
@@ -24,20 +25,29 @@ namespace SimuladorAutomatas.Logica
 
                 LogEvent evento;
                 string detalle;
+
                 if (LogParser.TryParse(linea, out evento, out detalle))
                 {
                     resultado.Validos++;
                     resultado.Eventos.Add(evento);
 
-                    if (evento.Nivel == "INFO") resultado.Info++;
-                    else if (evento.Nivel == "WARNING") resultado.Warning++;
-                    else if (evento.Nivel == "ERROR") resultado.Error++;
-                    else if (evento.Nivel == "CRITICAL") resultado.Critical++;
+                    if (evento.Nivel == "INFO")
+                        resultado.Info++;
+                    else if (evento.Nivel == "WARNING")
+                        resultado.Warning++;
+                    else if (evento.Nivel == "ERROR")
+                        resultado.Error++;
+                    else if (evento.Nivel == "CRITICAL")
+                        resultado.Critical++;
                 }
                 else
                 {
                     resultado.Invalidos++;
-                    resultado.RegistrosInvalidos.Add("Línea " + (i + 1) + ": " + detalle + " | " + linea);
+
+                    resultado.RegistrosInvalidos.Add(
+                        "Línea " + (i + 1) + ": " +
+                        detalle + " | " + linea
+                    );
                 }
             }
 

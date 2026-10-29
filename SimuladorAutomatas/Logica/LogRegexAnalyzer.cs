@@ -1,44 +1,132 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SimuladorAutomatas.Logica
 {
     public static class LogRegexAnalyzer
     {
-        public static List<string> Buscar(string rutaArchivo, string expresion)
+        // ==========================================
+        // BÚSQUEDA SIMPLE MEDIANTE REGEX
+        // ==========================================
+
+        public static List<string> Buscar(
+            string rutaArchivo,
+            string expresion)
         {
-            List<string> resultados = new List<string>();
+            return Buscar(
+                rutaArchivo,
+                expresion,
+                "Todos",
+                "Todos");
+        }
+
+        // ==========================================
+        // BÚSQUEDA CON FILTROS COMBINADOS
+        // ==========================================
+
+        public static List<string> Buscar(
+            string rutaArchivo,
+            string expresion,
+            string nivel,
+            string modulo)
+        {
+            List<string> resultados =
+                new List<string>();
 
             if (!File.Exists(rutaArchivo))
+            {
                 return resultados;
+            }
 
             if (string.IsNullOrWhiteSpace(expresion))
+            {
                 return resultados;
+            }
 
             Regex regex;
 
             try
             {
-                regex = new Regex(expresion, RegexOptions.Compiled);
+                regex = new Regex(
+                    expresion,
+                    RegexOptions.Compiled);
             }
             catch (ArgumentException)
             {
                 return resultados;
             }
 
-            string[] lineas = File.ReadAllLines(rutaArchivo);
+            string[] lineas =
+                File.ReadAllLines(rutaArchivo);
 
             foreach (string linea in lineas)
             {
-                if (regex.IsMatch(linea))
+                if (string.IsNullOrWhiteSpace(linea))
                 {
-                    resultados.Add(linea);
+                    continue;
                 }
+
+                // ==========================================
+                // PRIMERO: REGEX
+                // ==========================================
+
+                if (!regex.IsMatch(linea))
+                {
+                    continue;
+                }
+
+                // ==========================================
+                // PARSEAR REGISTRO
+                // ==========================================
+
+                LogEvent evento;
+                string detalle;
+
+                if (!LogParser.TryParse(
+                    linea,
+                    out evento,
+                    out detalle))
+                {
+                    continue;
+                }
+
+                // ==========================================
+                // FILTRO POR NIVEL
+                // ==========================================
+
+                if (!string.IsNullOrWhiteSpace(nivel) &&
+                    nivel != "Todos")
+                {
+                    if (!evento.Nivel.Equals(
+                        nivel,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                }
+
+                // ==========================================
+                // FILTRO POR MÓDULO
+                // ==========================================
+
+                if (!string.IsNullOrWhiteSpace(modulo) &&
+                    modulo != "Todos")
+                {
+                    if (!evento.Modulo.Equals(
+                        modulo,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                }
+
+                // ==========================================
+                // REGISTRO ACEPTADO
+                // ==========================================
+
+                resultados.Add(linea);
             }
 
             return resultados;

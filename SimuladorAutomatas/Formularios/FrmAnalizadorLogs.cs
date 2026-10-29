@@ -40,12 +40,21 @@ namespace SimuladorAutomatas.Formularios
 
         private Label lblTituloRegex;
         private Label lblEjemploRegex;
+
         private Label lblNivel;
         private ComboBox cmbNivel;
+
+        private Label lblModulo;
+        private ComboBox cmbModulo;
+
         private Label lblRegex;
         private TextBox txtRegex;
+
         private Button btnBuscarRegex;
+        private Button btnLimpiarFiltros;
+
         private DataGridView dgvResultadosRegex;
+
         private Label lblCoincidencias;
         private RichTextBox txtResumenRegex;
 
@@ -58,6 +67,10 @@ namespace SimuladorAutomatas.Formularios
 
         private string rutaArchivo;
 
+        // ==========================================
+        // CONSTRUCTOR
+        // ==========================================
+
         public FrmAnalizadorLogs(string rutaArchivo)
         {
             this.rutaArchivo = rutaArchivo;
@@ -65,6 +78,10 @@ namespace SimuladorAutomatas.Formularios
             InicializarFormulario();
             CargarAnalisis();
         }
+
+        // ==========================================
+        // INICIALIZAR FORMULARIO
+        // ==========================================
 
         private void InicializarFormulario()
         {
@@ -142,7 +159,6 @@ namespace SimuladorAutomatas.Formularios
             txtResumen = new RichTextBox();
             txtResumen.Location = new Point(20, 410);
             txtResumen.Size = new Size(350, 170);
-
             txtResumen.ReadOnly = true;
 
             EstiloInterfaz.AplicarEstiloRichTextBox(
@@ -236,7 +252,7 @@ namespace SimuladorAutomatas.Formularios
             lblEjemploRegex = CrearLabel(20, 55);
 
             lblEjemploRegex.Text =
-                "Ejemplos: .* INFO .*   |   .* WARNING .*   |   .* STATE .*   |   .* CRITICAL .*";
+                "Ejemplos: .* INFO .* | .* WARNING .* | .* STATE .* | .* CRITICAL .*";
 
             lblEjemploRegex.ForeColor =
                 EstiloInterfaz.TextoSecundario;
@@ -250,16 +266,16 @@ namespace SimuladorAutomatas.Formularios
 
             lblNivel = CrearLabel(20, 90);
             lblNivel.Text =
-                "Filtrar por nivel:";
+                "Nivel:";
 
             panelRegex.Controls.Add(lblNivel);
 
             cmbNivel = new ComboBox();
             cmbNivel.Location =
-                new Point(20, 120);
+                new Point(20, 115);
 
             cmbNivel.Size =
-                new Size(180, 30);
+                new Size(145, 30);
 
             cmbNivel.DropDownStyle =
                 ComboBoxStyle.DropDownList;
@@ -278,21 +294,49 @@ namespace SimuladorAutomatas.Formularios
             panelRegex.Controls.Add(cmbNivel);
 
             // ==========================================
+            // FILTRO POR MÓDULO
+            // ==========================================
+
+            lblModulo = CrearLabel(185, 90);
+            lblModulo.Text =
+                "Módulo:";
+
+            panelRegex.Controls.Add(lblModulo);
+
+            cmbModulo = new ComboBox();
+            cmbModulo.Location =
+                new Point(185, 115);
+
+            cmbModulo.Size =
+                new Size(145, 30);
+
+            cmbModulo.DropDownStyle =
+                ComboBoxStyle.DropDownList;
+
+            cmbModulo.Items.Add("Todos");
+            cmbModulo.SelectedIndex = 0;
+
+            cmbModulo.SelectedIndexChanged +=
+                cmbModulo_SelectedIndexChanged;
+
+            panelRegex.Controls.Add(cmbModulo);
+
+            // ==========================================
             // EXPRESIÓN REGULAR
             // ==========================================
 
-            lblRegex = CrearLabel(220, 90);
+            lblRegex = CrearLabel(350, 90);
             lblRegex.Text =
-                "Expresión regular:";
+                "Expresión:";
 
             panelRegex.Controls.Add(lblRegex);
 
             txtRegex = new TextBox();
             txtRegex.Location =
-                new Point(220, 120);
+                new Point(350, 115);
 
             txtRegex.Size =
-                new Size(280, 30);
+                new Size(195, 30);
 
             EstiloInterfaz.AplicarEstiloTextBox(
                 txtRegex);
@@ -305,13 +349,13 @@ namespace SimuladorAutomatas.Formularios
 
             btnBuscarRegex = new Button();
             btnBuscarRegex.Text =
-                "Buscar con Regex";
+                "Buscar";
 
             btnBuscarRegex.Location =
-                new Point(515, 118);
+                new Point(555, 113);
 
             btnBuscarRegex.Size =
-                new Size(200, 35);
+                new Size(80, 35);
 
             btnBuscarRegex.Click +=
                 btnBuscarRegex_Click;
@@ -323,10 +367,34 @@ namespace SimuladorAutomatas.Formularios
                 btnBuscarRegex);
 
             // ==========================================
+            // BOTÓN LIMPIAR
+            // ==========================================
+
+            btnLimpiarFiltros = new Button();
+            btnLimpiarFiltros.Text =
+                "Limpiar";
+
+            btnLimpiarFiltros.Location =
+                new Point(640, 113);
+
+            btnLimpiarFiltros.Size =
+                new Size(75, 35);
+
+            btnLimpiarFiltros.Click +=
+                btnLimpiarFiltros_Click;
+
+            EstiloInterfaz.AplicarEstiloBoton(
+                btnLimpiarFiltros);
+
+            panelRegex.Controls.Add(
+                btnLimpiarFiltros);
+
+            // ==========================================
             // COINCIDENCIAS
             // ==========================================
 
-            lblCoincidencias = CrearLabel(20, 165);
+            lblCoincidencias =
+                CrearLabel(20, 160);
 
             lblCoincidencias.Text =
                 "Coincidencias: 0";
@@ -335,16 +403,17 @@ namespace SimuladorAutomatas.Formularios
                 lblCoincidencias);
 
             // ==========================================
-            // RESUMEN DE RESULTADOS REGEX
+            // RESUMEN DE RESULTADOS
             // ==========================================
 
-            txtResumenRegex = new RichTextBox();
+            txtResumenRegex =
+                new RichTextBox();
 
             txtResumenRegex.Location =
-                new Point(20, 195);
+                new Point(20, 190);
 
             txtResumenRegex.Size =
-                new Size(695, 120);
+                new Size(695, 130);
 
             txtResumenRegex.ReadOnly = true;
 
@@ -358,13 +427,14 @@ namespace SimuladorAutomatas.Formularios
             // DATAGRIDVIEW
             // ==========================================
 
-            dgvResultadosRegex = new DataGridView();
+            dgvResultadosRegex =
+                new DataGridView();
 
             dgvResultadosRegex.Location =
-                new Point(20, 330);
+                new Point(20, 335);
 
             dgvResultadosRegex.Size =
-                new Size(695, 325);
+                new Size(695, 320);
 
             dgvResultadosRegex.AllowUserToAddRows =
                 false;
@@ -384,7 +454,8 @@ namespace SimuladorAutomatas.Formularios
             dgvResultadosRegex.AutoSizeColumnsMode =
                 DataGridViewAutoSizeColumnsMode.Fill;
 
-            dgvResultadosRegex.RowTemplate.Height = 28;
+            dgvResultadosRegex.RowTemplate.Height =
+                28;
 
             // ==========================================
             // COLUMNAS
@@ -432,7 +503,7 @@ namespace SimuladorAutomatas.Formularios
                 dgvResultadosRegex);
 
             // ==========================================
-            // AGREGAR PANELES AL FORMULARIO
+            // AGREGAR PANELES
             // ==========================================
 
             Controls.Add(panelAnalisis);
@@ -445,9 +516,11 @@ namespace SimuladorAutomatas.Formularios
 
         private Label CrearLabel(int x, int y)
         {
-            Label etiqueta = new Label();
+            Label etiqueta =
+                new Label();
 
             etiqueta.AutoSize = true;
+
             etiqueta.Location =
                 new Point(x, y);
 
@@ -458,25 +531,92 @@ namespace SimuladorAutomatas.Formularios
         }
 
         // ==========================================
-        // CAMBIAR FILTRO POR NIVEL
+        // CAMBIAR NIVEL
         // ==========================================
 
         private void cmbNivel_SelectedIndexChanged(
             object sender,
             EventArgs e)
         {
-            string nivel =
-                cmbNivel.SelectedItem.ToString();
+            ActualizarExpresionDesdeFiltros();
+        }
 
-            if (nivel == "Todos")
+        // ==========================================
+        // CAMBIAR MÓDULO
+        // ==========================================
+
+        private void cmbModulo_SelectedIndexChanged(
+            object sender,
+            EventArgs e)
+        {
+            ActualizarExpresionDesdeFiltros();
+        }
+
+        // ==========================================
+        // ACTUALIZAR EXPRESIÓN
+        // ==========================================
+
+        private void ActualizarExpresionDesdeFiltros()
+        {
+            if (cmbNivel == null ||
+                cmbModulo == null ||
+                txtRegex == null)
             {
-                txtRegex.Text = ".*";
+                return;
             }
-            else
+
+            string nivel =
+                cmbNivel.SelectedItem == null
+                    ? "Todos"
+                    : cmbNivel.SelectedItem.ToString();
+
+            string modulo =
+                cmbModulo.SelectedItem == null
+                    ? "Todos"
+                    : cmbModulo.SelectedItem.ToString();
+
+            string expresion = ".*";
+
+            // ==========================================
+            // FILTRO POR NIVEL
+            // ==========================================
+
+            if (nivel != "Todos")
             {
-                txtRegex.Text =
+                expresion =
                     ".* " + nivel + " .*";
             }
+
+            // ==========================================
+            // FILTRO POR MÓDULO
+            // ==========================================
+
+            if (modulo != "Todos")
+            {
+                expresion =
+                    ".* " +
+                    nivelTextoParaRegex(nivel) +
+                    " " +
+                    Regex.Escape(modulo) +
+                    " .*";
+            }
+
+            txtRegex.Text = expresion;
+        }
+
+        // ==========================================
+        // TEXTO DE NIVEL
+        // ==========================================
+
+        private string nivelTextoParaRegex(
+            string nivel)
+        {
+            if (nivel == "Todos")
+            {
+                return "(?:INFO|WARNING|ERROR|CRITICAL)";
+            }
+
+            return Regex.Escape(nivel);
         }
 
         // ==========================================
@@ -490,12 +630,23 @@ namespace SimuladorAutomatas.Formularios
                 lblArchivo.Text =
                     "Archivo: No encontrado";
 
+                cmbModulo.Items.Clear();
+                cmbModulo.Items.Add("Todos");
+                cmbModulo.SelectedIndex = 0;
+
+                dgvResultadosRegex.Rows.Clear();
+                txtResumenRegex.Clear();
+
                 return;
             }
 
             LogAnalysisResult resultado =
                 LogAnalyzer.Analyze(
                     rutaArchivo);
+
+            // ==========================================
+            // INFORMACIÓN GENERAL
+            // ==========================================
 
             lblArchivo.Text =
                 "Archivo:\r\n" +
@@ -530,7 +681,7 @@ namespace SimuladorAutomatas.Formularios
                 resultado.Critical;
 
             // ==========================================
-            // RESUMEN DEL ARCHIVO
+            // RESUMEN GENERAL
             // ==========================================
 
             txtResumen.Clear();
@@ -576,6 +727,38 @@ namespace SimuladorAutomatas.Formularios
                 resultado.Critical +
                 "\r\n");
 
+            // ==========================================
+            // PORCENTAJES
+            // ==========================================
+
+            if (resultado.Total > 0)
+            {
+                double porcentajeValidos =
+                    (resultado.Validos * 100.0) /
+                    resultado.Total;
+
+                double porcentajeInvalidos =
+                    (resultado.Invalidos * 100.0) /
+                    resultado.Total;
+
+                txtResumen.AppendText(
+                    "\r\nPORCENTAJES\r\n");
+
+                txtResumen.AppendText(
+                    "Válidos: " +
+                    porcentajeValidos.ToString("0.00") +
+                    "%\r\n");
+
+                txtResumen.AppendText(
+                    "Inválidos: " +
+                    porcentajeInvalidos.ToString("0.00") +
+                    "%\r\n");
+            }
+
+            // ==========================================
+            // REGISTROS INVÁLIDOS
+            // ==========================================
+
             if (resultado.Invalidos > 0)
             {
                 txtResumen.AppendText(
@@ -593,7 +776,13 @@ namespace SimuladorAutomatas.Formularios
             }
 
             // ==========================================
-            // LIMPIAR RESULTADOS REGEX
+            // CARGAR MÓDULOS
+            // ==========================================
+
+            CargarModulos(resultado);
+
+            // ==========================================
+            // LIMPIAR RESULTADOS
             // ==========================================
 
             dgvResultadosRegex.Rows.Clear();
@@ -602,6 +791,53 @@ namespace SimuladorAutomatas.Formularios
                 "Coincidencias: 0";
 
             txtResumenRegex.Clear();
+
+            // ==========================================
+            // RESTABLECER FILTROS
+            // ==========================================
+
+            cmbNivel.SelectedIndex = 0;
+            cmbModulo.SelectedIndex = 0;
+
+            txtRegex.Text = ".*";
+        }
+
+        // ==========================================
+        // CARGAR MÓDULOS
+        // ==========================================
+
+        private void CargarModulos(
+            LogAnalysisResult resultado)
+        {
+            cmbModulo.Items.Clear();
+
+            cmbModulo.Items.Add("Todos");
+
+            HashSet<string> modulos =
+                new HashSet<string>();
+
+            foreach (LogEvent evento
+                     in resultado.Eventos)
+            {
+                if (!string.IsNullOrWhiteSpace(
+                    evento.Modulo))
+                {
+                    modulos.Add(evento.Modulo);
+                }
+            }
+
+            List<string> listaModulos =
+                new List<string>(modulos);
+
+            listaModulos.Sort();
+
+            foreach (string modulo
+                     in listaModulos)
+            {
+                cmbModulo.Items.Add(modulo);
+            }
+
+            cmbModulo.SelectedIndex = 0;
         }
 
         // ==========================================
@@ -628,37 +864,71 @@ namespace SimuladorAutomatas.Formularios
             }
 
             // ==========================================
-            // VALIDAR EXPRESIÓN
+            // VALIDAR REGEX
             // ==========================================
+
+            Regex regex;
 
             try
             {
-                new Regex(expresion);
+                regex =
+                    new Regex(
+                        expresion,
+                        RegexOptions.Compiled);
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
                 MessageBox.Show(
-                    "La expresión regular no es válida.",
-                    "Búsqueda Regex",
+                    "La expresión regular no es válida.\r\n\r\n" +
+                    "Detalle:\r\n" +
+                    ex.Message,
+                    "Error en expresión regular",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
 
                 return;
             }
 
+            if (!File.Exists(rutaArchivo))
+            {
+                MessageBox.Show(
+                    "El archivo de log no existe.",
+                    "Búsqueda Regex",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             // ==========================================
-            // BUSCAR EN EL ARCHIVO
+            // OBTENER FILTROS
+            // ==========================================
+
+            string nivel =
+                cmbNivel.SelectedItem == null
+                    ? "Todos"
+                    : cmbNivel.SelectedItem.ToString();
+
+            string modulo =
+                cmbModulo.SelectedItem == null
+                    ? "Todos"
+                    : cmbModulo.SelectedItem.ToString();
+
+            // ==========================================
+            // BUSCAR
             // ==========================================
 
             List<string> resultados =
                 LogRegexAnalyzer.Buscar(
                     rutaArchivo,
-                    expresion);
+                    expresion,
+                    nivel,
+                    modulo);
 
             dgvResultadosRegex.Rows.Clear();
 
             // ==========================================
-            // CONTADORES DEL ANÁLISIS
+            // CONTADORES
             // ==========================================
 
             int info = 0;
@@ -669,82 +939,86 @@ namespace SimuladorAutomatas.Formularios
             Dictionary<string, int> modulos =
                 new Dictionary<string, int>();
 
+            int numeroResultado = 1;
+
             // ==========================================
             // PROCESAR RESULTADOS
             // ==========================================
 
-            for (int i = 0;
-                 i < resultados.Count;
-                 i++)
+            foreach (string registro
+                     in resultados)
             {
                 LogEvent evento;
                 string detalle;
 
-                if (LogParser.TryParse(
-                    resultados[i],
+                if (!LogParser.TryParse(
+                    registro,
                     out evento,
                     out detalle))
                 {
-                    // ==========================================
-                    // MOSTRAR RESULTADO EN LA TABLA
-                    // ==========================================
+                    continue;
+                }
 
-                    dgvResultadosRegex.Rows.Add(
-                        i + 1,
-                        evento.Nivel,
+                dgvResultadosRegex.Rows.Add(
+                    numeroResultado,
+                    evento.Nivel,
+                    evento.Modulo,
+                    evento.Mensaje,
+                    registro);
+
+                numeroResultado++;
+
+                // ==========================================
+                // CONTAR NIVEL
+                // ==========================================
+
+                if (evento.Nivel == "INFO")
+                {
+                    info++;
+                }
+                else if (evento.Nivel == "WARNING")
+                {
+                    warning++;
+                }
+                else if (evento.Nivel == "ERROR")
+                {
+                    error++;
+                }
+                else if (evento.Nivel == "CRITICAL")
+                {
+                    critical++;
+                }
+
+                // ==========================================
+                // CONTAR MÓDULO
+                // ==========================================
+
+                if (modulos.ContainsKey(
+                    evento.Modulo))
+                {
+                    modulos[evento.Modulo]++;
+                }
+                else
+                {
+                    modulos.Add(
                         evento.Modulo,
-                        evento.Mensaje,
-                        resultados[i]);
-
-                    // ==========================================
-                    // CONTAR NIVEL
-                    // ==========================================
-
-                    if (evento.Nivel == "INFO")
-                    {
-                        info++;
-                    }
-                    else if (evento.Nivel == "WARNING")
-                    {
-                        warning++;
-                    }
-                    else if (evento.Nivel == "ERROR")
-                    {
-                        error++;
-                    }
-                    else if (evento.Nivel == "CRITICAL")
-                    {
-                        critical++;
-                    }
-
-                    // ==========================================
-                    // CONTAR MÓDULO
-                    // ==========================================
-
-                    if (modulos.ContainsKey(
-                        evento.Modulo))
-                    {
-                        modulos[evento.Modulo]++;
-                    }
-                    else
-                    {
-                        modulos.Add(
-                            evento.Modulo,
-                            1);
-                    }
+                        1);
                 }
             }
 
             // ==========================================
-            // MOSTRAR CANTIDAD DE COINCIDENCIAS
+            // COINCIDENCIAS
             // ==========================================
+
+            int coincidencias =
+                dgvResultadosRegex.Rows.Count;
 
             lblCoincidencias.Text =
                 "Coincidencias: " +
-                resultados.Count;
+                coincidencias;
 
             // ==========================================
-            // MOSTRAR RESUMEN DE RESULTADOS
+            // RESUMEN
             // ==========================================
 
             txtResumenRegex.Clear();
@@ -758,12 +1032,42 @@ namespace SimuladorAutomatas.Formularios
                 "\r\n");
 
             txtResumenRegex.AppendText(
-                "Coincidencias: " +
-                resultados.Count +
-                "\r\n\r\n");
+                "Nivel: " +
+                nivel +
+                "\r\n");
 
             txtResumenRegex.AppendText(
-                "NIVELES\r\n");
+                "Módulo: " +
+                modulo +
+                "\r\n");
+
+            txtResumenRegex.AppendText(
+                "Coincidencias: " +
+                coincidencias +
+                "\r\n");
+
+            // ==========================================
+            // PORCENTAJE
+            // ==========================================
+
+            LogAnalysisResult analisisGeneral =
+                LogAnalyzer.Analyze(
+                    rutaArchivo);
+
+            if (analisisGeneral.Validos > 0)
+            {
+                double porcentaje =
+                    (coincidencias * 100.0) /
+                    analisisGeneral.Validos;
+
+                txtResumenRegex.AppendText(
+                    "Porcentaje sobre registros válidos: " +
+                    porcentaje.ToString("0.00") +
+                    "%\r\n");
+            }
+
+            txtResumenRegex.AppendText(
+                "\r\nNIVELES\r\n");
 
             txtResumenRegex.AppendText(
                 "INFO: " +
@@ -776,8 +1080,12 @@ namespace SimuladorAutomatas.Formularios
                 critical +
                 "\r\n\r\n");
 
+            // ==========================================
+            // MÓDULOS
+            // ==========================================
+
             txtResumenRegex.AppendText(
-                "MÓDULOS\r\n");
+                "MÓDULOS ENCONTRADOS\r\n");
 
             if (modulos.Count == 0)
             {
@@ -787,16 +1095,37 @@ namespace SimuladorAutomatas.Formularios
             else
             {
                 foreach (
-                    KeyValuePair<string, int> modulo
+                    KeyValuePair<string, int> moduloResultado
                     in modulos)
                 {
                     txtResumenRegex.AppendText(
-                        modulo.Key +
+                        moduloResultado.Key +
                         ": " +
-                        modulo.Value +
+                        moduloResultado.Value +
                         "    ");
                 }
             }
+        }
+
+        // ==========================================
+        // LIMPIAR FILTROS
+        // ==========================================
+
+        private void btnLimpiarFiltros_Click(
+            object sender,
+            EventArgs e)
+        {
+            cmbNivel.SelectedIndex = 0;
+            cmbModulo.SelectedIndex = 0;
+
+            txtRegex.Text = ".*";
+
+            dgvResultadosRegex.Rows.Clear();
+
+            lblCoincidencias.Text =
+                "Coincidencias: 0";
+
+            txtResumenRegex.Clear();
         }
 
         // ==========================================
@@ -808,7 +1137,15 @@ namespace SimuladorAutomatas.Formularios
             EventArgs e)
         {
             if (!File.Exists(rutaArchivo))
+            {
+                MessageBox.Show(
+                    "El archivo no existe.",
+                    "Archivo de log",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
+            }
 
             System.Diagnostics.Process.Start(
                 "notepad.exe",
