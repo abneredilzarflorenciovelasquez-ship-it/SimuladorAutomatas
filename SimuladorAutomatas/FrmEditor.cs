@@ -579,6 +579,65 @@ namespace SimuladorAutomatas
             }
         }
 
+        private void panelEditor_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            for (int i = automata.Transiciones.Count - 1; i >= 0; i--)
+            {
+                Transicion transicion = automata.Transiciones[i];
+
+                if (EstaSobreTransicion(transicion, e.X, e.Y))
+                {
+                    string nuevoSimbolo =
+                        Microsoft.VisualBasic.Interaction.InputBox(
+                            "Ingrese el nuevo símbolo:",
+                            "Editar transición",
+                            transicion.Simbolo
+                        );
+
+                    if (string.IsNullOrWhiteSpace(nuevoSimbolo))
+                        return;
+
+                    nuevoSimbolo = nuevoSimbolo.Trim();
+
+                    if (nuevoSimbolo != "ε" &&
+                        !automata.Alfabeto.Contains(nuevoSimbolo))
+                    {
+                        MessageBox.Show(
+                            "El símbolo \"" + nuevoSimbolo +
+                            "\" no pertenece al alfabeto.\n\n" +
+                            "Alfabeto actual: " +
+                            string.Join(", ", automata.Alfabeto),
+                            "Símbolo inválido",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+
+                        return;
+                    }
+
+                    string simboloAnterior = transicion.Simbolo;
+
+                    transicion.Simbolo = nuevoSimbolo;
+
+                    LogService.Info(
+                        "TRANSITION",
+                        "Transicion " +
+                        transicion.Origen.Nombre +
+                        "->" +
+                        transicion.Destino.Nombre +
+                        " modificada de " +
+                        simboloAnterior +
+                        " a " +
+                        nuevoSimbolo
+                    );
+
+                    panelEditor.Invalidate();
+
+                    return;
+                }
+            }
+        }
+
         private void panelEditor_MouseClick(object sender, MouseEventArgs e)
         {
             // -----------------------------------------
@@ -633,6 +692,14 @@ namespace SimuladorAutomatas
 
                 return;
             }
+
+            // -----------------------------------------
+            // EVITAR CREAR ESTADOS CON DOBLE CLIC
+            // -----------------------------------------
+
+            if (e.Button == MouseButtons.Left && e.Clicks > 1)
+                return;
+
 
             // -----------------------------------------
             // SI NO ES CLIC IZQUIERDO, NO HACEMOS NADA
@@ -814,6 +881,21 @@ namespace SimuladorAutomatas
             }
 
             // -----------------------------------------
+            // CLIC SOBRE UNA TRANSICIÓN
+            // -----------------------------------------
+
+            for (int i = automata.Transiciones.Count - 1; i >= 0; i--)
+            {
+                Transicion transicion = automata.Transiciones[i];
+
+                if (EstaSobreTransicion(transicion, e.X, e.Y))
+                {
+                    return;
+                }
+            }
+
+
+            // -----------------------------------------
             // CLIC SOBRE UN ESTADO EXISTENTE
             // -----------------------------------------
 
@@ -881,9 +963,9 @@ namespace SimuladorAutomatas
         }
 
         private bool EstaSobreTransicion(
-    Transicion transicion,
-    int x,
-    int y)
+            Transicion transicion,
+            int x,
+            int y)
         {
             Estado origen = transicion.Origen;
             Estado destino = transicion.Destino;
@@ -981,6 +1063,34 @@ namespace SimuladorAutomatas
             float controlY = medioY + py * desplazamiento;
 
             // Si es una línea recta
+            // Posición del símbolo de la transición
+            float textoX;
+            float textoY;
+
+            if (!existeSentidoContrario)
+            {
+                textoX = (inicioX + finalX) / 2;
+                textoY = (inicioY + finalY) / 2 - 15;
+            }
+            else
+            {
+                textoX = controlX;
+                textoY = controlY;
+            }
+
+            // Área donde se muestra el símbolo
+            RectangleF areaTexto = new RectangleF(
+                textoX - 30,
+                textoY - 15,
+                60,
+                30
+            );
+
+            // Si se hizo clic sobre el símbolo
+            if (areaTexto.Contains(x, y))
+                return true;
+
+            // Si es una línea recta
             if (cantidad == 1 && !existeSentidoContrario)
             {
                 double distanciaLinea = DistanciaPuntoLinea(
@@ -992,9 +1102,8 @@ namespace SimuladorAutomatas
                     finalY
                 );
 
-                return distanciaLinea <= 8;
+                return distanciaLinea <= 25;
             }
-
             // Si es una curva
             for (int i = 0; i <= 100; i++)
             {
@@ -1502,11 +1611,11 @@ namespace SimuladorAutomatas
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             DialogResult resultado = MessageBox.Show(
-    "¿Deseas crear un proyecto nuevo?\n\nSe perderá el autómata actual si no lo has guardado.",
-    "Nuevo proyecto",
-    MessageBoxButtons.YesNo,
-    MessageBoxIcon.Question
-);
+                "¿Deseas crear un proyecto nuevo?\n\nSe perderá el autómata actual si no lo has guardado.",
+                "Nuevo proyecto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             if (resultado != DialogResult.Yes)
                 return;

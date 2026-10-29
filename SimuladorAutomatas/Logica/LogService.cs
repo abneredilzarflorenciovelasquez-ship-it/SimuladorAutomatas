@@ -47,6 +47,11 @@ namespace SimuladorAutomatas.Logica
             Escribir("ERROR", modulo, mensaje);
         }
 
+        public static void Critical(string modulo, string mensaje)
+        {
+            Escribir("CRITICAL", modulo, mensaje);
+        }
+
         public static void Error(string modulo, string mensaje, Exception ex)
         {
             string detalle = mensaje + ": " + ex.Message;

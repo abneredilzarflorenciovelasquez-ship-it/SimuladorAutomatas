@@ -80,10 +80,13 @@ namespace SimuladorAutomatas
             this.panelEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEditor.Location = new System.Drawing.Point(0, 0);
             this.panelEditor.Name = "panelEditor";
-            this.panelEditor.Size = new System.Drawing.Size(1220, 876);
+            this.panelEditor.Size = new System.Drawing.Size(1220, 918);
             this.panelEditor.TabIndex = 0;
             this.panelEditor.Paint += new System.Windows.Forms.PaintEventHandler(this.panelEditor_Paint);
             this.panelEditor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseClick);
+
+            this.panelEditor.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseDoubleClick);
+
             this.panelEditor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseDown);
             this.panelEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseMove);
             this.panelEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelEditor_MouseUp);
@@ -294,7 +297,7 @@ namespace SimuladorAutomatas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1220, 876);
+            this.ClientSize = new System.Drawing.Size(1220, 918);
             this.Controls.Add(this.panelEditor);
             this.Name = "Form1";
             this.Text = "Simulador de Autómatas";
