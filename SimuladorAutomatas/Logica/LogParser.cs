@@ -7,7 +7,7 @@ namespace SimuladorAutomatas.Logica
     public static class LogParser
     {
         private static readonly Regex Formato = new Regex(
-            @"^(?<fecha>\d{4}-\d{2}-\d{2}) (?<hora>\d{2}:\d{2}:\d{2}) (?<nivel>INFO|WARNING|ERROR) (?<modulo>[A-Z_]+) (?<mensaje>.+)$",
+            @"^(?<fecha>\d{4}-\d{2}-\d{2}) (?<hora>\d{2}:\d{2}:\d{2}) (?<nivel>INFO|WARNING|ERROR|CRITICAL) (?<modulo>[A-Z_]+) (?<mensaje>.+)$",
             RegexOptions.Compiled);
 
         public static bool TryParse(string linea, out LogEvent evento, out string detalle)

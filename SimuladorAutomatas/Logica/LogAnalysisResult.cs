@@ -10,6 +10,7 @@ namespace SimuladorAutomatas.Logica
         public int Info { get; set; }
         public int Warning { get; set; }
         public int Error { get; set; }
+        public int Critical { get; set; }
         public List<LogEvent> Eventos { get; private set; }
         public List<string> RegistrosInvalidos { get; private set; }
 

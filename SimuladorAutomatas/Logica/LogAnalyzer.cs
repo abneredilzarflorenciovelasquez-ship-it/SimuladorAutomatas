@@ -32,6 +32,7 @@ namespace SimuladorAutomatas.Logica
                     if (evento.Nivel == "INFO") resultado.Info++;
                     else if (evento.Nivel == "WARNING") resultado.Warning++;
                     else if (evento.Nivel == "ERROR") resultado.Error++;
+                    else if (evento.Nivel == "CRITICAL") resultado.Critical++;
                 }
                 else
                 {
