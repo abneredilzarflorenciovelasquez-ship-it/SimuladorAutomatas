@@ -138,11 +138,26 @@ namespace SimuladorAutomatas.Formularios
                 "N°");
 
             dgvResultadosRegex.Columns.Add(
-                "Registro",
-                "Registro encontrado");
+                "Nivel",
+                "Nivel");
 
-            dgvResultadosRegex.Columns["Numero"].FillWeight = 15;
-            dgvResultadosRegex.Columns["Registro"].FillWeight = 85;
+            dgvResultadosRegex.Columns.Add(
+                "Modulo",
+                "Módulo");
+
+            dgvResultadosRegex.Columns.Add(
+                "Mensaje",
+                "Mensaje");
+
+            dgvResultadosRegex.Columns.Add(
+                "Registro",
+                "Registro completo");
+
+            dgvResultadosRegex.Columns["Numero"].FillWeight = 8;
+            dgvResultadosRegex.Columns["Nivel"].FillWeight = 12;
+            dgvResultadosRegex.Columns["Modulo"].FillWeight = 15;
+            dgvResultadosRegex.Columns["Mensaje"].FillWeight = 30;
+            dgvResultadosRegex.Columns["Registro"].FillWeight = 35;
 
             EstiloInterfaz.AplicarEstiloDataGridView(
                 dgvResultadosRegex);
@@ -343,9 +358,21 @@ namespace SimuladorAutomatas.Formularios
                  i < resultados.Count;
                  i++)
             {
-                dgvResultadosRegex.Rows.Add(
-                    i + 1,
-                    resultados[i]);
+                LogEvent evento;
+                string detalle;
+
+                if (LogParser.TryParse(
+                    resultados[i],
+                    out evento,
+                    out detalle))
+                {
+                    dgvResultadosRegex.Rows.Add(
+                        i + 1,
+                        evento.Nivel,
+                        evento.Modulo,
+                        evento.Mensaje,
+                        resultados[i]);
+                }
             }
 
             lblCoincidencias.Text =
