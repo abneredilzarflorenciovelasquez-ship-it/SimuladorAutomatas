@@ -1717,8 +1717,7 @@ namespace SimuladorAutomatas
         private void btnAnalizarLogs_Click(object sender, EventArgs e)
         {
             LogService.Info("LOG", "Analizador de logs abierto");
-            string rutaLog = Path.Combine(Application.StartupPath, "logs", "simulador.log");
-
+            string rutaLog = LogService.GetLogFilePath();
             FrmAnalizadorLogs formulario =
                 new FrmAnalizadorLogs(rutaLog);
 

@@ -1179,5 +1179,17 @@ namespace SimuladorAutomatas.Formularios
                 CargarAnalisis();
             }
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // FrmAnalizadorLogs
+            // 
+            this.ClientSize = new System.Drawing.Size(349, 253);
+            this.Name = "FrmAnalizadorLogs";
+            this.ResumeLayout(false);
+
+        }
     }
 }
